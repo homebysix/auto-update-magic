@@ -1,4 +1,4 @@
-auto_update_magic
+auto-update-magic
 =================
 
 Methods for keeping Mac apps up to date automatically with Casper and AutoPkgr.
