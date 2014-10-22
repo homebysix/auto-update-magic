@@ -29,6 +29,7 @@ apps=(
 ############################# EDIT ABOVE THIS LINE #############################
     );
 
+# This function checks whether the apps are running, and updates them if not
 function AutoUpdateMagic () {
     for app in "${apps[@]}"; do
         echo " " # for some visual separation between apps in the log
@@ -45,8 +46,8 @@ function AutoUpdateMagic () {
     /usr/bin/defaults write /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate $(date +%s)
 }
 
+# This function calculates whether it's time to run the auto updates
 function AutoUpdateTimeCheck () {
-    ## Determine difference in seconds between the last time stamp and current time
     seconds=$((60*60*Hours))
     timeNow=$(date +%s)
     timeDiff=$((timeNow-lastAutoUpdateTime))
@@ -78,7 +79,6 @@ if [[ "$?" -ne "0" ]]; then
     AutoUpdateMagic
     exit 0
 else
-    # Otherwise, we need to check to see how long it's been since the last run.
     AutoUpdateTimeCheck
 fi
 
