@@ -1,6 +1,6 @@
 # **Auto Update Magic**
 
-_**Keeping Mac apps up to date automatically with Casper and AutoPkgr**_
+_**[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](https://jamfnation.jamfsoftware.com/jnucEvent.html?eventId=109)**_
 
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
 
@@ -55,7 +55,7 @@ Fortunately, several tools have emerged in the last year that have significantly
 
 ### [AutoPkg](https://github.com/autopkg/autopkg)
 
-AutoPkg is a relatively new command-line tool from Greg Neagle, Tim Sutton, and Per Olofsson, that automatically packages OS X software for easy distribution. It uses community-contributed "recipes" to produce a neat and tidy .pkg file that can be used with many deployment systems, including Casper.
+AutoPkg is a relatively new command-line tool from [Greg Neagle](https://github.com/gregneagle), [Tim Sutton](https://github.com/timsutton), and [Per Olofsson](https://github.com/MagerValp), that automatically packages OS X software for easy distribution. It uses community-contributed "recipes" to produce a neat and tidy .pkg file that can be used with many deployment systems, including Casper.
 
 ### [jss-autopkg-addon](https://github.com/sheagcraig/jss-autopkg-addon)
 
@@ -63,7 +63,7 @@ Conceived by [Allister Banks](https://github.com/arubdesu) and further enhanced 
 
 ### [AutoPkgr](https://github.com/lindegroup/autopkgr)
 
-AutoPkgr is a Mac app that puts a friendly face on AutoPkg and makes it super easy to get started using it. It was created by James Barclay, Josh Senick, and Elliot Jordan (that's me) at the [Linde Group](http://www.lindegroup.com/), with significant help from Eldon Ahrold.
+AutoPkgr is a Mac app that puts a friendly face on AutoPkg and makes it super easy to get started using it. It was created by [James Barclay](https://github.com/futureimperfect), [Josh Senick](https://github.com/jsenick), and Elliot Jordan (that's me) at the [Linde Group](http://www.lindegroup.com/), with significant help from [Eldon Ahrold](https://github.com/eahrold).
 
 The goal of AutoPkgr is to make it simple and straightforward to start using AutoPkg, and to that end, we're happy to announce that **AutoPkgr now supports basic AutoPkg-to-JSS integration out of the box**.
 
@@ -249,11 +249,11 @@ The methods above don't yet work for always-running apps like Dropbox. A solutio
 
 ## Acknowledgements
 
-Auto Update Magic stands on the shoulders of giants. Specifically, I'd like to thank Eldon Ahrold and James Barclay for their work on adding the new JSS integration features to AutoPkgr.
+Auto Update Magic stands on the shoulders of giants. Specifically, I'd like to thank [Eldon Ahrold](https://github.com/eahrold) and [James Barclay](https://github.com/futureimperfect) for their work on adding the new JSS integration features to AutoPkgr.
 
-And of course we couldn't have done that without significant help from Shea Craig, who built upon Allister Banks's original jss-autopkg-addon.
+And of course we couldn't have done that without significant help from [Shea Craig](https://github.com/sheagcraig), who built upon [Allister Banks](https://github.com/arubdesu/)'s original jss-autopkg-addon.
 
-And none of the above would have happened at all if not for AutoPkg, the amazing, stable, and infinitely useful packaging tool by Greg Neagle, Tim Sutton, and Per Olofsson. The Mac admin community owes them a huge thanks.
+And none of the above would have happened at all if not for AutoPkg, the amazing, stable, and infinitely useful packaging tool by [Greg Neagle](https://github.com/gregneagle), [Tim Sutton](https://github.com/timsutton), and [Per Olofsson](https://github.com/MagerValp). The Mac admin community owes them a huge thanks.
 
 
 ## Files included in this repo:
