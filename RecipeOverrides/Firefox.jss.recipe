@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Identifier</key>
+	<string>local.jss.Firefox</string>
+	<key>Input</key>
+	<dict>
+        <key>POLICY_CATEGORY</key>
+        <string>Auto Update</string>
+        <key>GROUP_TEMPLATE</key>
+        <string>%RECIPE_DIR%/AutoUpdateSmartGroupTemplate.xml</string>
+        <key>POLICY_TEMPLATE</key>
+        <string>%RECIPE_DIR%/AutoUpdatePolicyTemplate.xml</string>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.autopkg.jss.Firefox_EN</string>
+</dict>
+</plist>

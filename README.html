@@ -1,0 +1,1244 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 0.5em 1em 0.5em 1em;
+  color: #888888;
+  background-color: #F7F7F7;
+  border: 1px solid #888888;
+}
+
+.markdown-body .admonition blockquote {
+  color: rgba(136, 136, 136, 0.5);
+  border-left: 4px solid rgba(136, 136, 136, 0.5);
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+  margin: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition-icon {
+  font: normal normal 16px fontawesome-mini;
+  line-height: 1.5;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  float: left;
+}
+
+.markdown-body .attention {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  border: 1px solid #4F8A10;
+}
+
+.markdown-body .caution {
+  color: #D63301;
+  background-color: #FFCCBA;
+  border: 1px solid #D63301;
+}
+
+.markdown-body .hint {
+  color: #00529B;
+  background-color: #BDE5F8;
+  border: 1px solid #00529B;
+}
+
+.markdown-body .danger {
+  color: #D8000C;
+  background-color: #FFBABA;
+  border: 1px solid #D8000C;
+}
+
+.markdown-body .question {
+  color: #00049b;
+  background-color: #BDC8F8;
+  border: 1px solid #00049b;
+}
+
+.markdown-body .note {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  border: 1px solid #9F6000;
+}
+
+.markdown-body .attention {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  border: 1px solid #4F8A10;
+}
+
+.markdown-body .caution blockquote {
+  color: rgba(214, 51, 1, .5);
+  border-left: 4px solid rgba(214, 51, 1, .5);
+}
+
+.markdown-body .hint blockquote {
+  color: rgba(0, 82, 155, .5);
+  border-left: 4px solid rgba(0, 82, 155, .5);
+}
+
+.markdown-body .danger blockquote {
+  color: rgba(216, 0, 12, .5);
+  border-left: 4px solid rgba(216, 0, 12, .5);
+}
+
+.markdown-body .question blockquote {
+  color: rgba(0, 4, 155, .5);
+  border-left: 4px solid rgba(0, 4, 155, .5);;
+}
+
+.markdown-body .note blockquote {
+  color: rgba(159, 96, 0, .5);
+  border-left: 4px solid rgba(159, 96, 0, .5);
+}
+
+.markdown-body .admonition-icon:before {
+  content: "\f040\00a0";
+}
+
+.markdown-body .attention > .admonition-icon:before {
+  content: "\f058\00a0";
+}
+
+.markdown-body .caution > .admonition-icon:before {
+  content: "\f06a\00a0";
+}
+
+.markdown-body .hint > .admonition-icon:before {
+  content: "\f05a\00a0";
+}
+
+.markdown-body .danger > .admonition-icon:before {
+  content: "\f056\00a0";
+}
+
+.markdown-body .question > .admonition-icon:before {
+  content: "\f059\00a0";
+}
+
+.markdown-body .note > .admonition-icon:before {
+  content: "\f040\00a0";
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #F8F8F8;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  border-right: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #34c2e3;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #1ee038;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #86e01e;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #f2d31b;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #f2b01e;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #f27011;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #f63a0f;
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset -1px 1px 0 rgba(255, 255, 255, .5),
+    inset 0 -4px 12px rgba(255, 255, 255, .7),
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05),
+    inset 1px -1px 0 rgba(255, 255, 255, .2);
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    box-shadow: none;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="auto-update-magic"><strong>Auto Update Magic</strong></h1>
+<p><em><strong>Keeping Mac apps up to date automatically with Casper and AutoPkgr</strong></em><br />
+<em>Presented by Elliot Jordan, Senior IT Consultant, Linde Group</em><br />
+<em>JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN</em></p>
+<hr />
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#status-quo">Status quo</a></li>
+<li><a href="#new-tools-to-the-rescue">New tools to the rescue</a></li>
+<li><a href="#the-magic">The Magic</a><ul>
+<li><a href="#level-1-self-service">Level 1: Self Service</a></li>
+<li><a href="#level-2-auto-to-some">Level 2: Auto to Some</a></li>
+<li><a href="#level-3-auto-to-all">Level 3: Auto to All</a></li>
+</ul>
+</li>
+<li><a href="#notes-and-caveats">Notes and caveats</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#files-included-in-this-repo">Files included in this repo</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a name="user-content-overview" href="#overview" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Overview</h2>
+<p>Mac app patch management in Casper is not trivial, and yet it&rsquo;s one of the most important functions of any device management framework. Outdated apps can expose security vulnerabilities, cause file format incompatibilities, and prevent people from taking advantage of the latest and greatest app features.</p>
+<p>In this article, I&rsquo;ll take you thorugh a new method to keep your Mac apps updated with your Casper JSS. Following the directions below, you can start automating your Mac app patching <em>today</em>.</p>
+<h2 id="status-quo"><a name="user-content-status-quo" href="#status-quo" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Status quo</h2>
+<p>First, let me share with you the way I used to keep apps updated in Casper. This isn&rsquo;t necessarily a &ldquo;best practice,&rdquo; but simply one method that worked well for me.</p>
+<ul>
+<li>The IT team downloads the installer package (or creates it with Composer), and puts it into Casper.</li>
+<li>A <strong>smart group</strong> is created to select computers with an out of date version of this app.</li>
+<li>A recurring <strong>&ldquo;trigger&rdquo; policy</strong> is scoped to the smart group, and triggers a script.</li>
+<li>The <strong>script</strong> checks to see whether the app to be updated is currently open.</li>
+<li>If the app is not currently open, the script triggers an <strong>&ldquo;installer&rdquo; policy</strong> which installs the update and runs recon.</li>
+</ul>
+<p>This process works fine, but it has several pain points.</p>
+<ul>
+<li>Composing a new package of each software version is tedious and error-prone.</li>
+<li>The smart group criteria must be manually updated with each version.</li>
+<li>Waiting too long to update Casper may result in newer versions of apps being overwritten with older versions — not good at all.</li>
+<li>Trigger policies basically double the number of policies you must maintain.</li>
+<li>The installer must be updated manually with each new version of the software, which can be tedious in itself.</li>
+</ul>
+<p>The benefit of a workflow like this is you maintain total control over your available software updates, but it&rsquo;s tedious, prone to errors, and requires babysitting. There&rsquo;s got to be a better way, right?</p>
+<h2 id="new-tools-to-the-rescue"><a name="user-content-new-tools-to-the-rescue" href="#new-tools-to-the-rescue" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>New tools to the rescue</h2>
+<p>Fortunately, several tools have emerged in the last year that have significantly improved this workflow.</p>
+<h3 id="autopkg"><a href="https://github.com/autopkg/autopkg">AutoPkg</a></h3>
+<p>AutoPkg is a relatively new command-line tool from Greg Neagle, Tim Sutton, and Per Olofsson, that automatically packages OS X software for easy distribution. It uses community-contributed &ldquo;recipes&rdquo; to produce a neat and tidy .pkg file that can be used with many deployment systems, including Casper.</p>
+<h3 id="jss-autopkg-addon"><a href="https://github.com/sheagcraig/jss-autopkg-addon">jss-autopkg-addon</a></h3>
+<p>Conceived by <a href="https://github.com/arubdesu">Allister Banks</a> and further enhanced by <a href="https://github.com/sheagcraig/">Shea Craig</a>, jss-autopkg-addon serves as the direct link between AutoPkg and your JSS. Combined with a <code>.jss</code> recipe, jss-autopkg-addon allows automatic creation of the smart groups, policies, and packages necessary to distribute apps in Casper.</p>
+<h3 id="autopkgr"><a href="https://github.com/lindegroup/autopkgr">AutoPkgr</a></h3>
+<p>AutoPkgr is a Mac app that puts a friendly face on AutoPkg and makes it super easy to get started using it. It was created by James Barclay, Josh Senick, and Elliot Jordan (that&rsquo;s me) at the <a href="http://www.lindegroup.com/">Linde Group</a>, with significant help from Eldon Ahrold.</p>
+<p>The goal of AutoPkgr is to make it simple and straightforward to start using AutoPkg, and to that end, we&rsquo;re happy to announce that <strong>AutoPkgr now supports basic AutoPkg-to-JSS integration out of the box</strong>.</p>
+<p><img alt="placeholder" src="/Users/elliot/Documents/GitHub/auto-update-magic (prep)/doc-images/autopkgr-casper-integration.png" /></p>
+<p>Here&rsquo;s how to use it:</p>
+<ol>
+<li>Open AutoPkgr, and use the <strong>Install</strong> tab to install Git and AutoPkg if you haven&rsquo;t already.</li>
+<li>Click on the <strong>Folders &amp; Integration</strong> tab.</li>
+<li>Enter your JSS URL and API account credentials. Click <strong>Connect</strong>.</li>
+<li>Install jss-autopkg-addon when prompted.</li>
+<li>Enter the read/write password for each distribution point when prompted.</li>
+<li>Switch back to the <strong>Repos &amp; Recipes</strong> tab. Filter for recipes that end in <code>.jss</code>, and add the ones you need.</li>
+<li>On the <strong>Schedule</strong> tab, click <strong>Check Apps Now</strong>. The apps you selected will be imported automatically to your JSS!</li>
+</ol>
+<h2 id="the-magic"><a name="user-content-the-magic" href="#the-magic" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>The Magic</h2>
+<p>Here&rsquo;s the magic you&rsquo;ve been waiting to see. Fully automatic updates using Casper:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZUD8C8Tr3XI" frameborder="0" allowfullscreen></iframe>
+
+<h4 id="on-the-jss"><a name="user-content-on-the-jss" href="#on-the-jss" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>On the JSS</h4>
+<ol>
+<li>AutoPkgr triggers AutoPkg to run regularly (perhaps every 4 hours).</li>
+<li>When new versions of apps are detected, they are <em>automatically</em> imported into the JSS, assigned to a policy, and scoped to a smart group.</li>
+</ol>
+<h4 id="on-the-managed-mac"><a name="user-content-on-the-managed-mac" href="#on-the-managed-mac" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>On the managed Mac</h4>
+<ol>
+<li>
+<p>The JAMF agent runs a recurring check-in. (This normally happens <em>automatically</em> every 15 or 30 minutes; we have used Terminal here to call it manually with the same effect.)<br />
+<img alt="placeholder" src="/Users/elliot/Documents/GitHub/auto-update-magic (prep)/doc-images/magic-01.png" /></p>
+</li>
+<li>
+<p>Firefox is not up to date. A single <strong>Auto Update Magic</strong> policy runs a script on each managed Mac that determines whether the apps are running.<br />
+<img alt="placeholder" src="/Users/elliot/Documents/GitHub/auto-update-magic (prep)/doc-images/magic-02.png" /></p>
+</li>
+<li>
+<p>If not, the script calls the policy that updates them automatically.<br />
+<img alt="placeholder" src="/Users/elliot/Documents/GitHub/auto-update-magic (prep)/doc-images/magic-03.png" /></p>
+</li>
+<li>
+<p>Firefox is now up to date.<br />
+<img alt="placeholder" src="/Users/elliot/Documents/GitHub/auto-update-magic (prep)/doc-images/magic-04.png" /></p>
+</li>
+</ol>
+<p>That&rsquo;s the end goal: completely automated patch management, from end to end. But let&rsquo;s back up and put the pieces together.</p>
+<p>There are three possible levels of automation that you can use AutoPkgr to enact. Here&rsquo;s a detailed look at each level.</p>
+<h3 id="level-1-self-service"><a name="user-content-level-1-self-service" href="#level-1-self-service" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Level 1: Self Service</h3>
+<p>This workflow, which is the default for jss-autopkg-addon, is a very safe and conservative way to begin testing app packages in your Casper environment. It imports app updates into Casper and makes them available to the Testing group via Self Service. Our new version of AutoPkgr makes this super easy to configure.</p>
+<p>Here&rsquo;s how to set it up, assuming you already have a working JSS:</p>
+<ol>
+<li>Create a static computer group on your JSS called <strong>Testing</strong>. Add one or more test computers to the group.</li>
+<li>Create an account on your JSS with Create, Read, and Update access to the following objects:<ul>
+<li>Categories</li>
+<li>Smart Computer Groups</li>
+<li>Static Computer Groups</li>
+<li>Computer Extension Attributes</li>
+<li>Packages</li>
+<li>Policies</li>
+<li>Scripts</li>
+<li>File Share Distribution Points (only needs Read access)</li>
+</ul>
+</li>
+<li>Install version 1.1 or higher of <a href="https://github.com/lindegroup/autopkgr/releases/latest">AutoPkgr</a>.</li>
+<li>Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven&rsquo;t already.</li>
+<li>In AutoPkgr, click on the <strong>Folders &amp; Integration</strong> tab.</li>
+<li>In the <strong>Casper Suite integration</strong> section, enter your JSS URL, API username, and API password. Then click <strong>Connect</strong>.</li>
+<li>When prompted, follow the instructions to install the jss-autopkg-addon.</li>
+<li>When prompted, enter the read/write password for each distribution point.</li>
+</ol>
+<p>You&rsquo;ll also want to make sure you have a few <code>.jss</code> recipes selected. AutoPkgr will automatically add the <a href="https://github.com/sheagcraig/jss-recipes">sheagcraig/jss-recipes</a> repo so you&rsquo;ll have a few to choose from. If the <code>.jss</code> recipes you choose have any parent recipes, be sure to add their repos too. (For example, <code>Firefox.jss</code> requires adding the <a href="https://github.com/autopkg/recipes">autopkg/recipes</a> repo.)</p>
+<p>When a <code>.jss</code> recipe runs, the package is uploaded to your distribution points, a Self Service policy is created and scoped to a new smart group. As a result, computers in the Testing group with less than the latest version of the app should now be able to install the latest version through Self Service.</p>
+<h3 id="level-2-auto-to-some"><a name="user-content-level-2-auto-to-some" href="#level-2-auto-to-some" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Level 2: Auto to Some</h3>
+<p>This workflow is more automatic than the Self Service policy above, but still allows for deliberate testing prior to mass deployment. The script, recipe, and template customizations require an administrator who is comfortable with editing XML files and shell scripts.</p>
+<p>Here&rsquo;s how to set it up with <code>Firefox.jss</code>, assuming you&rsquo;ve already done the Level 1 steps above:</p>
+<ol>
+<li>Create a new category called <strong>Auto Update</strong> (in <strong>Settings &gt; Global Management &gt; Categories</strong>).</li>
+<li>Upload my <code>auto_update_magic.sh</code> script (included in this repo) to your JSS.<ol>
+<li>Assign it to the <strong>Auto Update</strong> category.</li>
+<li>In the <strong>Options</strong> tab, set parameter 4 to <strong>Hours between auto updates</strong>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+</li>
+<li>Create a policy called <strong>Auto Update Magic</strong>:<ol>
+<li>Assign it to the <strong>Auto Update</strong> category.</li>
+<li>Have it trigger on <strong>Recurring Check-in</strong>, and also on <strong>Startup</strong>.</li>
+<li>Set the <strong>Execution Frequency</strong> to <strong>Ongoing</strong> (or less frequently if you like).</li>
+<li>Add the <code>auto_update_magic.sh</code> script into the policy. (Doesn&rsquo;t matter whether you choose Before or After.)</li>
+<li>Set the parameter value for <strong>Hours between auto updates</strong> to your preferred number. (I recommend an integer between 1 and 8, inclusive.)</li>
+<li>Set the <strong>Scope</strong> to the <strong>Testing</strong> static computer group.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+</li>
+<li>In AutoPkg, locate the <code>Firefox.jss</code> recipe, and right-click on it. Choose <strong>Create Override</strong>. Right-click again and choose <strong>Open Recipe Override</strong> to open the file in a text editor.</li>
+<li>In the <code>Input</code> dictionary, remove all but these keys:</li>
+</ol>
+<pre><code>        &lt;key&gt;POLICY_CATEGORY&lt;/key&gt;
+        &lt;string&gt;Auto Update&lt;/string&gt;
+        &lt;key&gt;GROUP_TEMPLATE&lt;/key&gt;
+        &lt;string&gt;%RECIPE_DIR%/AutoUpdateSmartGroupTemplate.xml&lt;/string&gt;
+        &lt;key&gt;POLICY_TEMPLATE&lt;/key&gt;
+        &lt;string&gt;%RECIPE_DIR%/AutoUpdatePolicyTemplate.xml&lt;/string&gt;
+</code></pre>
+
+<ol>
+<li>Copy the <code>Firefox.png</code>, <code>PolicyTemplate.xml</code>, and <code>SmartGroupTemplate.xml</code> files from <code>~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/</code> to <code>~/Library/AutoPkg/RecipeOverrides/</code>.</li>
+<li>Rename <code>PolicyTemplate.xml</code> to <code>AutoUpdatePolicyTemplate.xml</code>. Rename <code>SmartGroupTemplate.xml</code> to <code>AutoUpdateSmartGroupTemplate.xml</code>. (This distinction will come in handy later.)</li>
+<li>Edit the <code>AutoUpdatePolicyTemplate.xml</code> file with a text editor.<ol>
+<li>Remove the contents of the <code>self_service</code> section.</li>
+<li>In the <code>general</code> section, change the name of the policy:<br />
+<code>&lt;name&gt;Auto Update %PROD_NAME%&lt;/name&gt;</code></li>
+<li>Also in the <code>general</code> section, create the custom trigger:<br />
+<code>&lt;trigger_other&gt;autoupdate-%PROD_NAME%&lt;/trigger_other&gt;</code></li>
+</ol>
+</li>
+<li>Return to the <code>auto_update_magic.sh</code> script on your JSS and add a new line that matches the name of the app you&rsquo;re updating (sans <code>.app</code> extension), and its corresponding recipe name (which usually omits spaces). For example:</li>
+</ol>
+<pre><code>&quot;Google Chrome, GoogleChrome&quot;
+</code></pre>
+
+<ol>
+<li>Open AutoPkgr and click <strong>Check Apps Now</strong>, or run <code>autopkg run Firefox.jss</code> in Terminal.</li>
+<li>Verify that your policy and smart group were created successfully.</li>
+</ol>
+<h3 id="level-3-auto-to-all"><a name="user-content-level-3-auto-to-all" href="#level-3-auto-to-all" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Level 3: Auto to All</h3>
+<p>This is the &ldquo;magic&rdquo; workflow demonstrated in the screencast above. It is by far the most automatic day to update apps using Casper, but should be implemented with great care. The apps are updated quickly and without testing, so it&rsquo;s likely that this will cause something to break someday. Only do this for non-mission-critical apps, and only after you&rsquo;ve tested using Level 2 above.</p>
+<ol>
+<li>Navigate to <code>~/Library/AutoPkg/RecipeOverrides</code> and edit the <code>AutoUpdateSmartGroupTemplate.xml</code> file.</li>
+<li>Remove these lines from the file:</li>
+</ol>
+<pre><code>        &lt;criterion&gt;
+            &lt;name&gt;Computer Group&lt;/name&gt;
+            &lt;priority&gt;2&lt;/priority&gt;
+            &lt;and_or&gt;and&lt;/and_or&gt;
+            &lt;search_type&gt;member of&lt;/search_type&gt;
+            &lt;value&gt;Testing&lt;/value&gt;
+        &lt;/criterion&gt;
+</code></pre>
+
+<ol>
+<li>Set the scope of the Auto Update Magic policy to <strong>All Managed Clients</strong>.</li>
+</ol>
+<p>This will install automatic updates for all Macs, rather than just the ones in the Testing group.</p>
+<p>For each recipe you add, be sure to:</p>
+<ol>
+<li>Make and edit a recipe override.</li>
+<li>Add the app&rsquo;s name to the <code>auto_update_magic.sh</code> script on your JSS.</li>
+<li>(Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder.</li>
+</ol>
+<p>If you add a recipe like <code>AdobeFlashPlayer.jss</code>, <code>OracleJava7.jss</code>, or <code>Silverlight.jss</code>, be sure to also add the supporting files such as <code>_____SmartGroupTemplate.xml</code> and <code>_____ExtensionAttribute.xml</code>.</p>
+<h2 id="notes-and-caveats"><a name="user-content-notes-and-caveats" href="#notes-and-caveats" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Notes and caveats</h2>
+<h3 id="use-at-your-own-risk"><a name="user-content-use-at-your-own-risk" href="#use-at-your-own-risk" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Use at your own risk</h3>
+<p>This method is on the bleeding edge, and you can bet that there are a few bugs that need squashing. In addition, you may find that not everything works as described in your specific environment. If you open an <a href="https://github.com/homebysix/auto-update-magic/issues">issue</a> on this GitHub repo, I&rsquo;ll do my best to help you troubleshoot.</p>
+<h3 id="run-autopkgr-on-a-mac-with-access-to-all-dps"><a name="user-content-run-autopkgr-on-a-mac-with-access-to-all-dps" href="#run-autopkgr-on-a-mac-with-access-to-all-dps" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Run AutoPkgr on a Mac with access to all DPs</h3>
+<p>It&rsquo;s a good idea to run AutoPkgr from a Mac that has network access to all distribution points. If no such Mac exists, you can omit non-accessible DPs by clicking Cancel when AutoPkgr prompts you for a specific DP&rsquo;s password. That DP will be skipped (which means you&rsquo;ll need to use Casper Admin to replicate it manually, or set up a system like rsync to replicate it automatically).</p>
+<h3 id="dont-forget-to-bring-the-parents-along"><a name="user-content-dont-forget-to-bring-the-parents-along" href="#dont-forget-to-bring-the-parents-along" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Don&rsquo;t forget to bring the parents along</h3>
+<p>When you add a <code>.jss</code> recipe, be sure that you also add the AutoPkg repository of its parent recipe, if a parent recipe exists. AutoPkgr doesn&rsquo;t do this automatically.</p>
+<h3 id="open-source-pros-and-cons"><a name="user-content-open-source-pros-and-cons" href="#open-source-pros-and-cons" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Open source pros and cons</h3>
+<p>Because AutoPkg, jss-autopkg-addon, and AutoPkgr all are open source, JAMF is not responsible for their upkeep or support. If you have questions, your JAMF rep will likely not be able to help.</p>
+<p>Fortunately, the developers of all the projects above have so far been very responsive to questions and advice-seekers.</p>
+<h3 id="automatically-deploying-plugins-like-flash-and-java"><a name="user-content-automatically-deploying-plugins-like-flash-and-java" href="#automatically-deploying-plugins-like-flash-and-java" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Automatically deploying plugins like Flash and Java</h3>
+<p>For software like Adobe Flash Player that doesn&rsquo;t have an associated &ldquo;app,&rdquo; you may want to create a separate FlashPolicyTemplate.xml file that uses <code>&lt;trigger_checkin&gt;false&lt;/trigger_checkin&gt;</code> instead of <code>&lt;trigger_other&gt;autoupdate-%PROD_NAME%&lt;/trigger_other&gt;</code>.</p>
+<h3 id="always-on-apps-like-dropbox"><a name="user-content-always-on-apps-like-dropbox" href="#always-on-apps-like-dropbox" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Always-on apps like Dropbox</h3>
+<p>The methods above don&rsquo;t yet work for always-running apps like Dropbox. A solution is in the works, and we&rsquo;d welcome your contribution if you&rsquo;d like to help craft it.</p>
+<h2 id="acknowledgements"><a name="user-content-acknowledgements" href="#acknowledgements" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Acknowledgements</h2>
+<p>Auto Update Magic stands on the shoulders of giants. Specifically, I&rsquo;d like to thank Eldon Ahrold and James Barclay for their work on adding the new JSS integration features to AutoPkgr.</p>
+<p>And of course we couldn&rsquo;t have done that without significant help from Shea Craig, who built upon Allister Banks&rsquo;s original jss-autopkg-addon.</p>
+<p>And none of the above would have happened at all if not for AutoPkg, the amazing, stable, and infinitely useful packaging tool by Greg Neagle, Tim Sutton, and Per Olofsson. The Mac admin community owes them a huge thanks.</p>
+<h2 id="files-included-in-this-repo"><a name="user-content-files-included-in-this-repo" href="#files-included-in-this-repo" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Files included in this repo:</h2>
+<p>In this repository, I&rsquo;ve included copies of the files mentioned above. These should serve as useful starting points, but feel free to tweak and customize them for your own particular environment. And remember you can see the original unmodified files anytime at <code>~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes</code>, for comparison.</p>
+<h3 id="scripts"><a name="user-content-scripts" href="#scripts" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Scripts</h3>
+<ul>
+<li><strong>auto_update_magic.sh</strong> policy script</li>
+</ul>
+<p>This is the script used by the &ldquo;trigger&rdquo; policy in order to determine whether apps that need updating are currently running. If the apps aren&rsquo;t running, the script calls the appropriate custom policy trigger for the app updater.</p>
+<h3 id="recipeoverrides"><a name="user-content-recipeoverrides" href="#recipeoverrides" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>RecipeOverrides</h3>
+<ul>
+<li><strong>Firefox.jss</strong> recipe override</li>
+</ul>
+<p>This file determines what happens when autopkg runs the Firefox.jss recipe. It&rsquo;s a good one to use as a template for other apps.</p>
+<p>Note that there is a ParentRecipe specified, so you should subscrube to the <code>github.com/autopkg/recipes</code> repo.</p>
+<ul>
+<li><strong>AutoUpdatePolicyTemplate.xml</strong> policy template</li>
+</ul>
+<p>This determines the parameters of the policy updated when the <code>.jss</code> recipe runs. You will modify this file if you need to change the trigger used, or add Self Service information to the policy, for example.</p>
+<ul>
+<li><strong>AutoUpdateSmartGroupTemplate.xml</strong> smart group template</li>
+</ul>
+<p>This determines the criteria of the smart group updated when the <code>.jss</code> recipe runs. You will modify this file if you need to scope a policy all managed Macs, rather than just to the &ldquo;Testing&rdquo; static computer group.</p>
+<ul>
+<li><strong>AdobeFlashPlayer.jss.recipe</strong> recipe override</li>
+</ul>
+<p>This is an example recipe for Adobe Flash Player.</p>
+<ul>
+<li><strong>AdobeFlashPlayerPolicyTemplate.xml</strong> policy template</li>
+</ul>
+<p>This is an example policy template for Adobe Flash Player. (This template does not close browsers before updating Flash. I&rsquo;ll provide a policy template and script that does that in a future update.)</p>
+<h3 id="comments-and-suggestions"><a name="user-content-comments-and-suggestions" href="#comments-and-suggestions" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Comments and suggestions</h3>
+<p>Your feedback is encouraged! If you find a problem, feel free to open an <a href="https://github.com/homebysix/auto-update-magic/issues">issue</a> on this Git repo, and I&rsquo;ll do my best to help troubleshoot. Or if you&rsquo;d like to ask a general question or give some praise, feel free to join us on our <a href="https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss">Google Group</a>.</p></article></body></html>
