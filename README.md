@@ -1,6 +1,9 @@
 # **Auto Update Magic**
+
 _**Keeping Mac apps up to date automatically with Casper and AutoPkgr**_
+
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
+
 _JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
 ---
@@ -79,9 +82,9 @@ Here's how to use it:
 
 ## The Magic
 
-Here's the magic you've been waiting to see. Fully automatic updates using Casper:
+Here's the magic you've been waiting to see. Fully automatic updates using Casper.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZUD8C8Tr3XI" frameborder="0" allowfullscreen></iframe>
+**[Click here to view the (silent) screencast](https://www.youtube.com/ZUD8C8Tr3XI)**
 
 #### On the JSS
 
@@ -91,15 +94,19 @@ Here's the magic you've been waiting to see. Fully automatic updates using Caspe
 #### On the managed Mac
 
 1. The JAMF agent runs a recurring check-in. (This normally happens _automatically_ every 15 or 30 minutes; we have used Terminal here to call it manually with the same effect.)
+
 ![placeholder](doc-images/magic-01.png)
 
 2. Firefox is not up to date. A single **Auto Update Magic** policy runs a script on each managed Mac that determines whether the apps are running.
+
 ![placeholder](doc-images/magic-02.png)
 
 3. If not, the script calls the policy that updates them automatically.
+
 ![placeholder](doc-images/magic-03.png)
 
 4. Firefox is now up to date.
+
 ![placeholder](doc-images/magic-04.png)
 
 
@@ -143,11 +150,11 @@ This workflow is more automatic than the Self Service policy above, but still al
 Here's how to set it up with `Firefox.jss`, assuming you've already done the Level 1 steps above:
 
 1. Create a new category called **Auto Update** (in **Settings > Global Management > Categories**).
-1. Upload my `auto_update_magic.sh` script (included in this repo) to your JSS.
+2. Upload my `auto_update_magic.sh` script (included in this repo) to your JSS.
     1. Assign it to the **Auto Update** category.
     1. In the **Options** tab, set parameter 4 to **Hours between auto updates**.
     1. Click **Save**.
-1. Create a policy called **Auto Update Magic**:
+3. Create a policy called **Auto Update Magic**:
     1. Assign it to the **Auto Update** category.
     1. Have it trigger on **Recurring Check-in**, and also on **Startup**.
     1. Set the **Execution Frequency** to **Ongoing** (or less frequently if you like).
@@ -155,8 +162,8 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
     1. Set the parameter value for **Hours between auto updates** to your preferred number. (I recommend an integer between 1 and 8, inclusive.)
     1. Set the **Scope** to the **Testing** static computer group.
     1. Click **Save**.
-1. In AutoPkg, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
-1. In the `Input` dictionary, remove all but these keys:
+4. In AutoPkg, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
+5. In the `Input` dictionary, remove all but these keys:
 ```
         <key>POLICY_CATEGORY</key>
         <string>Auto Update</string>
@@ -165,20 +172,20 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
         <key>POLICY_TEMPLATE</key>
         <string>%RECIPE_DIR%/AutoUpdatePolicyTemplate.xml</string>
 ```
-1. Copy the `Firefox.png`, `PolicyTemplate.xml`, and `SmartGroupTemplate.xml` files from `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/` to `~/Library/AutoPkg/RecipeOverrides/`.
-1. Rename `PolicyTemplate.xml` to `AutoUpdatePolicyTemplate.xml`. Rename `SmartGroupTemplate.xml` to `AutoUpdateSmartGroupTemplate.xml`. (This distinction will come in handy later.)
-1. Edit the `AutoUpdatePolicyTemplate.xml` file with a text editor.
+6. Copy the `Firefox.png`, `PolicyTemplate.xml`, and `SmartGroupTemplate.xml` files from `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/` to `~/Library/AutoPkg/RecipeOverrides/`.
+7. Rename `PolicyTemplate.xml` to `AutoUpdatePolicyTemplate.xml`. Rename `SmartGroupTemplate.xml` to `AutoUpdateSmartGroupTemplate.xml`. (This distinction will come in handy later.)
+8. Edit the `AutoUpdatePolicyTemplate.xml` file with a text editor.
     1. Remove the contents of the `self_service` section.
-    1. In the `general` section, change the name of the policy:
+    2. In the `general` section, change the name of the policy:
     `<name>Auto Update %PROD_NAME%</name>`
-    1. Also in the `general` section, create the custom trigger:
+    3. Also in the `general` section, create the custom trigger:
     `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`
-1. Return to the `auto_update_magic.sh` script on your JSS and add a new line that matches the name of the app you're updating (sans `.app` extension), and its corresponding recipe name (which usually omits spaces). For example:
+9. Return to the `auto_update_magic.sh` script on your JSS and add a new line that matches the name of the app you're updating (sans `.app` extension), and its corresponding recipe name (which usually omits spaces). For example:
 ```
 "Google Chrome, GoogleChrome"
 ```
-1. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
-1. Verify that your policy and smart group were created successfully.
+10. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
+11. Verify that your policy and smart group were created successfully.
 
 
 ### Level 3: Auto to All
@@ -186,7 +193,7 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
 This is the "magic" workflow demonstrated in the screencast above. It is by far the most automatic day to update apps using Casper, but should be implemented with great care. The apps are updated quickly and without testing, so it's likely that this will cause something to break someday. Only do this for non-mission-critical apps, and only after you've tested using Level 2 above.
 
 1. Navigate to `~/Library/AutoPkg/RecipeOverrides` and edit the `AutoUpdateSmartGroupTemplate.xml` file.
-1. Remove these lines from the file:
+2. Remove these lines from the file:
 ```
         <criterion>
             <name>Computer Group</name>
@@ -196,7 +203,7 @@ This is the "magic" workflow demonstrated in the screencast above. It is by far 
             <value>Testing</value>
         </criterion>
 ```
-1. Set the scope of the Auto Update Magic policy to **All Managed Clients**.
+3. Set the scope of the Auto Update Magic policy to **All Managed Clients**.
 
 This will install automatic updates for all Macs, rather than just the ones in the Testing group.
 
@@ -204,7 +211,7 @@ For each recipe you add, be sure to:
 
 1. Make and edit a recipe override.
 1. Add the app's name to the `auto_update_magic.sh` script on your JSS.
-1. (Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder.
+1. (Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder. (This is only needed if you plan to use Self Service policies.)
 
 If you add a recipe like `AdobeFlashPlayer.jss`, `OracleJava7.jss`, or `Silverlight.jss`, be sure to also add the supporting files such as `_____SmartGroupTemplate.xml` and `_____ExtensionAttribute.xml`.
 
@@ -213,13 +220,15 @@ If you add a recipe like `AdobeFlashPlayer.jss`, `OracleJava7.jss`, or `Silverli
 
 ### Use at your own risk
 
-This method is on the bleeding edge, and you can bet that there are a few bugs that need squashing. In addition, you may find that not everything works as described in your specific environment. If you open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this GitHub repo, I'll do my best to help you troubleshoot.
+This method is on the bleeding edge, and you can bet that there are a few bugs that need squashing. In addition, you may find that not everything works as described in your specific environment. Test thoroughly on a sample Mac before deploying to everybody in your company.
+
+If you open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this GitHub repo, I'll do my best to help you troubleshoot. But I take no responsibility for any harm caused by over-automation.
 
 ### Run AutoPkgr on a Mac with access to all DPs
 
 It's a good idea to run AutoPkgr from a Mac that has network access to all distribution points. If no such Mac exists, you can omit non-accessible DPs by clicking Cancel when AutoPkgr prompts you for a specific DP's password. That DP will be skipped (which means you'll need to use Casper Admin to replicate it manually, or set up a system like rsync to replicate it automatically).
 
-### Don't forget to bring the parents along
+### Don't forget to bring your parents
 
 When you add a `.jss` recipe, be sure that you also add the AutoPkg repository of its parent recipe, if a parent recipe exists. AutoPkgr doesn't do this automatically.
 
@@ -231,7 +240,7 @@ Fortunately, the developers of all the projects above have so far been very resp
 
 ### Automatically deploying plugins like Flash and Java
 
-For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>false</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`.
+For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>true</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`. See the files in this repo for an example of the Flash recipe override and policy template I use.
 
 ### Always-on apps like Dropbox
 
@@ -282,6 +291,6 @@ This is an example recipe for Adobe Flash Player.
 This is an example policy template for Adobe Flash Player. (This template does not close browsers before updating Flash. I'll provide a policy template and script that does that in a future update.)
 
 
-### Comments and suggestions
+## Comments and suggestions
 
 Your feedback is encouraged! If you find a problem, feel free to open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this Git repo, and I'll do my best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss).
