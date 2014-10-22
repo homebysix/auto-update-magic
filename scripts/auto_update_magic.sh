@@ -29,15 +29,9 @@ apps=(
 ############################# EDIT ABOVE THIS LINE #############################
     );
 
-# Number of hours between auto updates is taken from parameter 4, or defaults to 1
-if [[ $4 != "" ]]; then
-    Hours=$4
-else
-    Hours=1
-fi
-
 function AutoUpdateMagic () {
     for app in "${apps[@]}"; do
+        echo " " # for some visual separation between apps in the log
         process=$(echo $app | awk -F',' {'print $1'} | awk '{$1=$1}{ print }')
         recipe=$(echo $app | awk -F',' {'print $2'} | awk '{$1=$1}{ print }')
 
@@ -52,16 +46,12 @@ function AutoUpdateMagic () {
 }
 
 function AutoUpdateTimeCheck () {
-    ## Convert hours into seconds
-    Secs=$((60*60*Hours))
-
-    ## Get current time in Unix seconds
-    timeNow=$(date +%s)
-
     ## Determine difference in seconds between the last time stamp and current time
+    seconds=$((60*60*Hours))
+    timeNow=$(date +%s)
     timeDiff=$((timeNow-lastAutoUpdateTime))
 
-    if [[ "$timeDiff" -ge "$Secs" ]]; then
+    if [[ "$timeDiff" -ge "$seconds" ]]; then
         AutoUpdateMagic
         exit 0
     else
@@ -74,9 +64,17 @@ function AutoUpdateTimeCheck () {
     fi
 }
 
-lastAutoUpdateTime=$(/usr/bin/defaults read /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate)
+# Number of hours between auto updates is taken from parameter 4, or defaults to 1
+if [[ $4 != "" ]]; then
+    Hours=$4
+else
+    Hours=1
+fi
+echo "We are checking for auto updates every $Hours hours."
+
+lastAutoUpdateTime=$(/usr/bin/defaults read /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate 2> /dev/null)
 if [[ "$?" -ne "0" ]]; then
-    # If the com.jamfsoftware.jamfnation.plist file doesn't exist, this is our first auto update run.
+    echo "Auto Update Magic has never run before. Checking for updates now..."
     AutoUpdateMagic
     exit 0
 else
