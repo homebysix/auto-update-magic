@@ -84,7 +84,7 @@ Here's how to use it:
 
 Here's the magic you've been waiting to see. Fully automatic updates using Casper.
 
-**[Click here to view the (silent) screencast](https://www.youtube.com/ZUD8C8Tr3XI)**
+**[Click here to view the (silent) screencast](https://www.youtube.com/watch?v=ZUD8C8Tr3XI)**
 
 #### On the JSS
 
