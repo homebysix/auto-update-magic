@@ -95,19 +95,19 @@ Here's the magic you've been waiting to see. Fully automatic updates using Caspe
 
 1. The JAMF agent runs a recurring check-in. (This normally happens _automatically_ every 15 or 30 minutes; we have used Terminal here to call it manually with the same effect.)
 
-![placeholder](doc-images/magic-01.png)
+    ![placeholder](doc-images/magic-01.png)
 
 2. Firefox is not up to date. A single **Auto Update Magic** policy runs a script on each managed Mac that determines whether the apps are running.
 
-![placeholder](doc-images/magic-02.png)
+    ![placeholder](doc-images/magic-02.png)
 
 3. If not, the script calls the policy that updates them automatically.
 
-![placeholder](doc-images/magic-03.png)
+    ![placeholder](doc-images/magic-03.png)
 
 4. Firefox is now up to date.
 
-![placeholder](doc-images/magic-04.png)
+    ![placeholder](doc-images/magic-04.png)
 
 
 That's the end goal: completely automated patch management, from end to end. But let's back up and put the pieces together.
