@@ -244,7 +244,7 @@ For software like Adobe Flash Player that doesn't have an associated "app," you 
 
 ### Always-on apps like Dropbox
 
-The methods above don't yet work for always-running apps like Dropbox. A solution is in the works, and we'd welcome your contribution if you'd like to help craft it.
+The methods above don't yet work for always-running apps like Dropbox, because it's impossible for Casper to launch apps with the current user's context. A LaunchAgent-based solution may be in the works, and we'd welcome your contribution if you'd like to help craft it.
 
 
 ## Acknowledgements
@@ -284,7 +284,7 @@ This determines the criteria of the smart group updated when the `.jss` recipe r
 
 - **AdobeFlashPlayer.jss.recipe** recipe override
 
-This is an example recipe for Adobe Flash Player.
+This is an example recipe for Adobe Flash Player. This example updates Flash without quitting any browsers, which is only appropriate if the users in your environment unanimously use Google Chrome.
 
 - **AdobeFlashPlayerPolicyTemplate.xml** policy template
 
