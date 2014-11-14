@@ -240,11 +240,23 @@ Fortunately, the developers of all the projects above have so far been very resp
 
 ### Automatically deploying plugins like Flash and Java
 
-For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>true</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`. See the files in this repo for an example of the Flash recipe override and policy template I use.
+For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>true</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`. See the files in this repo for an example of the Flash recipe override and policy template I use. (Note: This will not check whether web browsers are running, so update at your own risk.)
 
 ### Always-on apps like Dropbox
 
 The methods above don't yet work for always-running apps like Dropbox, because it's impossible for Casper to launch apps with the current user's context. A LaunchAgent-based solution may be in the works, and we'd welcome your contribution if you'd like to help craft it.
+
+### A few troubleshooting tips
+
+- If you're getting an error that says "sslv3 alert handshake failure," try modifying the local `ssl_.py` file as outlined by ocoda on [this page](https://github.com/sheagcraig/jss-autopkg-addon/issues/9#issuecomment-61490994). A future version of jss-autopkg-addon should resolve this error.
+
+- Be sure Casper Admin and AutoPkgr are not running at the same time. Otherwise one or the other may fail to mount the distribution points.
+
+- If you're having trouble getting AutoPkgr to upload successfully to all your distribution points, here's a Plan B you might want to try.
+    1. Remove the JSS_REPOS key from com.github.autopkg.plist.
+    2. Set the JSS_REPO key to the local path of your primary distribution point. (If the primary distribution point doesn't live on your AutoPkgr Mac, you can mount it using AFP or SMB instead.)
+    3. Relaunch AutoPkgr and try running a `.jss` recipe.
+    4. If it succeeds in uploading the new package to your primary distribution point, then set up a scheduled `rsync` job to sync the primary distribution point to your remaining distribution points.
 
 
 ## Acknowledgements
