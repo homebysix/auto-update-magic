@@ -1,6 +1,6 @@
 # **Auto Update Magic**
 
-_**[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](https://jamfnation.jamfsoftware.com/jnucEvent.html?eventId=109)**_
+_**[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)**_
 
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
 
@@ -305,4 +305,6 @@ This is an example policy template for Adobe Flash Player. (This template does n
 
 ## Comments and suggestions
 
-Your feedback is encouraged! If you find a problem, feel free to open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this Git repo, and I'll do my best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss).
+I'd love to hear your feedback! If you find a problem, feel free to open an [issue](https://github.com/lindegroup/autopkgr/issues) on our AutoPkgr Git repo, and we'll do our best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss) or in the [JAMFNation forums](https://jamfnation.jamfsoftware.com/discussion.html?id=12280).
+
+[Watch the original presentation on the JAMF website](http://www.jamfsoftware.com/resources/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/).
