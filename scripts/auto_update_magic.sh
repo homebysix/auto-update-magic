@@ -17,27 +17,37 @@
 ################################### SETTINGS ###################################
 
 # Add a line here for each auto-update recipe name. Recipe names do not
-# typically contain spaces.
+# typically contain spaces. Some examples are included below:
 RECIPE_NAME=(
-    "Firefox"
-    "GoogleChrome"
-    "MSOffice2011Updates"
-    "AdobeFlashPlayer"
+
+    # "Firefox"
+    # "GoogleChrome"
+    # "MSOffice2011Updates"
+    # "AdobeFlashPlayer"
+    # "Evernote"
+
 )
 
 # For each recipe above, add a corresponding line here for each "blocking
-# application" — apps that must not be open if the app is to be updated. You can
-# add multiple comma-separated applications per line, as in the examples below.
+# application" — apps/processes that must not be open if the app is to be
+# updated automatically. You can add multiple comma-separated applications per
+# line, as in the examples below:
 BLOCKING_APPS=(
-    "Firefox" # Blocking apps for Firefox
-    "Google Chrome" # Blocking apps for GoogleChrome
-    "Microsoft Word, Microsoft Excel, Microsoft PowerPoint, Microsoft Outlook, Google Chrome, Safari, Firefox" # Blocking apps for MSOffice2011Updates
-    "Safari, Firefox" # Blocking apps for AdobeFlashPlayer
+
+    # "Firefox"
+    # "Google Chrome"
+    # "Microsoft Word, Microsoft Excel, Microsoft PowerPoint, Microsoft Outlook, Google Chrome, Safari, Firefox"
+    # "Safari, Firefox"
+    # "Evernote$" # matches "Evernote" but not "EvernoteHelper"
+
 )
 
-# Set DEBUG_MODE to true if you wish to do a "dry run" instead of actually
-# installing updates.
-DEBUG_MODE=true
+# Set DEBUG_MODE to true if you wish to do a "dry run." This changes two things:
+#     - The LastAutoUpdate time will not be reset, so the script will run each
+#       time the policy is called instead of deferring for specified hours.
+#     - The custom triggers that cause the apps to actually update will not be
+#       called.
+DEBUG_MODE=false
 
 
 ################################################################################
@@ -51,10 +61,14 @@ APPNAME=$(basename $0 | sed "s/\.sh$//")
 
 # Let's make sure we have the right numbers of settings above.
 if [[ ${#RECIPE_NAME[@]} != ${#BLOCKING_APPS[@]} ]]; then
-
-    echo "ERROR: Please carefully check the settings in the $APPNAME script. The number of parameters don't match." >&2
+    echo "[ERROR] Please carefully check the settings in the $APPNAME script. The number of parameters don't match." >&2
     exit 1001
+fi
 
+# Let's verify that DEBUG_MODE is set to true or false.
+if [[ $DEBUG_MODE != true && $DEBUG_MODE != false ]]; then
+    echo "[ERROR] DEBUG_MODE should be set to either true or false." >&2
+    exit 1002
 fi
 
 # Number of hours between auto updates is taken from parameter 4, or defaults to 1
@@ -95,16 +109,20 @@ function fn_AutoUpdateMagic () {
 
         # Only run the auto-update policy if no blocking apps are running.
         if [[ $UPDATE_BLOCKED == false ]]; then
-            echo "No apps are blocking the ${RECIPE_NAME[$i]} update. Calling policy trigger autoupdate-${RECIPE_NAME[$i]}."
             if [[ $DEBUG_MODE == false ]]; then
+                echo "No apps are blocking the ${RECIPE_NAME[$i]} update. Calling policy trigger autoupdate-${RECIPE_NAME[$i]}."
                 /usr/sbin/jamf policy -trigger "autoupdate-${RECIPE_NAME[$i]}"
+            else
+                echo "[DEBUG] No apps are blocking the ${RECIPE_NAME[$i]} update. This is the point where we would normally call the policy trigger autoupdate-${RECIPE_NAME[$i]}."
             fi
         fi
 
     done # End iterating through recipes.
 
     # Reset the LastAutoUpdate time.
-    /usr/bin/defaults write /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate $(date +%s)
+    if [[ $DEBUG_MODE == false ]]; then
+        /usr/bin/defaults write /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate $(date +%s)
+    fi
 }
 
 # This function calculates whether it's time to run the auto updates
@@ -135,6 +153,10 @@ else
     fn_AutoUpdateTimeCheck
 fi
 
-printf "\nWe will check again for auto updates after $HOURS hours.\n\n"
+if [[ $HOURS == 1 ]]; then
+    printf "\nWe will check again for auto updates after $HOURS hour.\n\n"
+else
+    printf "\nWe will check again for auto updates after $HOURS hours.\n\n"
+fi
 
 exit 0

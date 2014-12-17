@@ -1,10 +1,12 @@
-# **Auto Update Magic**
+Auto Update Magic
+=================
 
-_**[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)**_
+_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_
 
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
 
 _JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
+
 
 ---
 
@@ -162,37 +164,37 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
     1. Set the parameter value for **Hours between auto updates** to your preferred number. (I recommend an integer between 1 and 8, inclusive.)
     1. Set the **Scope** to the **Testing** static computer group.
     1. Click **Save**.
-4. In AutoPkg, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
-5. In the `Input` dictionary, remove all but these keys:
+4. In AutoPkgr, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
+5. In the `Input` dictionary, remove all but this key:
 ```
         <key>POLICY_CATEGORY</key>
         <string>Auto Update</string>
-        <key>GROUP_TEMPLATE</key>
-        <string>%RECIPE_DIR%/AutoUpdateSmartGroupTemplate.xml</string>
-        <key>POLICY_TEMPLATE</key>
-        <string>%RECIPE_DIR%/AutoUpdatePolicyTemplate.xml</string>
 ```
 6. Copy the `Firefox.png`, `PolicyTemplate.xml`, and `SmartGroupTemplate.xml` files from `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/` to `~/Library/AutoPkg/RecipeOverrides/`.
-7. Rename `PolicyTemplate.xml` to `AutoUpdatePolicyTemplate.xml`. Rename `SmartGroupTemplate.xml` to `AutoUpdateSmartGroupTemplate.xml`. (This distinction will come in handy later.)
-8. Edit the `AutoUpdatePolicyTemplate.xml` file with a text editor.
+7. Edit the `PolicyTemplate.xml` file with a text editor.
     1. Remove the contents of the `self_service` section.
     2. In the `general` section, change the name of the policy:
     `<name>Auto Update %PROD_NAME%</name>`
     3. Also in the `general` section, create the custom trigger:
     `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`
-9. Return to the `auto_update_magic.sh` script on your JSS and add a new line that matches the name of the app you're updating (sans `.app` extension), and its corresponding recipe name (which usually omits spaces). For example:
+8. Return to the `auto_update_magic.sh` script on your JSS and add new lines as appropriate to the RECIPE_NAME and BLOCKING_APPLICATION sections, using the examples to guide you. For example:
 ```
-"Google Chrome, GoogleChrome"
+RECIPE_NAME=(
+    "Firefox"
+)
+BLOCKING_APPS=(
+    "Firefox"
+)
 ```
-10. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
-11. Verify that your policy and smart group were created successfully.
+9. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
+10. Verify that your policy and smart group were created successfully.
 
 
 ### Level 3: Auto to All
 
-This is the "magic" workflow demonstrated in the screencast above. It is by far the most automatic day to update apps using Casper, but should be implemented with great care. The apps are updated quickly and without testing, so it's likely that this will cause something to break someday. Only do this for non-mission-critical apps, and only after you've tested using Level 2 above.
+This is the "magic" workflow demonstrated in the screencast above. It is by far the most automatic way to update apps using Casper, but should be implemented with great care. The apps are updated quickly and without testing, so it's likely that this will cause something to break someday. Only do this for non-mission-critical apps, and only after you've tested using Level 2 above.
 
-1. Navigate to `~/Library/AutoPkg/RecipeOverrides` and edit the `AutoUpdateSmartGroupTemplate.xml` file.
+1. Navigate to `~/Library/AutoPkg/RecipeOverrides` and edit the `SmartGroupTemplate.xml` file.
 2. Remove these lines from the file:
 ```
         <criterion>
@@ -248,15 +250,7 @@ The methods above don't yet work for always-running apps like Dropbox, because i
 
 ### A few troubleshooting tips
 
-- If you're getting an error that says "sslv3 alert handshake failure," try modifying the local `ssl_.py` file as outlined by ocoda on [this page](https://github.com/sheagcraig/JSSImporter/issues/9#issuecomment-61490994). A future version of JSSImporter should resolve this error.
-
 - Be sure Casper Admin and AutoPkgr are not running at the same time. Otherwise one or the other may fail to mount the distribution points.
-
-- If you're having trouble getting AutoPkgr to upload successfully to all your distribution points, here's a Plan B you might want to try.
-    1. Remove the JSS_REPOS key from com.github.autopkg.plist.
-    2. Set the JSS_REPO key to the local path of your primary distribution point. (If the primary distribution point doesn't live on your AutoPkgr Mac, you can mount it using AFP or SMB instead.)
-    3. Relaunch AutoPkgr and try running a `.jss` recipe.
-    4. If it succeeds in uploading the new package to your primary distribution point, then set up a scheduled `rsync` job to sync the primary distribution point to your remaining distribution points.
 
 
 ## Acknowledgements
@@ -284,13 +278,13 @@ This is the script used by the "trigger" policy in order to determine whether ap
 
 This file determines what happens when autopkg runs the Firefox.jss recipe. It's a good one to use as a template for other apps.
 
-Note that there is a ParentRecipe specified, so you should subscrube to the `github.com/autopkg/recipes` repo.
+Note that there is a ParentRecipe specified, so you should subscribe to the `github.com/autopkg/recipes` repo.
 
-- **AutoUpdatePolicyTemplate.xml** policy template
+- **PolicyTemplate.xml** policy template
 
 This determines the parameters of the policy updated when the `.jss` recipe runs. You will modify this file if you need to change the trigger used, or add Self Service information to the policy, for example.
 
-- **AutoUpdateSmartGroupTemplate.xml** smart group template
+- **SmartGroupTemplate.xml** smart group template
 
 This determines the criteria of the smart group updated when the `.jss` recipe runs. You will modify this file if you need to scope a policy all managed Macs, rather than just to the "Testing" static computer group.
 
@@ -308,3 +302,14 @@ This is an example policy template for Adobe Flash Player. (This template does n
 I'd love to hear your feedback! If you find a problem, feel free to open an [issue](https://github.com/lindegroup/autopkgr/issues) on our AutoPkgr Git repo, and we'll do our best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss) or in the [JAMFNation forums](https://jamfnation.jamfsoftware.com/discussion.html?id=12280).
 
 [Watch the original presentation on the JAMF website](http://www.jamfsoftware.com/resources/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/).
+
+
+
+<!-- TO DO:
+    possible to mix level 1 with level 2
+    Office with multiple blocking apps
+    Dropbox with no blocking apps, but with preupdate-postupdate scripts
+    Evernote/GitHub with one blocking app but one non-blocking app
+    Troubleshooting
+    JDSs
+-->
