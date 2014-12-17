@@ -57,9 +57,9 @@ Fortunately, several tools have emerged in the last year that have significantly
 
 AutoPkg is a relatively new command-line tool from [Greg Neagle](https://github.com/gregneagle), [Tim Sutton](https://github.com/timsutton), and [Per Olofsson](https://github.com/MagerValp), that automatically packages OS X software for easy distribution. It uses community-contributed "recipes" to produce a neat and tidy .pkg file that can be used with many deployment systems, including Casper.
 
-### [jss-autopkg-addon](https://github.com/sheagcraig/jss-autopkg-addon)
+### [JSSImporter](https://github.com/sheagcraig/JSSImporter)
 
-Conceived by [Allister Banks](https://github.com/arubdesu) and further enhanced by [Shea Craig](https://github.com/sheagcraig/), jss-autopkg-addon serves as the direct link between AutoPkg and your JSS. Combined with a `.jss` recipe, jss-autopkg-addon allows automatic creation of the smart groups, policies, and packages necessary to distribute apps in Casper.
+Conceived by [Allister Banks](https://github.com/arubdesu) and rewritten by [Shea Craig](https://github.com/sheagcraig/), JSSImporter serves as the direct link between AutoPkg and your JSS. Combined with a `.jss` recipe, JSSImporter allows automatic creation of the smart groups, policies, and packages necessary to distribute apps in Casper.
 
 ### [AutoPkgr](https://github.com/lindegroup/autopkgr)
 
@@ -74,7 +74,7 @@ Here's how to use it:
 1. Open AutoPkgr, and use the **Install** tab to install Git and AutoPkg if you haven't already.
 1. Click on the **Folders & Integration** tab.
 1. Enter your JSS URL and API account credentials. Click **Connect**.
-1. Install jss-autopkg-addon when prompted.
+1. Install JSSImporter when prompted.
 1. Enter the read/write password for each distribution point when prompted.
 1. Switch back to the **Repos & Recipes** tab. Filter for recipes that end in `.jss`, and add the ones you need.
 1. On the **Schedule** tab, click **Check Apps Now**. The apps you selected will be imported automatically to your JSS!
@@ -117,7 +117,7 @@ There are three possible levels of automation that you can use AutoPkgr to enact
 
 ### Level 1: Self Service
 
-This workflow, which is the default for jss-autopkg-addon, is a very safe and conservative way to begin testing app packages in your Casper environment. It imports app updates into Casper and makes them available to the Testing group via Self Service. Our new version of AutoPkgr makes this super easy to configure.
+This workflow, which is the default for JSSImporter, is a very safe and conservative way to begin testing app packages in your Casper environment. It imports app updates into Casper and makes them available to the Testing group via Self Service. Our new version of AutoPkgr makes this super easy to configure.
 
 Here's how to set it up, assuming you already have a working JSS:
 
@@ -135,7 +135,7 @@ Here's how to set it up, assuming you already have a working JSS:
 1. Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven't already.
 1. In AutoPkgr, click on the **Folders & Integration** tab.
 1. In the **Casper Suite integration** section, enter your JSS URL, API username, and API password. Then click **Connect**.
-1. When prompted, follow the instructions to install the jss-autopkg-addon.
+1. When prompted, follow the instructions to install JSSImporter.
 1. When prompted, enter the read/write password for each distribution point.
 
 You'll also want to make sure you have a few `.jss` recipes selected. AutoPkgr will automatically add the [sheagcraig/jss-recipes](https://github.com/sheagcraig/jss-recipes) repo so you'll have a few to choose from. If the `.jss` recipes you choose have any parent recipes, be sure to add their repos too. (For example, `Firefox.jss` requires adding the [autopkg/recipes](https://github.com/autopkg/recipes) repo.)
@@ -234,7 +234,7 @@ When you add a `.jss` recipe, be sure that you also add the AutoPkg repository o
 
 ### Open source pros and cons
 
-Because AutoPkg, jss-autopkg-addon, and AutoPkgr all are open source, JAMF is not responsible for their upkeep or support. If you have questions, your JAMF rep will likely not be able to help.
+Because AutoPkg, JSSImporter, and AutoPkgr all are open source, JAMF is not responsible for their upkeep or support. If you have questions, your JAMF rep will likely not be able to help.
 
 Fortunately, the developers of all the projects above have so far been very responsive to questions and advice-seekers.
 
@@ -248,7 +248,7 @@ The methods above don't yet work for always-running apps like Dropbox, because i
 
 ### A few troubleshooting tips
 
-- If you're getting an error that says "sslv3 alert handshake failure," try modifying the local `ssl_.py` file as outlined by ocoda on [this page](https://github.com/sheagcraig/jss-autopkg-addon/issues/9#issuecomment-61490994). A future version of jss-autopkg-addon should resolve this error.
+- If you're getting an error that says "sslv3 alert handshake failure," try modifying the local `ssl_.py` file as outlined by ocoda on [this page](https://github.com/sheagcraig/JSSImporter/issues/9#issuecomment-61490994). A future version of JSSImporter should resolve this error.
 
 - Be sure Casper Admin and AutoPkgr are not running at the same time. Otherwise one or the other may fail to mount the distribution points.
 
