@@ -97,19 +97,19 @@ Here's the magic you've been waiting to see. Fully automatic updates using Caspe
 
 1. The JAMF agent runs a recurring check-in. (This normally happens _automatically_ every 15 or 30 minutes; we have used Terminal here to call it manually with the same effect.)
 
-    ![placeholder](doc-images/magic-01.png)
+    ![magic-01.png](doc-images/magic-01.png)
 
 2. Firefox is not up to date. A single **Auto Update Magic** policy runs a script on each managed Mac that determines whether the apps are running.
 
-    ![placeholder](doc-images/magic-02.png)
+    ![magic-02.png](doc-images/magic-02.png)
 
 3. If not, the script calls the policy that updates them automatically.
 
-    ![placeholder](doc-images/magic-03.png)
+    ![magic-03.png](doc-images/magic-03.png)
 
 4. Firefox is now up to date.
 
-    ![placeholder](doc-images/magic-04.png)
+    ![magic-04.png](doc-images/magic-04.png)
 
 
 That's the end goal: completely automated patch management, from end to end. But let's back up and put the pieces together.
@@ -166,10 +166,10 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
     1. Click **Save**.
 4. In AutoPkgr, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
 5. In the `Input` dictionary, remove all but this key:
-```
-        <key>POLICY_CATEGORY</key>
-        <string>Auto Update</string>
-```
+    ```
+            <key>POLICY_CATEGORY</key>
+            <string>Auto Update</string>
+    ```
 6. Copy the `Firefox.png`, `PolicyTemplate.xml`, and `SmartGroupTemplate.xml` files from `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/` to `~/Library/AutoPkg/RecipeOverrides/`.
 7. Edit the `PolicyTemplate.xml` file with a text editor.
     1. Remove the contents of the `self_service` section.
@@ -178,14 +178,14 @@ Here's how to set it up with `Firefox.jss`, assuming you've already done the Lev
     3. Also in the `general` section, create the custom trigger:
     `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`
 8. Return to the `auto_update_magic.sh` script on your JSS and add new lines as appropriate to the RECIPE_NAME and BLOCKING_APPLICATION sections, using the examples to guide you. For example:
-```
-RECIPE_NAME=(
-    "Firefox"
-)
-BLOCKING_APPS=(
-    "Firefox"
-)
-```
+    ```
+    RECIPE_NAME=(
+        "Firefox"
+    )
+    BLOCKING_APPS=(
+        "Firefox"
+    )
+    ```
 9. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
 10. Verify that your policy and smart group were created successfully.
 
@@ -196,15 +196,15 @@ This is the "magic" workflow demonstrated in the screencast above. It is by far 
 
 1. Navigate to `~/Library/AutoPkg/RecipeOverrides` and edit the `SmartGroupTemplate.xml` file.
 2. Remove these lines from the file:
-```
-        <criterion>
-            <name>Computer Group</name>
-            <priority>2</priority>
-            <and_or>and</and_or>
-            <search_type>member of</search_type>
-            <value>Testing</value>
-        </criterion>
-```
+    ```
+            <criterion>
+                <name>Computer Group</name>
+                <priority>2</priority>
+                <and_or>and</and_or>
+                <search_type>member of</search_type>
+                <value>Testing</value>
+            </criterion>
+    ```
 3. Set the scope of the Auto Update Magic policy to **All Managed Clients**.
 
 This will install automatic updates for all Macs, rather than just the ones in the Testing group.
