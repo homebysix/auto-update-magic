@@ -312,4 +312,5 @@ I'd love to hear your feedback! If you find a problem, feel free to open an [iss
     Evernote/GitHub with one blocking app but one non-blocking app
     Troubleshooting
     JDSs
+    Level 2 and 3 - set scope to smart groups to minimize unnecessary script runs
 -->

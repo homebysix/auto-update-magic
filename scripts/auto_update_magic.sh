@@ -43,10 +43,10 @@ BLOCKING_APPS=(
 )
 
 # Set DEBUG_MODE to true if you wish to do a "dry run." This changes two things:
-#     - The LastAutoUpdate time will not be reset, so the script will run each
-#       time the policy is called instead of deferring for specified hours.
-#     - The custom triggers that cause the apps to actually update will not be
-#       called.
+#     - The auto update process will run every time, regardless of the
+#       presence of a LastAutoUpdate value.
+#     - The custom triggers that cause the apps to actually update will be
+#       logged, but not actually executed.
 DEBUG_MODE=false
 
 
@@ -131,7 +131,7 @@ function fn_AutoUpdateTimeCheck () {
     EPOCH=$(date +%s)
     TIMEDIFF=$((EPOCH-lastAutoUpdateTime))
 
-    if [[ "$TIMEDIFF" -ge "$SECONDS" ]]; then
+    if [[ "$TIMEDIFF" -ge "$SECONDS" || $DEBUG_MODE == true ]]; then
         fn_AutoUpdateMagic
     else
         if [[ "$TIMEDIFF" -lt "3600" ]]; then
