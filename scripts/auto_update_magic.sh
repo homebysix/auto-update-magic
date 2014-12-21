@@ -8,8 +8,8 @@
 #                   JSSImporter.
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2014-12-17
-#         Version:  1.4
+#   Last Modified:  2014-12-20
+#         Version:  1.4.1
 #
 ###
 
@@ -57,7 +57,7 @@ DEBUG_MODE=false
 
 ######################## VALIDATION AND ERROR CHECKING #########################
 
-APPNAME=$(basename $0 | sed "s/\.sh$//")
+APPNAME=$(basename "$0" | sed "s/\.sh$//")
 
 # Let's make sure we have the right numbers of settings above.
 if [[ ${#RECIPE_NAME[@]} != ${#BLOCKING_APPS[@]} ]]; then
@@ -88,7 +88,7 @@ function fn_AutoUpdateMagic () {
     RECIPE_COUNT=${#RECIPE_NAME[@]}
 
     # Begin iterating through recipes.
-    for (( i = 0; i < $RECIPE_COUNT; i++ )); do
+    for (( i = 0; i < RECIPE_COUNT; i++ )); do
 
         echo " " # for some visual separation between apps in the log
 
@@ -98,7 +98,7 @@ function fn_AutoUpdateMagic () {
         UPDATE_BLOCKED=false
         for APP in ${BLOCKING_APPS[$i]}; do
             APP_CLEAN=$(echo "$APP" | sed 's/^ *//')
-            if [[ `ps ax | grep -v grep | grep "$APP_CLEAN" | wc -l` -gt 0 ]]; then
+            if [[ $(pgrep "$APP_CLEAN" | wc -l) -gt 0 ]]; then
                 echo "    $APP_CLEAN is running. Skipping auto update."
                 UPDATE_BLOCKED=true
                 break
@@ -121,7 +121,7 @@ function fn_AutoUpdateMagic () {
 
     # Reset the LastAutoUpdate time.
     if [[ $DEBUG_MODE == false ]]; then
-        /usr/bin/defaults write /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate $(date +%s)
+        /usr/bin/defaults write /Library/"Application Support"/JAMF/com.jamfsoftware.jamfnation LastAutoUpdate "$(date +%s)"
     fi
 }
 
@@ -154,9 +154,9 @@ else
 fi
 
 if [[ $HOURS == 1 ]]; then
-    printf "\nWe will check again for auto updates after $HOURS hour.\n\n"
+    printf "\nWe will check again for auto updates after %s hour.\n\n" "$HOURS"
 else
-    printf "\nWe will check again for auto updates after $HOURS hours.\n\n"
+    printf "\nWe will check again for auto updates after %s hours.\n\n" "$HOURS"
 fi
 
 exit 0
