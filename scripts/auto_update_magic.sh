@@ -8,8 +8,8 @@
 #                   JSSImporter.
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2014-12-20
-#         Version:  1.4.1
+#   Last Modified:  2014-12-30
+#         Version:  1.4.2
 #
 ###
 
@@ -22,7 +22,7 @@ RECIPE_NAME=(
 
     # "Firefox"
     # "GoogleChrome"
-    # "MSOffice2011Updates"
+    # "Office2011Update"
     # "AdobeFlashPlayer"
     # "Evernote"
 
@@ -151,12 +151,6 @@ if [[ "$?" -ne "0" ]]; then
     fn_AutoUpdateMagic
 else
     fn_AutoUpdateTimeCheck
-fi
-
-if [[ $HOURS == 1 ]]; then
-    printf "\nWe will check again for auto updates after %s hour.\n\n" "$HOURS"
-else
-    printf "\nWe will check again for auto updates after %s hours.\n\n" "$HOURS"
 fi
 
 exit 0
