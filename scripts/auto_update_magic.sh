@@ -102,11 +102,12 @@ function fn_AutoUpdateMagic () {
         
         for APP in ${BLOCKING_APPS[$i]}; do
 
-            # Strip leading spaces from app name.
-            APP_CLEAN=$(echo "$APP" | sed 's/^ *//')
+            # Strip leading spaces from app name. Save lowercase version.
+            APP_CLEAN="$(echo "$APP" | sed 's/^ *//')"
+            APP_CLEAN_LOWER="$(echo "$APP_CLEAN" | tr [:upper:] [:lower:])"
 
             # Check whether the app is running.
-            if ps ax | grep "$APP_CLEAN" | grep -v "grep"; then
+            if pgrep "$APP_CLEAN" &> /dev/null || pgrep "$APP_CLEAN_LOWER" &> /dev/null; then
                 echo "    $APP_CLEAN is running. Skipping auto update."
                 UPDATE_BLOCKED=true
                 break
