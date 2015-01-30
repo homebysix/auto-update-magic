@@ -8,8 +8,8 @@
 #                   JSSImporter.
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2014-12-30
-#         Version:  1.4.2
+#   Last Modified:  2015-01-29
+#         Version:  1.4.3
 #
 ###
 
@@ -87,6 +87,9 @@ function fn_AutoUpdateMagic () {
     # Count how many recipes we need to process.
     RECIPE_COUNT=${#RECIPE_NAME[@]}
 
+    # Save the default internal field separator.
+    OLDIFS=IFS
+
     # Begin iterating through recipes.
     for (( i = 0; i < RECIPE_COUNT; i++ )); do
 
@@ -96,15 +99,22 @@ function fn_AutoUpdateMagic () {
         echo "Checking for apps that would block the ${RECIPE_NAME[$i]} update..."
         IFS=","
         UPDATE_BLOCKED=false
+        
         for APP in ${BLOCKING_APPS[$i]}; do
-            APP_CLEAN=$(echo "$APP" | sed 's/^ *//')
-            if [[ $(pgrep "$APP_CLEAN" | wc -l) -gt 0 ]]; then
+
+            # Strip leading spaces from app name. Save lowercase version.
+            APP_CLEAN="$(echo "$APP" | sed 's/^ *//')"
+            APP_CLEAN_LOWER="$(echo "$APP_CLEAN" | tr [:upper:] [:lower:])"
+
+            # Check whether the app is running.
+            if pgrep "$APP_CLEAN" &> /dev/null || pgrep "$APP_CLEAN_LOWER" &> /dev/null; then
                 echo "    $APP_CLEAN is running. Skipping auto update."
                 UPDATE_BLOCKED=true
                 break
             else
                 echo "    $APP_CLEAN is not running."
             fi
+
         done
 
         # Only run the auto-update policy if no blocking apps are running.
@@ -118,6 +128,9 @@ function fn_AutoUpdateMagic () {
         fi
 
     done # End iterating through recipes.
+
+    # Reset back to default internal field separator.
+    IFS=OLDIFS
 
     # Reset the LastAutoUpdate time.
     if [[ $DEBUG_MODE == false ]]; then
