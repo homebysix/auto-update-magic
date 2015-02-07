@@ -186,6 +186,17 @@ BLOCKING_APPS=(
     "Firefox"
 )
 ```
+If no blocking apps are required (for example, if you want to go ahead and update Flash regardless of which browsers are running), then speficy a fake blocking app name.
+```
+RECIPE_NAME=(
+    "Firefox"
+    "AdobeFlashPlayer"
+)
+BLOCKING_APPS=(
+    "Firefox"
+    "NoBlockingAppForAdobeFlashPlayer"
+)
+```
 9. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
 10. Verify that your policy and smart group were created successfully.
 
