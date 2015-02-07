@@ -16,5 +16,12 @@
             <search_type>is not</search_type>
             <value>%VERSION%</value>
         </criterion>
+        <criterion>
+            <name>Application Version</name>
+            <priority>1</priority>
+            <and_or>and</and_or>
+            <search_type>is not</search_type>
+            <value></value>
+        </criterion>
     </criteria>
 </computer_group>
