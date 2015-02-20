@@ -1,14 +1,16 @@
-Auto Update Magic
-=================
+# Auto Update Magic
 
+&nbsp;
+![Auto Update Magic](doc-images/update-graphic.png)
+<div style="font-size: 0.85em; text-align: center;">
 _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_
-
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
-
 _JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
-
+</div>
 
 ---
+
+## Table of Contents
 
 - [Overview](#overview)
 - [Status quo](#status-quo)
@@ -69,7 +71,7 @@ AutoPkgr is a Mac app that puts a friendly face on AutoPkg and makes it super ea
 
 The goal of AutoPkgr is to make it simple and straightforward to start using AutoPkg, and to that end, we're happy to announce that **AutoPkgr now supports basic AutoPkg-to-JSS integration out of the box**.
 
-![placeholder](doc-images/autopkgr-casper-integration.png)
+![Casper Suite integration](doc-images/autopkgr-casper-integration.png)
 
 Here's how to use it:
 
