@@ -3,7 +3,7 @@
 &nbsp;
 ![Auto Update Magic](doc-images/update-graphic.png)
 
-_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Presented by Elliot Jordan, Senior IT Consultant, Linde Group_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
+_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Presented by Elliot Jordan, Senior Consultant, [Linde Group](http://www.lindegroup.com)_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
 ---
 
@@ -12,6 +12,9 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 - [Overview](#overview)
 - [Status quo](#status-quo)
 - [New tools to the rescue](#new-tools-to-the-rescue)
+    - [AutoPkg](#autopkg)
+    - [JSSImporter](#jssimporter)
+    - [AutoPkgr](#autopkgr)
 - [The Magic](#the-magic)
     - [Level 1: Self Service](#level-1-self-service)
     - [Level 2: Auto to Some](#level-2-auto-to-some)
@@ -331,13 +334,21 @@ This is the script used by the "trigger" policy in order to determine whether ap
 
 - **Firefox.jss** recipe override
 
-This file determines what happens when autopkg runs the Firefox.jss recipe. It's a good one to use as a template for other apps.
+This recipe determines what happens when autopkg runs the Firefox.jss recipe. It's a good one to use as a template for other apps.
 
 Note that there is a ParentRecipe specified, so you should subscribe to the `github.com/autopkg/recipes` repo.
 
+- **Firefox-SelfService.jss** recipe override
+
+This recipe allows you to run a Firefox auto update policy side-by-side with another Firefox policy for Self Service.
+
 - **PolicyTemplate.xml** policy template
 
-This determines the parameters of the policy updated when the `.jss` recipe runs. You will modify this file if you need to change the trigger used, or add Self Service information to the policy, for example.
+This determines the parameters of the policy updated when a standard `.jss` recipe runs. You will modify this file if you need to change the trigger used, or add Self Service information to the policy, for example.
+
+- **PolicyTemplate-SelfService.xml** policy template
+
+This determines the parameters of the policy updated when a `_____-SelfService.jss` recipe runs.
 
 - **SmartGroupTemplate.xml** smart group template
 
@@ -357,15 +368,3 @@ This is an example policy template for Adobe Flash Player. (This template does n
 I'd love to hear your feedback! If you find a problem, feel free to open an [issue](https://github.com/lindegroup/autopkgr/issues) on our AutoPkgr Git repo, and we'll do our best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss) or in the [JAMFNation forums](https://jamfnation.jamfsoftware.com/discussion.html?id=12280).
 
 [Watch the original presentation on the JAMF website](http://www.jamfsoftware.com/resources/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/).
-
-
-
-<!-- TO DO:
-    possible to mix level 1 with level 2
-    Office with multiple blocking apps
-    Dropbox with no blocking apps, but with preupdate-postupdate scripts
-    Evernote/GitHub with one blocking app but one non-blocking app
-    Troubleshooting
-    JDSs
-    Level 2 and 3 - set scope to smart groups to minimize unnecessary script runs
--->
