@@ -263,6 +263,8 @@ Here's how to run the Level 2/3 Auto Update recipes side-by-side with recipes th
 
 It may be useful to refer to the example `Firefox-SelfService.jss.recipe` and `PolicyTemplate-SelfService.xml` files provided in this repo.
 
+If you'd like to add a Dock icon to your Self Service policy, you can do that manually after the first recipe run. Subsequent runs will preserve the Dock icon settings.
+
 
 ## Notes and caveats
 
