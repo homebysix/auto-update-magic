@@ -3,9 +3,7 @@
 &nbsp;
 ![Auto Update Magic](doc-images/update-graphic.png)
 
-_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_
-_Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
-_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
+_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Presented by Elliot Jordan, Senior IT Consultant, Linde Group_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
 ---
 
