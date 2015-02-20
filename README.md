@@ -259,6 +259,7 @@ Here's how to run the Level 2/3 Auto Update recipes side-by-side with recipes th
     3. Set the `POLICY_TEMPLATE` to the new template file you created: `%RECIPE_DIR%/PolicyTemplate-SelfService.xml`
     4. Remove the `GROUP_NAME` and `GROUP_TEMPLATE` keys.
     5. Also remove the `groups` array forom the `Arguments` section.
+5. Open AutoPkgr and check the box for the new -SelfService recipe you created.
 
 It may be useful to refer to the example `Firefox-SelfService.jss.recipe` and `PolicyTemplate-SelfService.xml` files provided in this repo.
 
