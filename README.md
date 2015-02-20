@@ -2,11 +2,10 @@
 
 &nbsp;
 ![Auto Update Magic](doc-images/update-graphic.png)
-<div style="font-size: 0.85em; text-align: center;">
+
 _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_
 _Presented by Elliot Jordan, Senior IT Consultant, Linde Group_
 _JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
-</div>
 
 ---
 
@@ -19,11 +18,13 @@ _JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
     - [Level 1: Self Service](#level-1-self-service)
     - [Level 2: Auto to Some](#level-2-auto-to-some)
     - [Level 3: Auto to All](#level-3-auto-to-all)
+    - [Bonus: Creating both Self Service and Auto Update policies](#bonus-creating-both-self-service-and-auto-update-policies)
 - [Notes and caveats](#notes-and-caveats)
 - [Acknowledgements](#acknowledgements)
 - [Files included in this repo](#files-included-in-this-repo)
 
 ---
+
 
 ## Overview
 
@@ -225,10 +226,40 @@ This will install automatic updates for all Macs, rather than just the ones in t
 For each recipe you add, be sure to:
 
 1. Make and edit a recipe override.
-1. Add the app's name to the `auto_update_magic.sh` script on your JSS.
-1. (Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder. (This is only needed if you plan to use Self Service policies.)
+2. Add the app's name to the `auto_update_magic.sh` script on your JSS.
+3. (Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder. (This is only needed if you plan to use Self Service policies.)
 
 If you add a recipe like `AdobeFlashPlayer.jss`, `OracleJava7.jss`, or `Silverlight.jss`, be sure to also add the supporting files such as `_____SmartGroupTemplate.xml` and `_____ExtensionAttribute.xml`.
+
+
+### Bonus: Creating both Self Service and Auto Update policies
+
+Chances are, you've got Self Service policies that you want to keep up to date, even if a separate policy automatically updates the already-installed apps. Better to deploy apps that are already up to date, right?
+
+Here's how to run the Level 2/3 Auto Update recipes side-by-side with recipes that keep Self Service up to date.
+
+1. In your RecipeOverrides folder, duplicate the `PolicyTemplate.xml` file. Name the copy `PolicyTemplate-SelfService.xml`.
+2. Also duplicate the auto-update recipe override for the app you'd like to update in Self Service. Name the copy (for example) `Firefox-SelfService.jss.recipe`.
+3. Edit the `PolicyTemplate-SelfService.xml` file:
+    1. Change the `<name>` of the recipe to `%PROD_NAME%`.
+    2. Change the `<trigger_other>` of the recipe to  `selfservice-%PROD_NAME%`.
+    3. In the `<scope>` section, add `<all_computers>true</all_computers>`.
+    4. Expand the `<self_service>` section as follows:
+    ```
+        <self_service>
+            <use_for_self_service>true</use_for_self_service>
+            <install_button_text>Install %VERSION%</install_button_text>
+            <self_service_description>%SELF_SERVICE_DESCRIPTION%</self_service_description>
+        </self_service>
+    ```
+4. Edit the `Firefox-SelfService.jss.recipe` file:
+    1. Make sure the `Identifier` key is unique. For example: `com.github.homebysix.jss.Firefox-SelfService`
+    2. Set the `POLICY_CATEGORY` to the desired category. For example: `Web Browsers and Internet Utilities`
+    3. Set the `POLICY_TEMPLATE` to the new template file you created: `%RECIPE_DIR%/PolicyTemplate-SelfService.xml`
+    4. Remove the `GROUP_NAME` and `GROUP_TEMPLATE` keys.
+    5. Also remove the `groups` array forom the `Arguments` section.
+
+It may be useful to refer to the example `Firefox-SelfService.jss.recipe` and `PolicyTemplate-SelfService.xml` files provided in this repo.
 
 
 ## Notes and caveats
@@ -239,13 +270,21 @@ This method is on the bleeding edge, and you can bet that there are a few bugs t
 
 If you open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this GitHub repo, I'll do my best to help you troubleshoot. But I take no responsibility for any harm caused by over-automation.
 
+
 ### Run AutoPkgr on a Mac with access to all DPs
 
 It's a good idea to run AutoPkgr from a Mac that has network access to all distribution points. If no such Mac exists, you can omit non-accessible DPs by clicking Cancel when AutoPkgr prompts you for a specific DP's password. That DP will be skipped (which means you'll need to use Casper Admin to replicate it manually, or set up a system like rsync to replicate it automatically).
 
+
+### JSSRecipeCreator
+
+Shea Craig has written a great tool called [JSSRecipeCreator](https://github.com/sheagcraig/JSSRecipeCreator) that makes it much simpler to create `.jss` recipes. Highly recommended.
+
+
 ### Don't forget to bring your parents
 
 When you add a `.jss` recipe, be sure that you also add the AutoPkg repository of its parent recipe, if a parent recipe exists. AutoPkgr doesn't do this automatically.
+
 
 ### Open source pros and cons
 
@@ -253,13 +292,16 @@ Because AutoPkg, JSSImporter, and AutoPkgr all are open source, JAMF is not resp
 
 Fortunately, the developers of all the projects above have so far been very responsive to questions and advice-seekers.
 
+
 ### Automatically deploying plugins like Flash and Java
 
 For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>true</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`. See the files in this repo for an example of the Flash recipe override and policy template I use. (Note: This will not check whether web browsers are running, so update at your own risk.)
 
+
 ### Always-on apps like Dropbox
 
 The methods above don't yet work for always-running apps like Dropbox, because it's impossible for Casper to launch apps with the current user's context. A LaunchAgent-based solution may be in the works, and we'd welcome your contribution if you'd like to help craft it.
+
 
 ### A few troubleshooting tips
 
@@ -279,11 +321,13 @@ And none of the above would have happened at all if not for AutoPkg, the amazing
 
 In this repository, I've included copies of the files mentioned above. These should serve as useful starting points, but feel free to tweak and customize them for your own particular environment. And remember you can see the original unmodified files anytime at `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes`, for comparison.
 
+
 ### Scripts
 
 - **auto_update_magic.sh** policy script
 
 This is the script used by the "trigger" policy in order to determine whether apps that need updating are currently running. If the apps aren't running, the script calls the appropriate custom policy trigger for the app updater.
+
 
 ### RecipeOverrides
 
