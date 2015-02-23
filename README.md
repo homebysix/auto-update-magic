@@ -78,12 +78,12 @@ The goal of AutoPkgr is to make it simple and straightforward to start using Aut
 Here's how to use it:
 
 1. Open AutoPkgr, and use the **Install** tab to install Git and AutoPkg if you haven't already.
-1. Click on the **Folders & Integration** tab.
-1. Enter your JSS URL and API account credentials. Click **Connect**.
-1. Install JSSImporter when prompted.
-1. Enter the read/write password for each distribution point when prompted.
-1. Switch back to the **Repos & Recipes** tab. Filter for recipes that end in `.jss`, and add the ones you need.
-1. On the **Schedule** tab, click **Check Apps Now**. The apps you selected will be imported automatically to your JSS!
+2. Click on the **Folders & Integration** tab.
+3. Enter your JSS URL and API account credentials. Click **Connect**.
+4. Install JSSImporter when prompted.
+5. Enter the read/write password for each distribution point when prompted.
+6. Switch back to the **Repos & Recipes** tab. Filter for recipes that end in `.jss`, and add the ones you need.
+7. On the **Schedule** tab, click **Check Apps Now**. The apps you selected will be imported automatically to your JSS!
 
 
 ## The Magic
@@ -95,7 +95,7 @@ Here's the magic you've been waiting to see. Fully automatic updates using Caspe
 #### On the JSS
 
 1. AutoPkgr triggers AutoPkg to run regularly (perhaps every 4 hours).
-1. When new versions of apps are detected, they are _automatically_ imported into the JSS, assigned to a policy, and scoped to a smart group.
+2. When new versions of apps are detected, they are _automatically_ imported into the JSS, assigned to a policy, and scoped to a smart group.
 
 #### On the managed Mac
 
@@ -128,7 +128,7 @@ This workflow, which is the default for JSSImporter, is a very safe and conserva
 Here's how to set it up, assuming you already have a working JSS:
 
 1. Create a static computer group on your JSS called **Testing**. Add one or more test computers to the group.
-1. Create an account on your JSS with Create, Read, and Update access to the following objects:
+2. Create an account on your JSS with Create, Read, and Update access to the following objects:
     - Categories
     - Smart Computer Groups
     - Static Computer Groups
@@ -137,12 +137,12 @@ Here's how to set it up, assuming you already have a working JSS:
     - Policies
     - Scripts
     - File Share Distribution Points (only needs Read access)
-1. Install version 1.1 or higher of [AutoPkgr](https://github.com/lindegroup/autopkgr/releases/latest).
-1. Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven't already.
-1. In AutoPkgr, click on the **Folders & Integration** tab.
-1. In the **Casper Suite integration** section, enter your JSS URL, API username, and API password. Then click **Connect**.
-1. When prompted, follow the instructions to install JSSImporter.
-1. When prompted, enter the read/write password for each distribution point.
+3. Install version 1.1 or higher of [AutoPkgr](https://github.com/lindegroup/autopkgr/releases/latest).
+4. Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven't already.
+5. In AutoPkgr, click on the **Folders & Integration** tab.
+6. In the **Casper Suite integration** section, enter your JSS URL, API username, and API password. Then click **Connect**.
+7. When prompted, follow the instructions to install JSSImporter.
+8. When prompted, enter the read/write password for each distribution point.
 
 You'll also want to make sure you have a few `.jss` recipes selected. AutoPkgr will automatically add the [sheagcraig/jss-recipes](https://github.com/sheagcraig/jss-recipes) repo so you'll have a few to choose from. If the `.jss` recipes you choose have any parent recipes, be sure to add their repos too. (For example, `Firefox.jss` requires adding the [autopkg/recipes](https://github.com/autopkg/recipes) repo.)
 
