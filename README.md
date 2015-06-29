@@ -130,13 +130,13 @@ Here's how to set it up, assuming you already have a working JSS:
 1. Create a static computer group on your JSS called **Testing**. Add one or more test computers to the group.
 2. Create an account on your JSS with Create, Read, and Update access to the following objects:
     - Categories
-    - Smart Computer Groups
-    - Static Computer Groups
     - Computer Extension Attributes
+    - File Share Distribution Points (only needs Read access)
     - Packages
     - Policies
     - Scripts
-    - File Share Distribution Points (only needs Read access)
+    - Smart Computer Groups
+    - Static Computer Groups
 3. Install version 1.1 or higher of [AutoPkgr](https://github.com/lindegroup/autopkgr/releases/latest).
 4. Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven't already.
 5. In AutoPkgr, click on the **Folders & Integration** tab.
