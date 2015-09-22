@@ -234,7 +234,7 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
     This is just an example; you can change the category to whatever you want. The point I'm illustrating is that a recipe "override" allows you to override specific keys in pre-fabricated recipes. Overrides also allow you to name your recipes in a consistent manner, as with the __-testing__ suffix we're using here. This makes it easier to find in the AutoPkgr recipe list later.
 
-13. Save, then quit your text editor. I have provided an example __Firefox-testing.jss.recipe__ file in the __Exercise3a__ folder in this repo. Compare your finished override to that file to make sure it looks the same.
+13. Save, then quit your text editor. I have provided an example __Firefox-testing.jss.recipe__ file in the [Exercise3a](Exercise3a) folder in this repo. Compare your finished override to that file to make sure it looks the same.
 
     If so, congratulations! You just created a recipe override.
 
@@ -377,7 +377,7 @@ Now you can start to see how this is all going to fit together. The LaunchDaemon
 
 Here we go! Let's start with the recipe override and JSSImporter templates:
 
-1. Copy the provided __Firefox-autoupdate.jss__, __PolicyTemplate-autoupdate.xml__, and __SmartGroupTemplate-autoupdate.xml__ files from the __Exercise5b__ folder of this repo into your `~/Library/AutoPkg/RecipeOverrides` folder.
+1. Copy the provided __Firefox-autoupdate.jss__, __PolicyTemplate-autoupdate.xml__, and __SmartGroupTemplate-autoupdate.xml__ files from the [Exercise5b](Exercise5b) folder of this repo into your `~/Library/AutoPkg/RecipeOverrides` folder.
 
     Here is how the files differ from the standard recipes and templates included in jss-recipes:
 
@@ -402,7 +402,7 @@ Here we go! Let's start with the recipe override and JSSImporter templates:
 
 #### Exercise 5c: Configure Macs to check for updates periodically
 
-1. Open the __Exercise5c__ folder.
+1. Open the [Exercise5c](Exercise5c) folder.
 
 2. Edit the __auto_update_magic.sh__ script with a text editor. Make the following three changes:
     - Un-comment line 26, where Firefox's recipe name is specified.
@@ -469,7 +469,7 @@ If a [jss recipe](https://github.com/autopkg/jss-recipes) already exists for the
 
     In most cases, simply changing the recipe Identifier and ParentIdentifier are sufficient, but more complex apps may require a custom smart group template or extension attribute template.
 
-    I've included some examples in the __Exercise6a__ folder for Flash, Chrome, and Java.
+    I've included some examples in the [Exercise6a](Exercise6a) folder for Flash, Chrome, and Java.
 
 3. Modify the __auto_update_magic.sh__ script to include the trigger and blocking applications. Make sure that the list of triggers and list of blocking applications are in the same relative order.
 
@@ -493,7 +493,7 @@ Once you get more familiar with the relationship between recipe overrides and JS
 - Adjusting the `POLICY_TEMPLATE` key in each -testing.jss recipe to point to the new __PolicyTemplate-testing.xml__ file you created.
 - Removing keys from the __-testing.jss__ overrides that are not different than the parent recipe. (Only those keys that are different are necessary to include in overrides.)
 
-I have provided an example __PolicyTemplate-testing.xml__ file as well as modified __-testing.jss__ recipes in the __Exercise6b__ folder in this repo.
+I have provided an example __PolicyTemplate-testing.xml__ file as well as modified __-testing.jss__ recipes in the [Exercise6b](Exercise6b) folder in this repo.
 
 <a name="e6c"></a>
 
@@ -506,7 +506,7 @@ For certain software, you may want to have updates available immediately in Self
 - The software is not mission-critical for your organization.
 - You do not want to test the software prior to making it available in Self Service, and you understand the risks this introduces.
 
-I have included a policy template and two recipes that you can use as an example for this, in the __Exercise6c__ folder of this repo. They all contain `-selfservice`.
+I have included a policy template and two recipes that you can use as an example for this, in the [Exercise6c](Exercise6c) folder. They all contain `-selfservice`.
 
 <a name="e6d"></a>
 
@@ -517,7 +517,7 @@ If you have a site license for software you'd like to automatically update, you 
 - AutoPkg recipes create a policy that installs the latest version of the app, just like the __-autoupdate.jss__ recipes we created earlier. However, this policy also calls a custom trigger "license-AppName."
 - A manually created policy installs the license, and is only triggered by the "license-AppName" trigger.
 
-In the __Exercise6d__ folder of this repo, I have included an example of an __-selfservice.jss__ recipe override and policy template for TextExpander which illustrates this method.
+In the [Exercise6d](Exercise6d) folder of this repo, I have included an example of an __-selfservice.jss__ recipe override and policy template for TextExpander which illustrates this method.
 
 <a name="e6e"></a>
 
@@ -668,4 +668,4 @@ This will force the script to run immediately and check for updates, and install
 
 If you need help setting up "Auto Update Magic," or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people on the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/), on the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html), or in the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode. Or feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
 
-P.S. Thanks for reading all the way to the end! You get a :star:.
+P.S. Thanks for reading all the way to the end! You get a [:city_sunset:](https://www.youtube.com/watch?v=ZCbkUu2uykg).
