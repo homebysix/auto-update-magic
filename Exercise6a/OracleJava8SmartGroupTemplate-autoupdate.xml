@@ -1,0 +1,27 @@
+<computer_group>
+    <name>%group_name%</name>
+    <is_smart>true</is_smart>
+    <criteria>
+        <criterion>
+            <name>OracleJavaVersion</name>
+            <priority>0</priority>
+            <and_or>and</and_or>
+            <search_type>like</search_type>
+            <value>1.8.</value>
+        </criterion>
+        <criterion>
+            <name>OracleJavaVersion</name>
+            <priority>1</priority>
+            <and_or>and</and_or>
+            <search_type>is not</search_type>
+            <value>%VERSION%</value>
+        </criterion>
+        <criterion>
+            <name>OracleJavaVersion</name>
+            <priority>2</priority>
+            <and_or>and</and_or>
+            <search_type>is not</search_type>
+            <value></value>
+        </criterion>
+    </criteria>
+</computer_group>

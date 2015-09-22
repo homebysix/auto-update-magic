@@ -1,134 +1,197 @@
 # Auto Update Magic
 
 &nbsp;
-![Auto Update Magic](doc-images/update-graphic.png)
+![Auto Update Magic](README-images/update-graphic.png)
 
-_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Presented by Elliot Jordan, Senior Consultant, [Linde Group](http://www.lindegroup.com)_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
+_[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Originally presented by Elliot Jordan, Senior Consultant, [Linde Group](http://www.lindegroup.com)_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
 ---
 
 ## Table of Contents
 
+<!-- MarkdownTOC autolink=true depth=4 bracket=round -->
+
 - [Overview](#overview)
-- [Status quo](#status-quo)
-- [New tools to the rescue](#new-tools-to-the-rescue)
-    - [AutoPkg](#autopkg)
-    - [JSSImporter](#jssimporter)
-    - [AutoPkgr](#autopkgr)
-- [The Magic](#the-magic)
-    - [Level 1: Self Service](#level-1-self-service)
-    - [Level 2: Auto to Some](#level-2-auto-to-some)
-    - [Level 3: Auto to All](#level-3-auto-to-all)
-    - [Bonus: Creating both Self Service and Auto Update policies](#bonus-creating-both-self-service-and-auto-update-policies)
-- [Notes and caveats](#notes-and-caveats)
-- [Acknowledgements](#acknowledgements)
-- [Files included in this repo](#files-included-in-this-repo)
+- [Requirements](#requirements)
+- [Standardized software distribution](#standardized-software-distribution)
+    - [1. New Release](#1-new-release)
+        - [Exercise 1: Automate checking for new software with AutoPkgr](#exercise-1-automate-checking-for-new-software-with-autopkgr)
+    - [2. Development](#2-development)
+        - [Exercise 2a: Install new software for local testing](#exercise-2a-install-new-software-for-local-testing)
+        - [Exercise 2b: Create a deployable pkg file using AutoPkg](#exercise-2b-create-a-deployable-pkg-file-using-autopkg)
+    - [3. Testing](#3-testing)
+        - [Exercise 3a: Automatically create Self Service policies for testing new software](#exercise-3a-automatically-create-self-service-policies-for-testing-new-software)
+    - [4. Feedback](#4-feedback)
+    - [5. Deployment](#5-deployment)
+        - [Exercise 5a: Promote Self Service policies to use new packages](#exercise-5a-promote-self-service-policies-to-use-new-packages)
+        - [Exercise 5b: Automatically create Auto Update policies](#exercise-5b-automatically-create-auto-update-policies)
+        - [Exercise 5c: Configure Macs to check for updates periodically](#exercise-5c-configure-macs-to-check-for-updates-periodically)
+- [Further enhancement and advanced workflows](#further-enhancement-and-advanced-workflows)
+    - [Exercise 6a: Adding More Apps](#exercise-6a-adding-more-apps)
+    - [Exercise 6b: Organizing and customizing the testing recipes](#exercise-6b-organizing-and-customizing-the-testing-recipes)
+    - [Exercise 6c: Sending software directly to Self Service policies](#exercise-6c-sending-software-directly-to-self-service-policies)
+    - [Exercise 6d: Create installation policies for site-licensed software](#exercise-6d-create-installation-policies-for-site-licensed-software)
+    - [Exercise 6e: Store your -autoupdate.jss recipes outside the search path](#exercise-6e-store-your--autoupdatejss-recipes-outside-the-search-path)
+- [Operational workflow](#operational-workflow)
+- [Rollback plan](#rollback-plan)
+- [Troubleshooting](#troubleshooting)
+    - [Remove one layer at a time](#remove-one-layer-at-a-time)
+    - [Check for bad recipe overrides](#check-for-bad-recipe-overrides)
+    - [Check for missing parent recipes](#check-for-missing-parent-recipes)
+    - [Test the LaunchDaemon and script pair](#test-the-launchdaemon-and-script-pair)
+- [Getting help](#getting-help)
+
+<!-- /MarkdownTOC -->
 
 ---
 
 
 ## Overview
 
-Mac app patch management in Casper is not trivial, and yet it's one of the most important functions of any device management framework. Outdated apps can expose security vulnerabilities, cause file format incompatibilities, and prevent people from taking advantage of the latest and greatest app features.
+Keeping Mac apps up to date with Casper is anything but trivial, and yet it's one of the most critical tasks of any management system. Outdated apps can expose security vulnerabilities, cause file format incompatibilities, and prevent people from taking advantage of the latest and greatest app features.
 
-In this article, I'll take you thorugh a new method to keep your Mac apps updated with your Casper JSS. Following the directions below, you can start automating your Mac app patching _today_.
+Auto Update Magic is my attempt to make updating apps easier for Casper administrators. In this newly rewritten guide, I have provided instructions, example workflows, scripts, recipes, and a LaunchDaemon that will help you keep your Mac apps updated with your Casper JSS.
 
-
-## Status quo
-
-First, let me share with you the way I used to keep apps updated in Casper. This isn't necessarily a "best practice," but simply one method that worked well for me.
-
-- The IT team downloads the installer package (or creates it with Composer), and puts it into Casper.
-- A **smart group** is created to select computers with an out of date version of this app.
-- A recurring **"trigger" policy** is scoped to the smart group, and triggers a script.
-- The **script** checks to see whether the app to be updated is currently open.
-- If the app is not currently open, the script triggers an **"installer" policy** which installs the update and runs recon.
-
-This process works fine, but it has several pain points.
-
-- Composing a new package of each software version is tedious and error-prone.
-- The smart group criteria must be manually updated with each version.
-- Waiting too long to update Casper may result in newer versions of apps being overwritten with older versions — not good at all.
-- Trigger policies basically double the number of policies you must maintain.
-- The installer must be updated manually with each new version of the software, which can be tedious in itself.
-
-The benefit of a workflow like this is you maintain total control over your available software updates, but it's tedious, prone to errors, and requires babysitting. There's got to be a better way, right?
+Yes, JAMF will probably be incorporating "patch management" features into Casper soon. However, Auto Update Magic lets you automate your Mac app patching _today_, and gives you total control over how apps are packaged, imported, and deployed.
 
 
-## New tools to the rescue
+## Requirements
 
-Fortunately, several tools have emerged in the last year that have significantly improved this workflow.
+Before we start, you'll probably want to download this repo to your local computer, for easy reference to the included files. <a href="https://github.com/homebysix/auto-update-magic/archive/master.zip" target="_blank">Click here to download a zip file</a>.<br /><br />I'll assume that the path to the downloaded repository is ~/Downloads/auto-update-magic-master. <!-- TODO: Reconsider this. --> If you move the repo elsewhere, be sure to update the paths referenced below.
 
-### [AutoPkg](https://github.com/autopkg/autopkg)
-
-AutoPkg is a relatively new command-line tool from [Greg Neagle](https://github.com/gregneagle), [Tim Sutton](https://github.com/timsutton), and [Per Olofsson](https://github.com/MagerValp), that automatically packages OS X software for easy distribution. It uses community-contributed "recipes" to produce a neat and tidy .pkg file that can be used with many deployment systems, including Casper.
-
-### [JSSImporter](https://github.com/sheagcraig/JSSImporter)
-
-Conceived by [Allister Banks](https://github.com/arubdesu) and rewritten by [Shea Craig](https://github.com/sheagcraig/), JSSImporter serves as the direct link between AutoPkg and your JSS. Combined with a `.jss` recipe, JSSImporter allows automatic creation of the smart groups, policies, and packages necessary to distribute apps in Casper.
-
-### [AutoPkgr](https://github.com/lindegroup/autopkgr)
-
-AutoPkgr is a Mac app that puts a friendly face on AutoPkg and makes it super easy to get started using it. It was created by [James Barclay](https://github.com/futureimperfect), [Josh Senick](https://github.com/jsenick), and Elliot Jordan (that's me) at the [Linde Group](http://www.lindegroup.com/), with significant help from [Eldon Ahrold](https://github.com/eahrold).
-
-The goal of AutoPkgr is to make it simple and straightforward to start using AutoPkg, and to that end, we're happy to announce that **AutoPkgr now supports basic AutoPkg-to-JSS integration out of the box**.
-
-![Casper Suite integration](doc-images/autopkgr-casper-integration.png)
-
-Here's how to use it:
-
-1. Open AutoPkgr, and use the **Install** tab to install Git and AutoPkg if you haven't already.
-2. Click on the **Folders & Integration** tab.
-3. Enter your JSS URL and API account credentials. Click **Connect**.
-4. Install JSSImporter when prompted.
-5. Enter the read/write password for each distribution point when prompted.
-6. Switch back to the **Repos & Recipes** tab. Filter for recipes that end in `.jss`, and add the ones you need.
-7. On the **Schedule** tab, click **Check Apps Now**. The apps you selected will be imported automatically to your JSS!
+Also, you'll want each of the following:
+- Admin access to your JSS, including the ability to create user accounts.
+- A Mac that is always on and has OS X 10.8 or higher, for running AutoPkgr.
+- If the above Mac is not also suitable for testing new software releases (e.g. if it's a distribution point), then you'll also need another Mac for testing.
+- At least one full workday. Allow at least 4 hours to step through the example exercises with Firefox, and another 2-4 hours to add additional apps and customized workflows. Add another 2-4 hours to write decent documentation once you've got things working.
 
 
-## The Magic
+## Standardized software distribution
 
-Here's the magic you've been waiting to see. Fully automatic updates using Casper.
+Starting with a very big-picture view, consider the following illustration of the standard software distribution cycle:
 
-[![Click here to view the (silent) screencast](doc-images/screencast-thumbnail.png)](https://www.youtube.com/watch?v=ZUD8C8Tr3XI)
+![sw-dist-cycle.png](README-images/sw-dist-cycle.png)
 
-#### On the JSS
+1. New software is released by the developer.
+2. The software is downloaded and basic dev testing is performed by the IT team. (i.e. "Does it install? Will it launch?")
+3. The software is installed and tested on "trusted testers," which represent a fraction of the company's total Macs.
+4. Feedback is collected from the trusted testers about whether the new version of the software works well.
+5. Upon receiving positive feedback, the IT team makes the software available to the rest of the company, either by Self Service or automatically.
 
-1. AutoPkgr triggers AutoPkg to run regularly (perhaps every 4 hours).
-2. When new versions of apps are detected, they are _automatically_ imported into the JSS, assigned to a policy, and scoped to a smart group.
+This process may vary slightly depending on the software you're deploying and your organizational needs, but you'll find that most software deployments follow this path. This is the cycle upon which Auto Update Magic is built.
 
-#### On the managed Mac
+We will be automating some of these steps, but not all. To adapt a popular mantra:
 
-1. The JAMF agent runs a recurring check-in. (This normally happens _automatically_ every 15 or 30 minutes; we have used Terminal here to call it manually with the same effect.)
+<div style="text-align: center; font-family: Georgia, Times, serif; font-size:1.3em;"><em>“Grant us the serenity to accept the things we cannot automate,<br />the tools to automate the things we can,<br />and the wisdom to know the difference.”</em><br /><br /></div>
 
-    ![magic-01.png](doc-images/magic-01.png)
+Let's walk through each step in the above process using Firefox as an example and focus on how we can automate and standardize things to make our lives easier, shall we?
 
-2. Firefox is not up to date. A single **Auto Update Magic** policy runs a script on each managed Mac that determines whether the apps are running.
+---
 
-    ![magic-02.png](doc-images/magic-02.png)
+### 1. New Release
 
-3. If not, the script calls the policy that updates them automatically.
+![sw-dist-cycle.png](README-images/sw-dist-cycle-01.png)
 
-    ![magic-03.png](doc-images/magic-03.png)
+Let's start from the beginning. It's no fun to manually check for new software. Instead, the combination of [AutoPkgr](https://github.com/lindegroup/autopkgr) and [AutoPkg](https://github.com/autopkg/autopkg) can do this for you. You can configure new software checks to happen on a scheduled basis, and you can even receive notifications when new software is found.
 
-4. Firefox is now up to date.
+<a name="e1"></a>
 
-    ![magic-04.png](doc-images/magic-04.png)
+#### Exercise 1: Automate checking for new software with AutoPkgr
 
+1. Download the [latest release of AutoPkgr](https://github.com/lindegroup/autopkgr/releases/latest).
 
-That's the end goal: completely automated patch management, from end to end. But let's back up and put the pieces together.
+2. Copy the app to your __Applications__ folder, then launch it from there.
 
-There are three possible levels of automation that you can use AutoPkgr to enact. Here's a detailed look at each level.
+3. If AutoPkg is not already installed, click the __Install AutoPkg__ button and enter your password when prompted.
 
+4. If Git is not already installed, click the __Install Git__ button and enter your password when prompted.
 
-### Level 1: Self Service
+5. On the __Repos & Recipes__ tab, check the box to add the topmost repository, `https://github.com/autopkg/recipes.git`.
 
-This workflow, which is the default for JSSImporter, is a very safe and conservative way to begin testing app packages in your Casper environment. It imports app updates into Casper and makes them available to the Testing group via Self Service. Our new version of AutoPkgr makes this super easy to configure.
+6. In the list of recipes at the bottom of the window, check the box to add __Firefox.download__. (You can use the "Filter recipes" box to narrow down the list.)
+    ![firefox-download.png](README-images/firefox-download.png)
 
-Here's how to set it up, assuming you already have a working JSS:
+7. Switch to the __Schedule__ tab, and configure the schedule to run as desired. Check the __Enable scheduled AutoPkg runs__ box.
 
-1. Create a static computer group on your JSS called **Testing**. Add one or more test computers to the group.
-2. Create an account on your JSS with Create, Read, and Update access to the following objects:
+    ![schedule.png](README-images/schedule.png)
+
+8. Switch to the __Notifications__ tab, and configure the notifications as desired.
+
+    ![notifications.png](README-images/notifications.png)
+
+9. Switch back to the __Repos & Recipes__ tab, and click __Run Recipes Now__. After a minute or so, assuming you haven't run this recipe before, you should receive notification that a new version of Firefox is available.
+
+Congratulations! You've just configured AutoPkgr to check for updates regularly, and to tell you when a new version is released. For Firefox in your organization, Phase 1 of the software distribution cycle is now fully automated. Let's move on to Phase 2.
+
+---
+
+### 2. Development
+
+![sw-dist-cycle.png](README-images/sw-dist-cycle-02.png)
+
+Now that we know there's a new release, we've got to make sure it passes some basic "lemon tests." There's a type of recipe called an install recipe that will actually install the app on the Mac running AutoPkg. Let's schedule that recipe to run regularly, so that our IT lab test Mac is always up to date for local testing.
+
+<a name="e2a"></a>
+
+#### Exercise 2a: Install new software for local testing
+
+1. Open AutoPkgr and navigate to the Repos & Recipes tab.
+
+2. Uncheck the __Firefox.download__ recipe, and check the __Firefox.install__ recipe instead.
+
+    ![firefox-install.png](README-images/firefox-install.png)
+
+3. Click __Run Recipes Now__.
+
+4. After a minute, you should receive notification that Firefox was installed. Check the Applications folder on your AutoPkgr Mac and verify that this is true.
+
+5. Does it launch? Open Firefox and see. Does it work as expected? Browse to a few websites.
+
+Great! You've just configured AutoPkgr to automatically update Firefox on your AutoPkgr Mac. This makes it easy for you to test apps to make sure there are no major flaws before you dive in further.
+
+Next, we need to prepare the software for mass distribution, which often includes creating a package that can be used by Casper. Of course, this is what AutoPkg was born to do! Let's run the __Firefox.pkg__ recipe, and see the nice tidy pkg file that results:
+
+<a name="e2b"></a>
+
+#### Exercise 2b: Create a deployable pkg file using AutoPkg
+
+1. Open AutoPkgr and navigate to the __Repos & Recipes__ tab.
+
+2. Check the box to enable the __Firefox.pkg__ recipe.
+
+3. Click __Run Recipes Now__. After a minute, you should receive notification that a new Firefox package was built.
+
+4. Switch to the __Folders & Integration__ tab, then click the __Open in Finder__ button next for the AutoPkg Cache folder. Open the __com.github.autopkg.pkg.Firefox_EN__ folder. (Note: This matches the identifier of the recipe, which you can see in AutoPkgr's recipe list.)
+
+5. Verify that a Firefox package was created. You may also want to use a tool like [Pacifist](https://www.charlessoft.com/) or [Suspicious Package](http://www.mothersruin.com/software/SuspiciousPackage/) to inspect its contents. As you can see below, the app installs at the expected location, and with the expected version. Looks good.
+
+    ![firefox-pkg-inspection.png](README-images/firefox-pkg-inspection.png)
+
+6. Copy the package to a test Mac or VM and try installing it. Verify that it produces a working copy of Firefox.
+
+    It may also be worth launching the app as a non-admin user after installing the package in your test Mac or VM. Occasionally this will reveal permissions issues that need to be corrected upstream (e.g. in the pkg recipe).
+
+Great, now we have a deployable package that installs what we expect it to install. Now we're ready to start testing the app on a larger scale.
+
+---
+
+### 3. Testing
+
+![sw-dist-cycle.png](README-images/sw-dist-cycle-03.png)
+
+Small batch testing (or "staging") allows us to catch _small_ problems in the wild before they become _large_ problems in the wild.
+
+In order to do proper testing, I recommend that you reach out to your organization and designate/ask for volunteers to help the IT department test new software. They should understand that they'll have first access to new features and the ability to help guide deployment strategy, but they will also have the responsibility to submit feedback to IT in a timely manner.
+
+Once you've got a group of "trusted testers," we can use JSSImporter to automate the process of sending them new software. Specifically, we'll create Self Service policies for testers that are automatically updated whenever new software is released. This is the default behavior for recipes in the official [jss-recipes](https://github.com/autopkg/jss-recipes#jss-recipes) repo, and is a good, safe way to get started integrating AutoPkg with Casper.
+
+<a name="e3a"></a>
+
+#### Exercise 3a: Automatically create Self Service policies for testing new software
+
+1. Create a (static or smart) computer group on your JSS called __Testing__. Add the testers' computers to the group.
+
+2. Create an account on your JSS with __Create__, __Read__, and __Update__ access to the following objects:
     - Categories
     - Computer Extension Attributes
     - File Share Distribution Points (only needs Read access)
@@ -137,237 +200,471 @@ Here's how to set it up, assuming you already have a working JSS:
     - Scripts
     - Smart Computer Groups
     - Static Computer Groups
-3. Install version 1.1 or higher of [AutoPkgr](https://github.com/lindegroup/autopkgr/releases/latest).
-4. Open AutoPkgr and click the buttons to install Git and AutoPkg, if you haven't already.
-5. In AutoPkgr, click on the **Folders & Integration** tab.
-6. In the **Casper Suite integration** section, enter your JSS URL, API username, and API password. Then click **Connect**.
-7. When prompted, follow the instructions to install JSSImporter.
-8. When prompted, enter the read/write password for each distribution point.
 
-You'll also want to make sure you have a few `.jss` recipes selected. AutoPkgr will automatically add the [sheagcraig/jss-recipes](https://github.com/sheagcraig/jss-recipes) repo so you'll have a few to choose from. If the `.jss` recipes you choose have any parent recipes, be sure to add their repos too. (For example, `Firefox.jss` requires adding the [autopkg/recipes](https://github.com/autopkg/recipes) repo.)
+3. Open AutoPkgr and click on the __Folders & Integration__ tab, then click __Install JSSImporter__. Enter your admin password when prompted.
 
-When a `.jss` recipe runs, the package is uploaded to your distribution points, a Self Service policy is created and scoped to a new smart group. As a result, computers in the Testing group with less than the latest version of the app should now be able to install the latest version through Self Service.
+4. Click the button that now says __Configure JSSImporter__.
 
+5. Enter the JSS URL, API username, and API password (for the account you created in step 2 above). Then click __Connect__.
 
-### Level 2: Auto to Some
+    ![configure-jssimporter.png](README-images/configure-jssimporter.png)
 
-This workflow is more automatic than the Self Service policy above, but still allows for deliberate testing prior to mass deployment. The script, recipe, and template customizations require an administrator who is comfortable with editing XML files and shell scripts.
+6. If you use file share distribution points, you'll be prompted to enter their passwords. If you use a cloud distribution point or JDS as your master, check the __Use Master JDS__ checkbox. Click __Save and Close__.
 
-Here's how to set it up with `Firefox.jss`, assuming you've already done the Level 1 steps above:
+7. Return to the __Recipe & Repos__ tab, and find (but don't check the box for) __Firefox.jss__ in the recipe list.
 
-1. Create a new category called **Auto Update** (in **Settings > Global Management > Categories**).
-2. Upload my `auto_update_magic.sh` script (included in this repo) to your JSS.
-    1. Assign it to the **Auto Update** category.
-    1. In the **Options** tab, set parameter 4 to **Hours between auto updates**.
-    1. Click **Save**.
-3. Create a policy called **Auto Update Magic**:
-    1. Assign it to the **Auto Update** category.
-    1. Have it trigger on **Recurring Check-in**, and also on **Startup**.
-    1. Set the **Execution Frequency** to **Ongoing** (or less frequently if you like).
-    1. Add the `auto_update_magic.sh` script into the policy. (Doesn't matter whether you choose Before or After.)
-    1. Set the parameter value for **Hours between auto updates** to your preferred number. (I recommend an integer between 1 and 8, inclusive.)
-    1. Set the **Scope** to the **Testing** static computer group.
-    1. Click **Save**.
-4. In AutoPkgr, locate the `Firefox.jss` recipe, and right-click on it. Choose **Create Override**. Right-click again and choose **Open Recipe Override** to open the file in a text editor.
-5. In the `Input` dictionary, remove all but this key:
-```
-        <key>POLICY_CATEGORY</key>
-        <string>Auto Update</string>
-```
-6. Copy the `Firefox.png`, `PolicyTemplate.xml`, and `SmartGroupTemplate.xml` files from `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes/` to `~/Library/AutoPkg/RecipeOverrides/`.
-7. Edit the `PolicyTemplate.xml` file with a text editor.
-    1. Remove the contents of the `self_service` section.
-    2. In the `general` section, change the name of the policy:
-    `<name>Auto Update %PROD_NAME%</name>`
-    3. Also in the `general` section, create the custom trigger:
-    `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`
-8. Return to the `auto_update_magic.sh` script on your JSS and add new lines as appropriate to the RECIPE_NAME and BLOCKING_APPLICATION sections, using the examples to guide you. For example:
-```
-RECIPE_NAME=(
-    "Firefox"
-)
-BLOCKING_APPS=(
-    "Firefox"
-)
-```
-If no blocking apps are required (for example, if you want to go ahead and update Flash regardless of which browsers are running), then speficy a fake blocking app name.
-```
-RECIPE_NAME=(
-    "Firefox"
-    "AdobeFlashPlayer"
-)
-BLOCKING_APPS=(
-    "Firefox"
-    "NoBlockingAppForAdobeFlashPlayer"
-)
-```
-9. Open AutoPkgr and click **Check Apps Now**, or run `autopkg run Firefox.jss` in Terminal.
-10. Verify that your policy and smart group were created successfully.
+8. Right-click on __Firefox.jss__ and choose __Create Override__.
 
+9. Name the override __Firefox-testing.jss__.
 
-### Level 3: Auto to All
+10. The new recipe should appear in AutoPkgr's recipe list. Right-click on __Firefox-testing.jss__ and choose __Set Recipe Editor__. Select your preferred text editor. (If you don't have one, I suggest [TextWrangler](http://www.barebones.com/products/textwrangler/) to get you started. Don't use TextEdit, Pages, or Word.)
 
-This is the "magic" workflow demonstrated in the screencast above. It is by far the most automatic way to update apps using Casper, but should be implemented with great care. The apps are updated quickly and without testing, so it's likely that this will cause something to break someday. Only do this for non-mission-critical apps, and only after you've tested using Level 2 above.
+11. Right-click on __Firefox-testing.jss__ again, and choose __Open Recipe Override__.
 
-1. Navigate to `~/Library/AutoPkg/RecipeOverrides` and edit the `SmartGroupTemplate.xml` file.
-2. Remove these lines from the file:
-```
-        <criterion>
-            <name>Computer Group</name>
-            <priority>2</priority>
-            <and_or>and</and_or>
-            <search_type>member of</search_type>
-            <value>Testing</value>
-        </criterion>
-```
-3. Set the scope of the Auto Update Magic policy to **All Managed Clients**.
+    Does this look familiar? If you've seen Apple preference files before, you'll recognize this as a plist (property list) file.
 
-This will install automatic updates for all Macs, rather than just the ones in the Testing group.
+12. Change the CATEGORY to __Web Browsers__, but leave the POLICY_CATEGORY and everything else as-is. The CATEGORY key/value pair will look like this:
 
-For each recipe you add, be sure to:
-
-1. Make and edit a recipe override.
-2. Add the app's name to the `auto_update_magic.sh` script on your JSS.
-3. (Optionally) Copy the icon file (in PNG format) to the RecipeOverrides folder. (This is only needed if you plan to use Self Service policies.)
-
-If you add a recipe like `AdobeFlashPlayer.jss`, `OracleJava7.jss`, or `Silverlight.jss`, be sure to also add the supporting files such as `_____SmartGroupTemplate.xml` and `_____ExtensionAttribute.xml`.
-
-
-### Bonus: Creating both Self Service and Auto Update policies
-
-Chances are, you've got Self Service policies that you want to keep up to date, even if a separate policy automatically updates the already-installed apps. Better to deploy apps that are already up to date, right?
-
-Here's how to run the Level 2/3 Auto Update recipes side-by-side with recipes that keep Self Service up to date.
-
-1. In your RecipeOverrides folder, duplicate the `PolicyTemplate.xml` file. Name the copy `PolicyTemplate-SelfService.xml`.
-2. Also duplicate the auto-update recipe override for the app you'd like to update in Self Service. Name the copy (for example) `Firefox-SelfService.jss.recipe`.
-3. Edit the `PolicyTemplate-SelfService.xml` file:
-    1. Change the `<name>` of the recipe to `%PROD_NAME%`.
-    2. Change the `<trigger_other>` of the recipe to  `selfservice-%PROD_NAME%`.
-    3. In the `<scope>` section, add `<all_computers>true</all_computers>`.
-    4. Expand the `<self_service>` section as follows:
     ```
-        <self_service>
-            <use_for_self_service>true</use_for_self_service>
-            <install_button_text>Install %VERSION%</install_button_text>
-            <self_service_description>%SELF_SERVICE_DESCRIPTION%</self_service_description>
-        </self_service>
+    <key>CATEGORY</key>
+    <string>Web Browsers</string>
     ```
-4. Edit the `Firefox-SelfService.jss.recipe` file:
-    1. Make sure the `Identifier` key is unique. For example: `com.github.homebysix.jss.Firefox-SelfService`
-    2. Set the `POLICY_CATEGORY` to the desired category. For example: `Web Browsers and Internet Utilities`
-    3. Set the `POLICY_TEMPLATE` to the new template file you created: `%RECIPE_DIR%/PolicyTemplate-SelfService.xml`
-    4. Remove the `GROUP_NAME` and `GROUP_TEMPLATE` keys.
-    5. Also remove the `groups` array forom the `Arguments` section.
-5. Open AutoPkgr and check the box for the new -SelfService recipe you created.
 
-It may be useful to refer to the example `Firefox-SelfService.jss.recipe` and `PolicyTemplate-SelfService.xml` files provided in this repo.
+    This is just an example; you can change the category to whatever you want. The point I'm illustrating is that a recipe "override" allows you to override specific keys in pre-fabricated recipes. Overrides also allow you to name your recipes in a consistent manner, as with the __-testing__ suffix we're using here. This makes it easier to find in the AutoPkgr recipe list later.
 
-If you'd like to add a Dock icon to your Self Service policy, you can do that manually after the first recipe run. Subsequent runs will preserve the Dock icon settings.
+13. Save, then quit your text editor. I have provided an example __Firefox-testing.jss.recipe__ file in the __Exercise3a__ folder in this repo. Compare your finished override to that file to make sure it looks the same.
 
+    If so, congratulations! You just created a recipe override.
 
-## Notes and caveats
+    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: Now we're ready to run our __Firefox-testing.jss__ recipe override. Although you could easily run this recipe in AutoPkgr, I want you to use the Terminal for two reasons:
 
-### Use at your own risk
+    - It's important to know what's happening behind the scenes.
+    - Knowing basic `autopkg` commands in Terminal will make things much easier to troubleshoot later.</div>
 
-This method is on the bleeding edge, and you can bet that there are a few bugs that need squashing. In addition, you may find that not everything works as described in your specific environment. Test thoroughly on a sample Mac before deploying to everybody in your company.
+14. Open Terminal, type `autopkg run -v Firefox-testing.jss` and press Enter. Observe the messages that appear on screen. The first word of each line indicates which "processor" AutoPkg is currently running.
 
-If you open an [issue](https://github.com/homebysix/auto-update-magic/issues) on this GitHub repo, I'll do my best to help you troubleshoot. But I take no responsibility for any harm caused by over-automation.
+If everything goes according to plan, you'll see the following processors make an appearance: MozillaURLProvider, URLDownloader, EndOfCheckPhase, AppDmgVersioner, PkgRootCreator, Copier, PkgCreator, and JSSImporter.
 
+The output in Terminal will also reflect the changes made to your JSS:
 
-### Run AutoPkgr on a Mac with access to all DPs
+```
+The following changes were made to the JSS:
+Package             Categories  Groups                Scripts  Extension Attributes  Policy                  Icon
+-------             ----------  ------                -------  --------------------  ------                  ----
+Firefox-40.0.3.pkg              Firefox-update-smart                                 Install Latest Firefox  Firefox.png
+```
 
-It's a good idea to run AutoPkgr from a Mac that has network access to all distribution points. If no such Mac exists, you can omit non-accessible DPs by clicking Cancel when AutoPkgr prompts you for a specific DP's password. That DP will be skipped (which means you'll need to use Casper Admin to replicate it manually, or set up a system like rsync to replicate it automatically).
+If any errors occur, read through the last few lines of output (including any "traceback" messages), and you may be able to tell what went wrong.
 
+It's not uncommon for a 404 error to occur the first time you run each recipe, because Casper's API doesn't reliably handle uploading icons for Self Service policies. If this happens, try running the recipe again a second time.
 
-### JSSRecipeCreator
+Once your `autopkg` run is error-free, navigate to your JSS web app and log in. You should see the following new items:
 
-Shea Craig has written a great tool called [JSSRecipeCreator](https://github.com/sheagcraig/JSSRecipeCreator) that makes it much simpler to create `.jss` recipes. Highly recommended.
+- A package with the latest version of Firefox.
+- A smart group called "Firefox-update-smart" that contains Macs in the Testing group which don't have the latest version of Firefox.
+- A policy called "Install Latest Firefox" that allows your testers to install Firefox via Self Service.
 
+![firefox-jss-policy.png](README-images/firefox-jss-policy.png)
 
-### Don't forget to bring your parents
+Once the Self Service policy is created in Casper, you should email your testers to let them know there's new software to install. Ask them to install the app, kick the tires thoroughly, and let you know within a specific time whether they have anything to report.
 
-When you add a `.jss` recipe, be sure that you also add the AutoPkg repository of its parent recipe, if a parent recipe exists. AutoPkgr doesn't do this automatically.
+Finally, be sure to return to AutoPkgr and check the box to enable the __Firefox-testing.jss__ recipe and uncheck the __Firefox.pkg__ recipe.
 
+---
 
-### Open source pros and cons
+### 4. Feedback
 
-Because AutoPkg, JSSImporter, and AutoPkgr all are open source, JAMF is not responsible for their upkeep or support. If you have questions, your JAMF rep will likely not be able to help.
+![sw-dist-cycle.png](README-images/sw-dist-cycle-04.png)
 
-Fortunately, the developers of all the projects above have so far been very responsive to questions and advice-seekers.
+It's important not to skip this step! Collecting feedback from your testers ensures that you'll have the best chance possible of finding show-stopping bugs before you deploy the software to the rest of your company. It also makes people within your company more aware of an important IT process.
 
+The process of collecting feedback from your testers can be made easier by creating a Self Service plugin that points to a Google Form. I won't provide specific instructions for doing that, because you and I both know that this article is already going to be way too long.
 
-### Automatically deploying plugins like Flash and Java
+Once you've collected feedback, your IT department will need to make a decision about whether to proceed with deployment or hold back. In case you need to hold back, I've provided a [Rollback Plan](#rollback-plan) below.
 
-For software like Adobe Flash Player that doesn't have an associated "app," you may want to create a separate FlashPolicyTemplate.xml file that uses `<trigger_checkin>true</trigger_checkin>` instead of `<trigger_other>autoupdate-%PROD_NAME%</trigger_other>`. See the files in this repo for an example of the Flash recipe override and policy template I use. (Note: This will not check whether web browsers are running, so update at your own risk.)
+---
 
+### 5. Deployment
 
-### Always-on apps like Dropbox
+![sw-dist-cycle.png](README-images/sw-dist-cycle-05.png)
 
-The methods above don't yet work for always-running apps like Dropbox, because it's impossible for Casper to launch apps with the current user's context. A LaunchAgent-based solution may be in the works, and we'd welcome your contribution if you'd like to help craft it.
+Here comes the really fun part! Once you've decided to proceed with deployment, you'll probably want to consider two deployment methods, depending on the specific software and how important it is to your organization.
 
+- __Self Service policy__ for delivering the newly tested and approved version of Firefox to your company Macs on an opt-in basis. The Self Service policies are easy to set up and maintain, and we'll do that in [Exercise 5a](#e5a).
 
-### A few troubleshooting tips
+- __Auto Update policy__ for silently updating Firefox on all the Macs that have an outdated version of it. The Auto Update policies are admittedly complex to set up, but are relatively painless to maintain after that. We'll tackle that in [Exercise 5b](#e5b).
 
-- Be sure Casper Admin and AutoPkgr are not running at the same time. Otherwise one or the other may fail to mount the distribution points.
+__Historical note:__ The [previous version](https://github.com/homebysix/auto-update-magic/tree/v1.0) of this workflow used a Casper "trigger" policy instead of a local LaunchDaemon. There are some pros and cons to the two different approaches:
 
+| | Script runs in Casper policy | Script runs via local LaunchDaemon |
+|:-:|:- |:- |
+| __Pros__<br />:thumbsup: | - Easy to update the script centrally. | - Much cleaner log output.<br />- More granular adjustment of checking schedule. |
+| __Cons__<br />:thumbsdown: | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
 
-## Acknowledgements
+I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) below. If you prefer the old Casper policy method, [version 1.0 of this document still contains those instructions](https://github.com/homebysix/auto-update-magic/tree/v1.0#level-3-auto-to-all).
 
-Auto Update Magic stands on the shoulders of giants. Specifically, I'd like to thank [Eldon Ahrold](https://github.com/eahrold) and [James Barclay](https://github.com/futureimperfect) for their work on adding the new JSS integration features to AutoPkgr.
-
-And of course we couldn't have done that without significant help from [Shea Craig](https://github.com/sheagcraig), who built upon [Allister Banks](https://github.com/arubdesu/)'s original jss-autopkg-addon.
-
-And none of the above would have happened at all if not for AutoPkg, the amazing, stable, and infinitely useful packaging tool by [Greg Neagle](https://github.com/gregneagle), [Tim Sutton](https://github.com/timsutton), and [Per Olofsson](https://github.com/MagerValp). The Mac admin community owes them a huge thanks.
-
-
-## Files included in this repo:
-
-In this repository, I've included copies of the files mentioned above. These should serve as useful starting points, but feel free to tweak and customize them for your own particular environment. And remember you can see the original unmodified files anytime at `~/Library/AutoPkg/RecipeRepos/com.github.sheagcraig.jss-recipes`, for comparison.
-
-
-### Scripts
-
-- **auto_update_magic.sh** policy script
-
-This is the script used by the "trigger" policy in order to determine whether apps that need updating are currently running. If the apps aren't running, the script calls the appropriate custom policy trigger for the app updater.
+<div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: The following script, recipe, and template customizations require an administrator (that's you!) who is comfortable with editing plist files and shell scripts. Also, be sure to proceed with a sleeves-rolled-up attitude, since troubleshooting and tweaking will more than likely be necessary. Be sure you test these methods on a non-production JSS before making changes to your production environment.</div>
 
 
-### RecipeOverrides
+<a name="e5a"></a>
 
-- **Firefox.jss** recipe override
+#### Exercise 5a: Promote Self Service policies to use new packages
 
-This recipe determines what happens when autopkg runs the Firefox.jss recipe. It's a good one to use as a template for other apps.
+1. If you don't already have one, manually create a Self Service policy on the JSS that installs Firefox for anybody who wants it. Here's an example:
+    - __General__
+        - Name: Firefox
+        - Category: Productivity
+        - Enabled: Yes
+        - Trigger: None
+        - Execution Frequency: Ongoing
+    - __Packages__
+        - Firefox-39.0.5.pkg
+            (or any old version of Firefox, as long as the package name is in the format "Firefox-x.x.x.pkg")
+    - __Scope__
+        - Targets: All Computers
+    - __Self Service__
+        - Make this policy available in Self Service: Yes
+        - Description: Popular web browser.
+        - Icon: Upload a 128x128 Firefox icon in png format.
 
-Note that there is a ParentRecipe specified, so you should subscribe to the `github.com/autopkg/recipes` repo.
+2. Install the jss_helper command line tool. You can do that with the following command in Terminal. (Substitute `~/Developer` for the directory you'd like to store jss_helper in. Create the directory first, if needed.)
 
-- **Firefox-SelfService.jss** recipe override
+    ```
+    cd ~/Developer
+    /usr/local/git/bin/git clone https://github.com/sheagcraig/jss_helper
+    ```
 
-This recipe allows you to run a Firefox auto update policy side-by-side with another Firefox policy for Self Service.
+    (Using Git to install jss_helper makes it trivial to keep the tool up to date as new versions are released, using `git pull -C ~/Developer/jss_helper`. You may want to make a note to run this command every so often.)
 
-- **PolicyTemplate.xml** policy template
+3. Configure jss_helper with your Casper API information, substituting your JSS URL, JSS API username, and JSS API password for `<url>`, `<username>`, and `<password>`:
+    ```
+    defaults write com.github.sheagcraig.python-jss jss_url <url>
+    defaults write com.github.sheagcraig.python-jss jss_user <username>
+    defaults write com.github.sheagcraig.python-jss jss_pass <password>
+    ```
 
-This determines the parameters of the policy updated when a standard `.jss` recipe runs. You will modify this file if you need to change the trigger used, or add Self Service information to the policy, for example.
+    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.</div>
 
-- **PolicyTemplate-SelfService.xml** policy template
+4. Now, use jss_helper to "promote" your Self Service policy to the latest version of Firefox:
 
-This determines the parameters of the policy updated when a `_____-SelfService.jss` recipe runs.
+    ```
+    cd ~/Developer/jss_helper
+    ./jss_helper promote
+    ```
 
-- **SmartGroupTemplate.xml** smart group template
+    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: If your JSS uses a self-signed certificate, you'll get errors that say `InsecureRequestWarning: Unverified HTTPS request is being made.` This is normal, but you should really invest in a proper SSL cert if this is your production JSS.</div>
 
-This determines the criteria of the smart group updated when the `.jss` recipe runs. You will modify this file if you need to scope a policy all managed Macs, rather than just to the "Testing" static computer group.
+5. All the policies for which there is a newer package available will be listed. Type the number corresponding to your "Firefox" policy.
 
-- **AdobeFlashPlayer.jss.recipe** recipe override
+6. Confirm that the `(CURRENT)` package is your previously-approved package, and the `(DEFAULT)` package is the one you just finished testing and is now approved. If so, press __Enter__. (To cancel, press Control-C.)
 
-This is an example recipe for Adobe Flash Player. This example updates Flash without quitting any browsers, which is only appropriate if the users in your environment unanimously use Google Chrome.
-
-- **AdobeFlashPlayerPolicyTemplate.xml** policy template
-
-This is an example policy template for Adobe Flash Player. (This template does not close browsers before updating Flash. I'll provide a policy template and script that does that in a future update.)
+Cool! Your Self Service policy has just been updated to use the new Firefox package.
 
 
-## Comments and suggestions
+<a name="e5b"></a>
 
-I'd love to hear your feedback! If you find a problem, feel free to open an [issue](https://github.com/lindegroup/autopkgr/issues) on our AutoPkgr Git repo, and we'll do our best to help troubleshoot. Or if you'd like to ask a general question or give some praise, feel free to join us on our [Google Group](https://groups.google.com/forum/#!aboutgroup/autopkgr-discuss) or in the [JAMFNation forums](https://jamfnation.jamfsoftware.com/discussion.html?id=12280).
+#### Exercise 5b: Automatically create Auto Update policies
 
-[Watch the original presentation on the JAMF website](http://www.jamfsoftware.com/resources/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/).
+Now strap yourselves in and get ready. We're going to enter the wormhole... Installing newly tested and approved updates on all managed Macs using some "Auto Update Magic." Here's what we'll be configuring in order to make that happen:
+
+- __Recipe override and JSSImporter templates__ - A set of AutoPkg recipe overrides will be run _manually_ in order to create/update policies that automatically update Firefox on all managed Macs when a custom trigger is called.
+
+- __Script__ - The auto_update_magic.sh script on all managed Macs checks to see whether Firefox is running, and if not, it uses the custom trigger to execute the "auto update Firefox" policy.
+
+- __LaunchDaemon__ - A LaunchDaemon on all managed Macs runs the auto_update_magic.sh script on a regular basis.
+
+Now you can start to see how this is all going to fit together. The LaunchDaemon basically serves as a recurring "do I need updates?" check, the script makes sure the installation won't stomp on any running apps, and the policy (created by our recipe override) actually does the work of updating.
+
+Here we go! Let's start with the recipe override and JSSImporter templates:
+
+1. Copy the provided __Firefox-autoupdate.jss__, __PolicyTemplate-autoupdate.xml__, and __SmartGroupTemplate-autoupdate.xml__ files from the __Exercise5b__ folder of this repo into your `~/Library/AutoPkg/RecipeOverrides` folder.
+
+    Here is how the files differ from the standard recipes and templates included in jss-recipes:
+
+    - __Firefox-autoupdate.jss__ has the policy category set to "Auto Update," so that all the policies created by __-autoupdate.jss__ recipes will be listed together in the Policies page on the JSS.
+    - __PolicyTemplate-autoupdate.xml__ uses "Auto Update Firefox" as the policy name, the policy frequency is set to Ongoing, and the policy is triggered by a custom trigger "autoupdate-Firefox". (The reason for this will become clear in [Exercise 5b](#e5b.)
+    - __SmartGroupTemplate-autoupdate.xml__ includes computers from the entire organization which have an obsolete version of Firefox, rather than being limited to the Testing group only.
+
+2. Open Terminal and run your __Firefox-autoupdate.jss__ recipe override:
+
+    ```
+    autopkg run -v Firefox-autoupdate.jss
+    ```
+
+3. After a moment, you should see the summary of changes made to your JSS. Log in to your JSS and check out the newly created items:
+
+    - A __smart group__ called "Firefox-autoupdate" that includes all Macs with old versions of Firefox.
+    - A __policy__ called "Auto Update Firefox" that installs Firefox on Macs in the above smart group, but only when the "autoupdate-Firefox" custom trigger is used.
+
+    You can test this policy by running `sudo jamf policy -event "autoupdate-Firefox"` on a test Mac, if you like.
+
+<a name="e5c"></a>
+
+#### Exercise 5c: Configure Macs to check for updates periodically
+
+1. Open the __Exercise5c__ folder.
+
+2. Edit the __auto_update_magic.sh__ script with a text editor. Make the following three changes:
+    - Un-comment line 26, where Firefox's recipe name is specified.
+    - Un-comment line 46, where Firefox's blocking applications are specified.
+
+3. Open Terminal and run the script (since `DEBUG_MODE` is on by default, nothing will actually be updated):
+
+    ```
+    cd ~/Downloads/auto-update-magic-master/Exercise5c/
+    sudo ./auto_update_magic.sh
+    ```
+
+4. You should see the script check whether Firefox is running. If Firefox isn't running, it will say `No apps are blocking the Firefox update.`
+
+    If the script doesn't behave as described above, stop here and troubleshoot before proceeding.
+
+5. Open the __auto_update_magic.sh__ script in a text editor again, and change `DEBUG_MODE` to `false` on line 65. The script is now ready to deploy.
+
+    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: Keep in mind that you'll need to edit this script again if you add more "auto updated" apps in the future. You'll find instructions for doing that in the <a href="#adding-more-apps">Adding More Apps</a> section.</div>
+
+6. Edit the __com.jamfsoftware.jamfnation.auto_update_magic.plist__ file with a text editor. Set the `StartInterval` as desired. (Default is 3600, which is one hour.)
+
+7. Create a package that you can use to deploy the script and LaunchDaemon. I've made this easy by including a script that does the work for you. Simply open Terminal and type the following:
+
+    ```
+    sudo ./create_pkg.sh
+    ```
+
+    Once the package is created, upload it to your JSS using Casper Admin or your JSS web interface.
+
+8. Create a policy on Casper that will deploy the Auto Update Magic script and LaunchDaemon to all managed computers. Here's an example:
+
+    - __General__
+        - Name: Auto Update Magic
+        - Category: Auto Update
+        - Enabled: Yes
+        - Trigger: Recurring check-in
+        - Execution Frequency: Once per week
+    - __Packages__
+        - auto_update_magic-YYYYMMDD.pkg
+            (the one you generated in the previous step)
+    - __Scope__
+        - Targets: All Computers
+
+9. Monitor the logs to ensure that the package is successfully installed on your org's Macs. Soon after their next check-in, they should automatically update Firefox if it isn't running. Hip hip hooray!
+
+
+## Further enhancement and advanced workflows
+
+There are some additional things you can consider doing, if they fit well with your organization's needs.
+
+<a name="e6a"></a>
+
+#### Exercise 6a: Adding More Apps
+
+Once you're confident the Firefox recipes are working well, you'll most likely want to add more apps to the Auto Update Magic workflow.
+
+If a [jss recipe](https://github.com/autopkg/jss-recipes) already exists for the app you want to add, this process is super simple.
+
+1. Create a __-testing.jss__ recipe override. Use the exiting __Firefox-testing.jss__ recipe override as a template for this.
+
+2. Create a __-autoupdate.jss__ recipe override. Use the exiting __Firefox-autoupdate.jss__ recipe override as a template for this.
+
+    In most cases, simply changing the recipe Identifier and ParentIdentifier are sufficient, but more complex apps may require a custom smart group template or extension attribute template.
+
+    I've included some examples in the __Exercise6a__ folder for Flash, Chrome, and Java.
+
+3. Modify the __auto_update_magic.sh__ script to include the trigger and blocking applications. Make sure that the list of triggers and list of blocking applications are in the same relative order.
+
+4. Use create_pkg.sh to create a new script/LaunchDaemon package for deployment, as you did in [Exercise 5c](#e5c).
+
+5. Swap the new package into the "Auto Update Magic" policy. If you need it to be deployed immediately, flush the "Auto Update Magic" policy logs.
+
+<a name="e6b"></a>
+
+#### Exercise 6b: Organizing and customizing the testing recipes
+
+Once you get more familiar with the relationship between recipe overrides and JSSImporter templates, I'd recommend returning to the __-testing.jss__ recipes you created in [Exercise 3a](#e3a) and making some subtle changes:
+
+- Creation of a policy template called __PolicyTemplate-testing.xml__ with these customizations:
+    - Policy name is "Test Latest %PROD_NAME%"
+        This makes it clear to your trusted testers that this is a test policy, as opposed to a normal Self Service policy.
+    - Policy has a custom trigger called "test-%PROD_NAME%"
+        This makes it really easy to differentiate policies that are created by AutoPkg from policies that you created manually, when viewing the Policies page on the JSS.
+    - Policy scope is set to a specific group, using the group's `id` and `name`.
+        This means that you only need a single "Testing" group, rather than separate AppName-testing smart groups for each app. Greatly reduces smart group bloat.
+- Adjusting the `POLICY_TEMPLATE` key in each -testing.jss recipe to point to the new __PolicyTemplate-testing.xml__ file you created.
+- Removing keys from the __-testing.jss__ overrides that are not different than the parent recipe. (Only those keys that are different are necessary to include in overrides.)
+
+I have provided an example __PolicyTemplate-testing.xml__ file as well as modified __-testing.jss__ recipes in the __Exercise6b__ folder in this repo.
+
+<a name="e6c"></a>
+
+#### Exercise 6c: Sending software directly to Self Service policies
+
+<div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">This is the workflow that's most likely to bite you later, because it's deploying directly to production. Proceed with caution.</div>
+
+For certain software, you may want to have updates available immediately in Self Service. This workflow is good for software which meets the following criteria:
+
+- The software is not mission-critical for your organization.
+- You do not want to test the software prior to making it available in Self Service, and you understand the risks this introduces.
+
+I have included a policy template and two recipes that you can use as an example for this, in the __Exercise6c__ folder of this repo. They all contain `-selfservice`.
+
+<a name="e6d"></a>
+
+#### Exercise 6d: Create installation policies for site-licensed software
+
+If you have a site license for software you'd like to automatically update, you might wonder what the best way to deploy both the app and the license. Here's what I've done:
+
+- AutoPkg recipes create a policy that installs the latest version of the app, just like the __-autoupdate.jss__ recipes we created earlier. However, this policy also calls a custom trigger "license-AppName."
+- A manually created policy installs the license, and is only triggered by the "license-AppName" trigger.
+
+In the __Exercise6d__ folder of this repo, I have included an example of an __-selfservice.jss__ recipe override and policy template for TextExpander which illustrates this method.
+
+<a name="e6e"></a>
+
+#### Exercise 6e: Store your -autoupdate.jss recipes outside the search path
+
+For added safety, store your __-autoupdate.jss__ recipes outside of the AutoPkg search path. For example, you could create new folder at ~/Library/AutoPkg/AutoUpdateRecipes and keep them inside. Then when you run the recipe in Terminal, you'll need to refer to the full path, like this:
+
+```
+autopkg run -v "~/Library/AutoPkg/AutoUpdateRecipes/Firefox-autoupdate.jss.recipe"
+```
+
+The benefit of this adjustment is that the __-autoupdate.jss__ recipes won't appear in AutoPkgr, and are therefore less likely to be executed accidentally or incorrectly included in scheduled AutoPkg runs.
+
+---
+
+
+## Operational workflow
+
+Once you have finished tweaking Auto Update Magic and are using it to deploy new updates, your standard everyday workflow will look something like the below. Feel free to copy/paste this into your corporate wiki or knowledge base so your IT department can refer to it as they step through the software deployment cycle.
+
+1. When new updates are issued by the developer, you will receive an email notification similar to the one below. This serves as your indication that new software is now available for testing.
+
+    ![email-notification.png](README-images/email-notification.png)
+
+2. As soon as possible after receiving the email, log into your designated software testing Mac (on which you configured AutoPkgr to run "install" recipes in Exercise 2a). Launch the app and verify that it basically works.
+    - If it does not work, follow the [Rollback Plan](#rollback-plan) below.
+    - If it does work, proceed to step 3.
+
+3. Send an email to your "testers" group, letting them know that a new version of the software is available. Ask them to open Self Service and click on the Testing category, then install it and run it. Give them a deadline by which they should report the results of their testing to the IT department.
+
+4. Based on the feedback from the testers, determine whether or not you want to proceed and deploy the app to the rest of the company.
+
+5. If the decision is made to deploy, log into the Mac running AutoPkgr, open Terminal, and do three things:
+
+    1. `autopkg run -v "_____-testing.jss"` (substituting the app name)
+        This allows you to verify that the latest version of the software matches the one you just finished testing, and should prevent you from deploying last-minute surprise updates.
+    2. `jss_helper promote`
+        This steps you through the process of promoting the existing Self Service policy to use the new package.
+    3. `autopkg run -v "_____-autoupdate.jss"` (substituting the app name)
+        Makes the necessary changes to the Auto Update policy and smart group. After this, all Macs in your organization that have older versions of the app will update to the newest version upon their next check-in.
+
+And that's all there is to it.
+
+## Rollback plan
+
+Sometimes your testing reveals show-stopping bugs, or sometimes you simply need to put everything on pause to give you a chance to test further. Here's how to roll back to the last stable version in an orderly manner:
+
+- __Disable the app's -testing.jss recipe in AutoPkgr.__
+    This will prevent new versions from showing up in Self Service for your testers.
+
+- __Also disable the app's -selfservice.jss recipe, if it exists.__
+    This will prevent new versions from automatically being placed into Self Service for everybody else.
+
+    (Something to consider: If this app is the kind that produces show-stopping errors, you may want to include it in the __-testing.jss__ workflow rather than using a __-selfservice.jss__ recipe at all.)
+
+- __Manually adjust the policies and smart groups as necessary__ to deploy the old, stable version of the app to the people who need it.
+
+- __Enable the app's pkg recipe.__
+    This ensures you'll receive notification when a new (and hopefully more stable) version of the app is released, so that you can choose whether to resume testing.
+
+Once the crisis has passed and a newer version of the app is available:
+
+- __Re-enable the -testing.jss recipe and disable the pkg recipe.__
+    This will allow you to resume testing the app according to the [Operational Workflow](#operational-workflow) above.
+
+
+---
+
+## Troubleshooting
+
+No doubt you realize by now that this is a complex workflow with many moving parts. It's important to know what parts are involved, because it will make troubleshooting easier for everybody involved:
+
+- __AutoPkg__
+    The command-line tool that uses recipes to check for app updates and automatically package them for distribution.
+
+- __AutoPkgr__
+    The Mac app that schedules AutoPkg recipe runs to occur periodically and notifies you of their results. It also allows you to easily manage the recipes, overrides, and repos.
+
+- __Recipes and overrides__
+    The instructions that AutoPkg follows in order to download new software, create packages, and trigger JSSImporter.
+
+- __JSSImporter__
+    The AutoPkg processor that uploads packages to your JSS and creates policies and groups based on XML templates.
+
+- __Casper API__
+    The API for which JSSImporter templates are created. Pointing a browser at https://yourjss.pretendco.com:8443/api is a good idea when you're modifying JSSImporter template XML files.
+
+Here are some general tips for troubleshooting common issues:
+
+### Remove one layer at a time
+
+Getting an error while running a recipe in AutoPkgr? Run the recipe in Terminal instead, and see if the error persists. If it does, then it's not an AutoPkgr problem.
+
+If you're having trouble running a jss recipe, try running its parent pkg recipe once. If the pkg recipe still fails, try running its parent download recipe.
+
+It's not uncommon for recipes to produce errors as a result of upstream changes — for example, the software developer could have redesigned their website and therefore the direct download URL referenced in the download recipe is no longer correct. Alerting the recipe author by opening an issue on their repository's GitHub page is an excellent idea. Their repository is probably listed on [this page](https://github.com/autopkg/).
+
+### Check for bad recipe overrides
+
+Whenever you finish editing a recipe or a recipe override, I recommend running a simple plist "linting" command to make sure that the recipe doesn't contain any major syntax errors. Here is the command you can use to lint all your overrides:
+
+```
+find ~/Library/AutoPkg/RecipeOverrides/ -type f -iname "*.recipe" -exec plutil -lint "{}" \;
+```
+
+### Check for missing parent recipes
+
+For recipes that have parent recipes (which all jss recipes do), you must also make sure that the repo that contains the parent recipe is present on disk. AutoPkgr attempts to warn you about recipes with missing parents by showing you a :warning: icon next to the recipe in the list.
+
+However, the parent recipes sometimes _also_ have parent recipes. You may need to trace the chain backwards to ensure that all necessary repos are added.
+
+If you get an `EOF` error during recipe runs, the likelihood is high that you're missing a parent recipe somewhere.
+
+### Test the LaunchDaemon and script pair
+
+If your AutoPkg recipes are working as expected but Macs still aren't automatically updating, dig into the client-side components to see what could be going on. This is pretty simple, since there are only two client-side components: the LaunchDaemon and the auto_update_magic.sh script.
+
+On a managed Mac, open Terminal and run the following command to determine whether the LaunchDaemon is running:
+
+```
+sudo launchctl list | grep auto_update_magic
+```
+
+If everything is working normally, you'll see something like this:
+
+```
+-   0   com.jamfsoftware.jamfnation.auto_update_magic
+```
+
+If not, try these two commands to unload and reload the LaunchDaemon:
+
+```
+sudo launchctl unload -w /Library/LaunchDaemons/com.jamfsoftware.jamfnation.auto_update_magic.plist
+sudo launchctl load -w /Library/LaunchDaemons/com.jamfsoftware.jamfnation.auto_update_magic.plist
+```
+
+If you've confirmed that the LaunchDaemon is running, but the updates still aren't happening, try running the following on a managed Mac:
+
+```
+sudo time /Library/Scripts/auto_update_magic.sh
+```
+
+This will force the script to run immediately and check for updates, and install any it finds. It will also show you how long the process takes, for benchmarking against other Macs in your organization.
+
+---
+
+## Getting help
+
+If you need help setting up "Auto Update Magic," or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people on the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/), on the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html), or in the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode. Or feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
+
+P.S. Thanks for reading all the way to the end! You get a :star:.

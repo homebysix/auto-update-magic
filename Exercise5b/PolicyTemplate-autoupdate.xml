@@ -8,17 +8,15 @@
         </category>
         <trigger_other>autoupdate-%PROD_NAME%</trigger_other>
     </general>
-	<scope>
-		<!--Scope added by JSSImporter-->
-	</scope>
-	<package_configuration>
-		<!--Package added by JSSImporter-->
+    <scope>
+        <!--Scope added by JSSImporter-->
+    </scope>
+    <package_configuration>
+        <!--Package added by JSSImporter-->
     </package_configuration>
     <scripts>
-		<!--Scripts added by JSSImporter-->
+        <!--Scripts added by JSSImporter-->
     </scripts>
-    <self_service>
-    </self_service>
     <maintenance>
         <recon>true</recon>
     </maintenance>
