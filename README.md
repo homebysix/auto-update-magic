@@ -45,7 +45,6 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 
 ---
 
-
 ## Overview
 
 Keeping Mac apps up to date with Casper is anything but trivial, and yet it's one of the most critical tasks of any management system. Outdated apps can expose security vulnerabilities, cause file format incompatibilities, and prevent people from taking advantage of the latest and greatest app features.
@@ -54,17 +53,20 @@ Auto Update Magic is my attempt to make updating apps easier for Casper administ
 
 Yes, JAMF will probably be incorporating "patch management" features into Casper soon. However, Auto Update Magic lets you automate your Mac app patching _today_, and gives you total control over how apps are packaged, imported, and deployed.
 
+---
 
 ## Requirements
 
-Before we start, you'll probably want to download this repo to your local computer, for easy reference to the included files. <a href="https://github.com/homebysix/auto-update-magic/archive/master.zip" target="_blank">Click here to download a zip file</a>.<br /><br />I'll assume that the path to the downloaded repository is ~/Downloads/auto-update-magic-master. <!-- TODO: Reconsider this. --> If you move the repo elsewhere, be sure to update the paths referenced below.
+Before we start, you'll probably want to download this repo to your local computer, for easy reference to the included files. <a href="https://github.com/homebysix/auto-update-magic/archive/master.zip" target="_blank">Click here to download a zip file</a>.<br /><br />I'll assume that the path to the downloaded repository is ~/Downloads/auto-update-magic-master. If you move the repo elsewhere, be sure to update the paths referenced below.
 
 Also, you'll want each of the following:
+
 - Admin access to your JSS, including the ability to create user accounts.
 - A Mac that is always on and has OS X 10.8 or higher, for running AutoPkgr.
 - If the above Mac is not also suitable for testing new software releases (e.g. if it's a distribution point), then you'll also need another Mac for testing.
 - At least one full workday. Allow at least 4 hours to step through the example exercises with Firefox, and another 2-4 hours to add additional apps and customized workflows. Add another 2-4 hours to write decent documentation once you've got things working.
 
+---
 
 ## Standardized software distribution
 
@@ -82,7 +84,7 @@ This process may vary slightly depending on the software you're deploying and yo
 
 We will be automating some of these steps, but not all. To adapt a popular mantra:
 
-<div style="text-align: center; font-family: Georgia, Times, serif; font-size:1.3em;"><em>“Grant us the serenity to accept the things we cannot automate,<br />the tools to automate the things we can,<br />and the wisdom to know the difference.”</em><br /><br /></div>
+![mantra.png](README-images/mantra.png)
 
 Let's walk through each step in the above process using Firefox as an example and focus on how we can automate and standardize things to make our lives easier, shall we?
 
@@ -236,10 +238,10 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
     If so, congratulations! You just created a recipe override.
 
-    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: Now we're ready to run our __Firefox-testing.jss__ recipe override. Although you could easily run this recipe in AutoPkgr, I want you to use the Terminal for two reasons:
+    :warning: Note: Now we're ready to run our __Firefox-testing.jss__ recipe override. Although you could easily run this recipe in AutoPkgr, I want you to use the Terminal for two reasons:
 
     - It's important to know what's happening behind the scenes.
-    - Knowing basic `autopkg` commands in Terminal will make things much easier to troubleshoot later.</div>
+    - Knowing basic `autopkg` commands in Terminal will make things much easier to troubleshoot later.
 
 14. Open Terminal, type `autopkg run -v Firefox-testing.jss` and press Enter. Observe the messages that appear on screen. The first word of each line indicates which "processor" AutoPkg is currently running.
 
@@ -296,15 +298,14 @@ Here comes the really fun part! Once you've decided to proceed with deployment, 
 
 __Historical note:__ The [previous version](https://github.com/homebysix/auto-update-magic/tree/v1.0) of this workflow used a Casper "trigger" policy instead of a local LaunchDaemon. There are some pros and cons to the two different approaches:
 
-| | Script runs in Casper policy | Script runs via local LaunchDaemon |
-|:-:|:- |:- |
+| &nbsp; | Script runs in Casper policy | Script runs via local LaunchDaemon |
+|:---:|:--- |:--- |
 | __Pros__<br />:thumbsup: | - Easy to update the script centrally. | - Much cleaner log output.<br />- More granular adjustment of checking schedule. |
 | __Cons__<br />:thumbsdown: | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
 
 I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) below. If you prefer the old Casper policy method, [version 1.0 of this document still contains those instructions](https://github.com/homebysix/auto-update-magic/tree/v1.0#level-3-auto-to-all).
 
-<div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: The following script, recipe, and template customizations require an administrator (that's you!) who is comfortable with editing plist files and shell scripts. Also, be sure to proceed with a sleeves-rolled-up attitude, since troubleshooting and tweaking will more than likely be necessary. Be sure you test these methods on a non-production JSS before making changes to your production environment.</div>
-
+:warning: Note: The following script, recipe, and template customizations require an administrator (that's you!) who is comfortable with editing plist files and shell scripts. Also, be sure to proceed with a sleeves-rolled-up attitude, since troubleshooting and tweaking will more than likely be necessary. Be sure you test these methods on a non-production JSS before making changes to your production environment.
 
 <a name="e5a"></a>
 
@@ -343,7 +344,7 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
     defaults write com.github.sheagcraig.python-jss jss_pass <password>
     ```
 
-    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.</div>
+    :warning: Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.
 
 4. Now, use jss_helper to "promote" your Self Service policy to the latest version of Firefox:
 
@@ -352,14 +353,13 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
     ./jss_helper promote
     ```
 
-    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: If your JSS uses a self-signed certificate, you'll get errors that say `InsecureRequestWarning: Unverified HTTPS request is being made.` This is normal, but you should really invest in a proper SSL cert if this is your production JSS.</div>
+    :warning: Note: If your JSS uses a self-signed certificate, you'll get errors that say `InsecureRequestWarning: Unverified HTTPS request is being made.` This is normal, but you should really invest in a proper SSL cert if this is your production JSS.
 
 5. All the policies for which there is a newer package available will be listed. Type the number corresponding to your "Firefox" policy.
 
 6. Confirm that the `(CURRENT)` package is your previously-approved package, and the `(DEFAULT)` package is the one you just finished testing and is now approved. If so, press __Enter__. (To cancel, press Control-C.)
 
 Cool! Your Self Service policy has just been updated to use the new Firefox package.
-
 
 <a name="e5b"></a>
 
@@ -421,7 +421,7 @@ Here we go! Let's start with the recipe override and JSSImporter templates:
 
 5. Open the __auto_update_magic.sh__ script in a text editor again, and change `DEBUG_MODE` to `false` on line 65. The script is now ready to deploy.
 
-    <div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">Note: Keep in mind that you'll need to edit this script again if you add more "auto updated" apps in the future. You'll find instructions for doing that in the <a href="#adding-more-apps">Adding More Apps</a> section.</div>
+    :warning: Note: Keep in mind that you'll need to edit this script again if you add more "auto updated" apps in the future. You'll find instructions for doing that in the <a href="#adding-more-apps">Adding More Apps</a> section.
 
 6. Edit the __com.jamfsoftware.jamfnation.auto_update_magic.plist__ file with a text editor. Set the `StartInterval` as desired. (Default is 3600, which is one hour.)
 
@@ -449,6 +449,7 @@ Here we go! Let's start with the recipe override and JSSImporter templates:
 
 9. Monitor the logs to ensure that the package is successfully installed on your org's Macs. Soon after their next check-in, they should automatically update Firefox if it isn't running. Hip hip hooray!
 
+---
 
 ## Further enhancement and advanced workflows
 
@@ -498,7 +499,7 @@ I have provided an example __PolicyTemplate-testing.xml__ file as well as modifi
 
 #### Exercise 6c: Sending software directly to Self Service policies
 
-<div style="border: 1px solid #ddd; background-color: #f5d0d2; padding: 10px; margin: 10px; font-size: 0.85em;">This is the workflow that's most likely to bite you later, because it's deploying directly to production. Proceed with caution.</div>
+:warning: This is the workflow that's most likely to bite you later, because it's deploying directly to production. Proceed with caution.
 
 For certain software, you may want to have updates available immediately in Self Service. This workflow is good for software which meets the following criteria:
 
@@ -532,7 +533,6 @@ The benefit of this adjustment is that the __-autoupdate.jss__ recipes won't app
 
 ---
 
-
 ## Operational workflow
 
 Once you have finished tweaking Auto Update Magic and are using it to deploy new updates, your standard everyday workflow will look something like the below. Feel free to copy/paste this into your corporate wiki or knowledge base so your IT department can refer to it as they step through the software deployment cycle.
@@ -560,6 +560,8 @@ Once you have finished tweaking Auto Update Magic and are using it to deploy new
 
 And that's all there is to it.
 
+---
+
 ## Rollback plan
 
 Sometimes your testing reveals show-stopping bugs, or sometimes you simply need to put everything on pause to give you a chance to test further. Here's how to roll back to the last stable version in an orderly manner:
@@ -581,7 +583,6 @@ Once the crisis has passed and a newer version of the app is available:
 
 - __Re-enable the -testing.jss recipe and disable the pkg recipe.__
     This will allow you to resume testing the app according to the [Operational Workflow](#operational-workflow) above.
-
 
 ---
 
