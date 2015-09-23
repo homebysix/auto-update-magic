@@ -70,7 +70,7 @@ Also, you'll want each of the following:
 
 ## Standardized software distribution
 
-Starting with a very big-picture view, consider the following illustration of the standard software distribution cycle:
+Starting with a very big-picture view, consider the following illustration of the standard software distribution cycle. __This is the cycle upon which Auto Update Magic is built.__
 
 ![sw-dist-cycle.png](README-images/sw-dist-cycle.png)
 
@@ -80,7 +80,7 @@ Starting with a very big-picture view, consider the following illustration of th
 4. Feedback is collected from the trusted testers about whether the new version of the software works well.
 5. Upon receiving positive feedback, the IT team makes the software available to the rest of the company, either by Self Service or automatically.
 
-This process may vary slightly depending on the software you're deploying and your organizational needs, but you'll find that most software deployments follow this path. This is the cycle upon which Auto Update Magic is built.
+This process may vary slightly depending on the software you're deploying and your organizational needs, but you'll find that most software deployments follow this path.
 
 We will be automating some of these steps, but not all. To adapt a popular mantra:
 
@@ -667,5 +667,7 @@ This will force the script to run immediately and check for updates, and install
 ## Getting help
 
 If you need help setting up "Auto Update Magic," or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people on the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/), on the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html), or in the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode. Or feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
+
+&nbsp;
 
 P.S. Thanks for reading all the way to the end! You get a [:city_sunset:](https://www.youtube.com/watch?v=ZCbkUu2uykg).
