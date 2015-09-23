@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 ###
 #
@@ -9,7 +9,7 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2015-09-21
+#   Last Modified:  2015-09-22
 #         Version:  2.0
 #
 ###
@@ -38,7 +38,7 @@ TRIGGERS=(
 # For each recipe above, add a corresponding line here for each "blocking
 # application" (apps/processes that must not be open if the app is to be
 # updated automatically). You can add multiple comma-separated applications per
-# line.
+# line. Use `pgrep _____` to test whether the blocking behaves as expected.
 BLOCKING_APPS=(
 
     # "Safari, Firefox" # blocking apps for Flash
