@@ -463,9 +463,9 @@ Once you're confident the Firefox recipes are working well, you'll most likely w
 
 If a [jss recipe](https://github.com/autopkg/jss-recipes) already exists for the app you want to add, this process is super simple.
 
-1. Create a __-testing.jss__ recipe override. Use the exiting __Firefox-testing.jss__ recipe override as a template for this.
+1. Create a __-testing.jss__ recipe override. Use the existing __Firefox-testing.jss__ recipe override as a template for this.
 
-2. Create a __-autoupdate.jss__ recipe override. Use the exiting __Firefox-autoupdate.jss__ recipe override as a template for this.
+2. Create a __-autoupdate.jss__ recipe override. Use the existing __Firefox-autoupdate.jss__ recipe override as a template for this.
 
     In most cases, simply changing the recipe Identifier and ParentIdentifier are sufficient, but more complex apps may require a custom smart group template or extension attribute template.
 
