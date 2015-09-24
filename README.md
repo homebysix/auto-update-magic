@@ -39,6 +39,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
     - [Check for bad recipe overrides](#check-for-bad-recipe-overrides)
     - [Check for missing parent recipes](#check-for-missing-parent-recipes)
     - [Test the LaunchDaemon and script pair](#test-the-launchdaemon-and-script-pair)
+    - [Find and fix loopers](#find-and-fix-loopers)
 - [Getting help](#getting-help)
 
 <!-- /MarkdownTOC -->
@@ -661,6 +662,40 @@ sudo time /Library/Scripts/auto_update_magic.sh
 ```
 
 This will force the script to run immediately and check for updates, and install any it finds. It will also show you how long the process takes, for benchmarking against other Macs in your organization.
+
+### Find and fix loopers
+
+Under certain circumstances, computers will repeatedly execute the Auto Update policies every hour. This is because the computer still meets the smart group criteria associated with the policy. __This is fixable.__
+
+Here's how to find loopers:
+
+1. Allow your Auto Update policies to run for at least 2-3 hours, to build up policy logs that can be used for investigation.
+2. Open the policy log for each of your Auto Update policies.
+3. Check to see whether the same computer is executing the policy multiple times in a row, as shown below:
+
+    ![policy-looping-01.png](README-images/policy-looping-01.png)
+
+If you have a large fleet of Macs and it's difficult to see whether the same computer appears multiple times in the policy logs, try this instead:
+
+1. From one of the Auto Update policy logs, select a random sample of 10-20 Macs and open their individual policy histories.
+2. Filter for Auto Update to see whether they've executed the same Auto Update policy repeatedly, as shown below:
+
+    ![policy-looping-02.png](README-images/policy-looping-02.png)
+
+If you see looping happening, here's how to fix it:
+
+1. __Force an inventory on the problem computers.__
+    Sometimes it's as simple as a failed recon run.
+
+2. __Check the application's path.__
+    If an old version of an application lives somewhere other than in the Applications folder, the installer won't overwrite it with the new version of the app. There are two solutions:
+
+    - If the old version of the app that lives outside the Applications folder is no longer needed, delete it and run inventory again.
+
+    - If the old version of the app is necessary, rename the app. For example, if a web developer needs to keep Firefox 34 for testing, simply have them rename the old app from `Firefox.app` to `Firefox 34.app`.
+
+3. __Check your smart group logic.__
+    If you've tried both of the above and the policy is still looping, check the smart group template that the -autoupdate.jss recipe override is using. You might need to add another criterion.
 
 ---
 
