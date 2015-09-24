@@ -5,7 +5,7 @@
 
 _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Originally presented by Elliot Jordan, Senior Consultant, [Linde Group](http://www.lindegroup.com)_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
----
+&nbsp;
 
 ## Table of Contents
 
@@ -35,16 +35,19 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 - [Operational workflow](#operational-workflow)
 - [Rollback plan](#rollback-plan)
 - [Troubleshooting](#troubleshooting)
-    - [Remove one layer at a time](#remove-one-layer-at-a-time)
+    - [Remove one layer and try again](#remove-one-layer-and-try-again)
     - [Check for bad recipe overrides](#check-for-bad-recipe-overrides)
     - [Check for missing parent recipes](#check-for-missing-parent-recipes)
     - [Test the LaunchDaemon and script pair](#test-the-launchdaemon-and-script-pair)
     - [Find and fix loopers](#find-and-fix-loopers)
 - [Getting help](#getting-help)
+    - [Community support](#community-support)
+    - [Consulting services](#consulting-services)
+    - [Found a problem?](#found-a-problem)
 
 <!-- /MarkdownTOC -->
 
----
+&nbsp;
 
 ## Overview
 
@@ -54,7 +57,7 @@ Auto Update Magic is my attempt to make updating apps easier for Casper administ
 
 Yes, JAMF will probably be incorporating "patch management" features into Casper soon. However, Auto Update Magic lets you automate your Mac app patching _today_, and gives you total control over how apps are packaged, imported, and deployed.
 
----
+&nbsp;
 
 ## Requirements
 
@@ -67,7 +70,7 @@ Also, you'll want each of the following:
 - If the above Mac is not also suitable for testing new software releases (e.g. if it's a distribution point), then you'll also need another Mac for testing.
 - At least one full workday. Allow at least 4 hours to step through the example exercises with Firefox, and another 2-4 hours to add additional apps and customized workflows. Add another 2-4 hours to write decent documentation once you've got things working.
 
----
+&nbsp;
 
 ## Standardized software distribution
 
@@ -89,7 +92,7 @@ We will be automating some of these steps, but not all. To adapt a popular mantr
 
 Let's walk through each step in the above process using Firefox as an example and focus on how we can automate and standardize things to make our lives easier, shall we?
 
----
+&nbsp;
 
 ### 1. New Release
 
@@ -126,7 +129,7 @@ Let's start from the beginning. It's no fun to manually check for new software. 
 
 Congratulations! You've just configured AutoPkgr to check for updates regularly, and to tell you when a new version is released. For Firefox in your organization, Phase 1 of the software distribution cycle is now fully automated. Let's move on to Phase 2.
 
----
+&nbsp;
 
 ### 2. Development
 
@@ -176,7 +179,7 @@ Next, we need to prepare the software for mass distribution, which often include
 
 Great, now we have a deployable package that installs what we expect it to install. Now we're ready to start testing the app on a larger scale.
 
----
+&nbsp;
 
 ### 3. Testing
 
@@ -253,7 +256,7 @@ The output in Terminal will also reflect the changes made to your JSS:
 ```
 The following changes were made to the JSS:
 Package             Categories  Groups                Scripts  Extension Attributes  Policy                  Icon
--------             ----------  ------                -------  --------------------  ------                  ----
+-------             ----------  ------                -------  --------------------  ------                  -&nbsp;
 Firefox-40.0.3.pkg              Firefox-update-smart                                 Install Latest Firefox  Firefox.png
 ```
 
@@ -273,7 +276,7 @@ Once the Self Service policy is created in Casper, you should email your testers
 
 Finally, be sure to return to AutoPkgr and check the box to enable the __Firefox-testing.jss__ recipe and uncheck the __Firefox.pkg__ recipe.
 
----
+&nbsp;
 
 ### 4. Feedback
 
@@ -285,7 +288,7 @@ The process of collecting feedback from your testers can be made easier by creat
 
 Once you've collected feedback, your IT department will need to make a decision about whether to proceed with deployment or hold back. In case you need to hold back, I've provided a [Rollback Plan](#rollback-plan) below.
 
----
+&nbsp;
 
 ### 5. Deployment
 
@@ -450,7 +453,7 @@ Here we go! Let's start with the recipe override and JSSImporter templates:
 
 9. Monitor the logs to ensure that the package is successfully installed on your org's Macs. Soon after their next check-in, they should automatically update Firefox if it isn't running. Hip hip hooray!
 
----
+&nbsp;
 
 ## Further enhancement and advanced workflows
 
@@ -532,7 +535,7 @@ autopkg run -v "~/Library/AutoPkg/AutoUpdateRecipes/Firefox-autoupdate.jss.recip
 
 The benefit of this adjustment is that the __-autoupdate.jss__ recipes won't appear in AutoPkgr, and are therefore less likely to be executed accidentally or incorrectly included in scheduled AutoPkg runs.
 
----
+&nbsp;
 
 ## Operational workflow
 
@@ -561,7 +564,7 @@ Once you have finished tweaking Auto Update Magic and are using it to deploy new
 
 And that's all there is to it.
 
----
+&nbsp;
 
 ## Rollback plan
 
@@ -585,7 +588,7 @@ Once the crisis has passed and a newer version of the app is available:
 - __Re-enable the -testing.jss recipe and disable the pkg recipe.__
     This will allow you to resume testing the app according to the [Operational Workflow](#operational-workflow) above.
 
----
+&nbsp;
 
 ## Troubleshooting
 
@@ -608,7 +611,7 @@ No doubt you realize by now that this is a complex workflow with many moving par
 
 Here are some general tips for troubleshooting common issues:
 
-### Remove one layer at a time
+### Remove one layer and try again
 
 Getting an error while running a recipe in AutoPkgr? Run the recipe in Terminal instead, and see if the error persists. If it does, then it's not an AutoPkgr problem.
 
@@ -618,7 +621,7 @@ It's not uncommon for recipes to produce errors as a result of upstream changes 
 
 ### Check for bad recipe overrides
 
-Whenever you finish editing a recipe or a recipe override, I recommend running a simple plist "linting" command to make sure that the recipe doesn't contain any major syntax errors. Here is the command you can use to lint all your overrides:
+Whenever you finish editing a recipe or a recipe override, I recommend running a simple plist "linting" command to make sure that the recipe doesn't contain any major syntax errors. Here is the command you can use to lint all your overrides at once:
 
 ```
 find ~/Library/AutoPkg/RecipeOverrides/ -type f -iname "*.recipe" -exec plutil -lint "{}" \;
@@ -670,14 +673,16 @@ Under certain circumstances, computers will repeatedly execute the Auto Update p
 Here's how to find loopers:
 
 1. Allow your Auto Update policies to run for at least 2-3 hours, to build up policy logs that can be used for investigation.
+
 2. Open the policy log for each of your Auto Update policies.
+
 3. Check to see whether the same computer is executing the policy multiple times in a row, as shown below:
 
     ![policy-looping-01.png](README-images/policy-looping-01.png)
 
 If you have a large fleet of Macs and it's difficult to see whether the same computer appears multiple times in the policy logs, try this instead:
 
-1. From one of the Auto Update policy logs, select a random sample of 10-20 Macs and open their individual policy histories.
+1. From one of the Auto Update policy logs, select a random sample of 10-20 Macs and open their individual policy histories. (Hold __Command__ while you click on each computer to open them in new background tabs.)
 2. Filter for Auto Update to see whether they've executed the same Auto Update policy repeatedly, as shown below:
 
     ![policy-looping-02.png](README-images/policy-looping-02.png)
@@ -697,11 +702,27 @@ If you see looping happening, here's how to fix it:
 3. __Check your smart group logic.__
     If you've tried both of the above and the policy is still looping, check the smart group template that the -autoupdate.jss recipe override is using. You might need to add another criterion.
 
----
+&nbsp;
 
 ## Getting help
 
-If you need help setting up "Auto Update Magic," or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people on the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/), on the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html), or in the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode. Or feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
+### Community support
+
+If you need help setting up "Auto Update Magic" in your organization, or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people in the following locations:
+
+- In the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/)
+- On the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html)
+- In the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode
+
+### Consulting services
+
+If you're in the San Francisco Bay Area and you'd rather just pay somebody to set this up properly, document it, and leave you instructions for maintaining it, give [the Linde Group](http://www.lindegroup.com/) a call. We've done that sort of thing for many companies.
+
+### Found a problem?
+
+If you've found a reproducible problem with the scripts or templates I've provided here, or if you have ideas for improving them, feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
+
+&nbsp;
 
 &nbsp;
 
