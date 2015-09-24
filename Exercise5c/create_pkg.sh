@@ -8,8 +8,8 @@
 #                   pair to your managed clients.
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2015-09-18
-#   Last Modified:  2015-09-18
-#         Version:  1.0
+#   Last Modified:  2015-09-23
+#         Version:  1.0.1
 #
 ###
 
@@ -25,25 +25,31 @@ if [[ ! -f "./auto_update_magic.sh" ||
     exit 1
 fi
 
+script_md5=$(md5 -q ./auto_update_magic.sh)
+if [[ "$script_md5" == "a1fd08b32853ca004212e98d7ea5a99e" ]]; then
+    echo "[ERROR] It looks like you haven't customized the auto_update_magic.sh script yet. Please do that now, then run create_pkg.sh again."
+    exit 2
+fi
+
 read -p "[SANITY CHECK] Have you already added the TRIGGERS to auto_update_magic.sh? [y/n]: " -n 1 check_triggers
 echo
 if [[ "$check_triggers" != "y" && "$check_triggers" != "Y" ]]; then
     echo "You should go back and add the TRIGGERS to auto_update_magic.sh now, then run create_pkg.sh again."
-    exit 2
+    exit 3
 fi
 
 read -p "[SANITY CHECK] Have you already added the BLOCKING_APPS to auto_update_magic.sh? [y/n]: " -n 1 check_blocking_apps
 echo
 if [[ "$check_blocking_apps" != "y" && "$check_blocking_apps" != "Y" ]]; then
     echo "You should go back and add the BLOCKING_APPS to auto_update_magic.sh now, then run create_pkg.sh again."
-    exit 3
+    exit 4
 fi
 
 read -p "[SANITY CHECK] Have you already adjusted the StartInterval in the com.jamfsoftware.jamfnation.auto_update_magic LaunchDaemon to your liking? [y/n]: " -n 1 check_schedule
 echo
 if [[ "$check_schedule" != "y" && "$check_schedule" != "Y" ]]; then
     echo "You should go back and adjust the StartInterval now, then run create_pkg.sh again."
-    exit 4
+    exit 5
 fi
 
 echo "Great! Sounds like you're good to go."
