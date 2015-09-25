@@ -40,6 +40,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
     - [Check for missing parent recipes](#check-for-missing-parent-recipes)
     - [Test the LaunchDaemon and script pair](#test-the-launchdaemon-and-script-pair)
     - [Find and fix loopers](#find-and-fix-loopers)
+    - [Check for policy failures](#check-for-policy-failures)
 - [Getting help](#getting-help)
     - [Community support](#community-support)
     - [Consulting services](#consulting-services)
@@ -701,6 +702,23 @@ If you see looping happening, here's how to fix it:
 
 3. __Check your smart group logic.__
     If you've tried both of the above and the policy is still looping, check the smart group template that the -autoupdate.jss recipe override is using. You might need to add another criterion.
+
+### Check for policy failures
+
+In addition to checking for policy looping, the Casper policy logs are also useful for detecting other problems.
+
+One example: newly-uploaded software packages may not yet be synchronized with your Cloud Distribution Point. The policy logs from such an error would look like this:
+
+![cdp-not-synced.png](README-images/cdp-not-synced.png)
+
+The solution to this specific problem could be one of two things:
+
+- Force the CDP to sync. Once the new package is present on the CDP, the error should stop.
+- Manually modify* the Auto Update policy's package settings to use a specific distribution point that you know will always be up to date (as shown below).
+
+![cdp-setting.png](README-images/cdp-setting.png)
+
+\* This is one of the very rare cases where it's OK to modify a policy created by an AutoPkg recipe, because the __Distribution point to download the package(s) from__ setting will not be overwritten during subsequent recipe runs. I'd like to tell you a definitive list of other settings that are manually editable, but I can't. Inspecting the Casper API and using trial-and-error may be your best bet.
 
 &nbsp;
 
