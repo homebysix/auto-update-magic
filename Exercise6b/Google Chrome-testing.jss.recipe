@@ -2,22 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Identifier</key>
-    <string>local.jss.GoogleChrome-testing</string>
-    <key>Input</key>
-    <dict>
-        <key>CATEGORY</key>
-        <string>Productivity</string>
-        <key>POLICY_CATEGORY</key>
-        <string>Trusted Testers</string>
-        <key>POLICY_TEMPLATE</key>
-        <string>PolicyTemplate-testing.xml</string>
-        <key>GROUP_NAME</key>
-        <string/>
-        <key>GROUP_TEMPLATE</key>
-        <string/>
-    </dict>
-    <key>ParentRecipe</key>
-    <string>com.github.jss-recipes.jss.GoogleChrome</string>
+	<key>Identifier</key>
+	<string>local.jss.GoogleChrome-testing</string>
+	<key>Input</key>
+	<dict>
+		<key>CATEGORY</key>
+		<string>Productivity</string>
+		<key>GROUP_NAME</key>
+		<string></string>
+		<key>GROUP_TEMPLATE</key>
+		<string></string>
+		<key>POLICY_CATEGORY</key>
+		<string>Trusted Testers</string>
+		<key>POLICY_TEMPLATE</key>
+		<string>PolicyTemplate-testing.xml</string>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.jss-recipes.jss.GoogleChrome</string>
 </dict>
 </plist>

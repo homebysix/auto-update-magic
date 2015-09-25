@@ -2,22 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Identifier</key>
-    <string>local.jss.OracleJava8-autoupdate</string>
-    <key>Input</key>
-    <dict>
-        <key>NAME</key>
-        <string>Oracle Java 8</string>
-        <key>GROUP_NAME</key>
-        <string>%NAME%-autoupdate</string>
-        <key>GROUP_TEMPLATE</key>
-        <string>OracleJava8SmartGroupTemplate-autoupdate.xml</string>
-        <key>POLICY_CATEGORY</key>
-        <string>Auto Update</string>
-        <key>POLICY_TEMPLATE</key>
-        <string>PolicyTemplate-autoupdate.xml</string>
-    </dict>
-    <key>ParentRecipe</key>
-    <string>com.github.jss-recipes.jss.OracleJava8</string>
+	<key>Identifier</key>
+	<string>local.jss.OracleJava8-autoupdate</string>
+	<key>Input</key>
+	<dict>
+		<key>GROUP_NAME</key>
+		<string>%NAME%-autoupdate</string>
+		<key>GROUP_TEMPLATE</key>
+		<string>OracleJava8SmartGroupTemplate-autoupdate.xml</string>
+		<key>NAME</key>
+		<string>Oracle Java 8</string>
+		<key>POLICY_CATEGORY</key>
+		<string>Auto Update</string>
+		<key>POLICY_TEMPLATE</key>
+		<string>PolicyTemplate-autoupdate.xml</string>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.jss-recipes.jss.OracleJava8</string>
 </dict>
 </plist>

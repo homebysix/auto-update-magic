@@ -2,24 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Identifier</key>
-    <string>local.jss.AdobeFlashPlayer-testing</string>
-    <key>Input</key>
-    <dict>
-        <key>NAME</key>
-        <string>Adobe Flash Player</string>
-        <key>CATEGORY</key>
-        <string>Everything else</string>
-        <key>POLICY_CATEGORY</key>
-        <string>Trusted Testers</string>
-        <key>POLICY_TEMPLATE</key>
-        <string>PolicyTemplate-testing.xml</string>
-        <key>GROUP_NAME</key>
-        <string/>
-        <key>GROUP_TEMPLATE</key>
-        <string/>
-    </dict>
-    <key>ParentRecipe</key>
-    <string>com.github.jss-recipes.jss.AdobeFlashPlayer</string>
+	<key>Identifier</key>
+	<string>local.jss.AdobeFlashPlayer-testing</string>
+	<key>Input</key>
+	<dict>
+		<key>CATEGORY</key>
+		<string>Everything else</string>
+		<key>GROUP_NAME</key>
+		<string></string>
+		<key>GROUP_TEMPLATE</key>
+		<string></string>
+		<key>NAME</key>
+		<string>Adobe Flash Player</string>
+		<key>POLICY_CATEGORY</key>
+		<string>Trusted Testers</string>
+		<key>POLICY_TEMPLATE</key>
+		<string>PolicyTemplate-testing.xml</string>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.jss-recipes.jss.AdobeFlashPlayer</string>
 </dict>
 </plist>
