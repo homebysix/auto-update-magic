@@ -86,11 +86,10 @@ if [[ $DEBUG_MODE != true && $DEBUG_MODE != false ]]; then
     exit 1002
 fi
 
-if [[ -x /usr/sbin/jamf ]]; then
-    jamf=/usr/sbin/jamf
-elif [[ -x /usr/local/bin/jamf ]]; then
-    jamf=/usr/local/bin/jamf
-else
+# Locate the jamf binary.
+PATH="/usr/sbin:/usr/local/bin:$PATH"
+jamf=$(which jamf)
+if [[ -z $jamf ]]; then
     echo "[ERROR] The jamf binary could not be found." >&2
     exit 1003
 fi
