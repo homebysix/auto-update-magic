@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2015-09-22
-#         Version:  2.0
+#   Last Modified:  2015-11-17
+#         Version:  2.0.1
 #
 ###
 
@@ -38,7 +38,7 @@ TRIGGERS=(
 # For each recipe above, add a corresponding line here for each "blocking
 # application" (apps/processes that must not be open if the app is to be
 # updated automatically). You can add multiple comma-separated applications per
-# line. Use `pgrep _____` to test whether the blocking behaves as expected.
+# line. Use `pgrep -ix _____` to test whether the blocking behaves as expected.
 BLOCKING_APPS=(
 
     # "Safari, Firefox" # blocking apps for Flash
@@ -115,12 +115,11 @@ for (( i = 0; i < RECIPE_COUNT; i++ )); do
 
     for APP in ${BLOCKING_APPS[$i]}; do
 
-        # Strip leading spaces from app name. Save lowercase version.
+        # Strip leading spaces from app name.
         APP_CLEAN="$(echo "$APP" | sed 's/^ *//')"
-        APP_CLEAN_LOWER="$(echo "$APP_CLEAN" | tr "[:upper:]" "[:lower:]")"
 
         # Check whether the app is running.
-        if pgrep "$APP_CLEAN" &> /dev/null || pgrep "$APP_CLEAN_LOWER" &> /dev/null; then
+        if pgrep -ix "$APP_CLEAN" &> /dev/null; then
             echo "    $APP_CLEAN is running. Skipping auto update."
             UPDATE_BLOCKED=true
             break
