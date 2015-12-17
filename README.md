@@ -740,6 +740,8 @@ If you're in the San Francisco Bay Area and you'd rather just pay somebody to se
 
 If you've found a reproducible problem with the scripts or templates I've provided here, or if you have ideas for improving them, feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
 
+![Elliot](README-images/sig.jpg)
+
 &nbsp;
 
 &nbsp;
