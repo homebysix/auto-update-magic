@@ -31,7 +31,7 @@ TRIGGERS=(
 
     # "Oracle Java 8"
 
-    # "MSOffice2011"
+    # "Office2011Update"
 
 )
 
