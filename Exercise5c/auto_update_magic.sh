@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2015-11-17
-#         Version:  2.0.1
+#   Last Modified:  2016-03-01
+#         Version:  2.1
 #
 ###
 
@@ -92,6 +92,13 @@ jamf=$(which jamf)
 if [[ -z $jamf ]]; then
     echo "[ERROR] The jamf binary could not be found." >&2
     exit 1003
+fi
+
+# Verify that the JSS is available before starting.
+$jamf checkJSSConnection -retry 0
+if [[ $? -ne 0 ]]; then
+    echo "[ERROR] Unable to communicate with the JSS right now." >&2
+    exit 1004
 fi
 
 
