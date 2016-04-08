@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-03-01
-#         Version:  2.1
+#   Last Modified:  2016-04-08
+#         Version:  2.1.1
 #
 ###
 
@@ -41,15 +41,15 @@ TRIGGERS=(
 # line. Use `pgrep -ix _____` to test whether the blocking behaves as expected.
 BLOCKING_APPS=(
 
-    # "Safari, Firefox" # blocking apps for Flash
+    # "Safari$, Firefox" # blocking apps for Flash
 
     # "Firefox" # blocking apps for Firefox
 
     # "Google Chrome" # blocking apps for Chrome
 
-    # "Safari, Firefox" # blocking apps for Java 7
+    # "Safari$, Firefox" # blocking apps for Java 7
 
-    # "Safari, Firefox" # blocking apps for Java 8
+    # "Safari$, Firefox" # blocking apps for Java 8
 
     # "MSN Messenger, Microsoft Lync, Microsoft Cert Manager, Microsoft Chart Converter, Microsoft Clip Gallery, Microsoft Entourage, Microsoft Outlook, Microsoft Error Reporting, Microsoft Excel, Microsoft Graph, Microsoft Help Viewer, Microsoft Language Register, Microsoft Communicator, Microsoft Messenger, Microsoft PowerPoint, Microsoft Query, Microsoft Word, My Day, Organization Chart, Expression Media, Remote Desktop Connection" # blocking apps for latest Office 2011 update
 
