@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-04-08
-#         Version:  2.1.1
+#   Last Modified:  2016-06-14
+#         Version:  2.1.2
 #
 ###
 
@@ -154,7 +154,7 @@ IFS=$OLDIFS
 
 # Record the timestamp of the last auto update check.
 if [[ $DEBUG_MODE == false ]]; then
-    /usr/bin/defaults write "$PLIST" LastAutoUpdate "$(date +%s)"
+    /usr/bin/defaults write "$PLIST" LastAutoUpdate -date "$(date +%s)"
 fi
 
 exit 0
