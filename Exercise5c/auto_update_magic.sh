@@ -154,7 +154,7 @@ IFS=$OLDIFS
 
 # Record the timestamp of the last auto update check.
 if [[ $DEBUG_MODE == false ]]; then
-    /usr/bin/defaults write "$PLIST" LastAutoUpdate -date "$(date +%s)"
+    /usr/bin/defaults write "$PLIST" LastAutoUpdate -date "$(date)"
 fi
 
 exit 0
