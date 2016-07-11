@@ -730,7 +730,6 @@ If you need help setting up "Auto Update Magic" in your organization, or if you'
 
 - In the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/)
 - On the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html)
-- In the [#jamfnation IRC channel](https://webchat.freenode.net/?channels=%23jamfnation) on Freenode
 
 ### Consulting services
 
