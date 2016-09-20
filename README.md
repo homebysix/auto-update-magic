@@ -522,7 +522,7 @@ If you have a site license for software you'd like to automatically update, you 
 - AutoPkg recipes create a policy that installs the latest version of the app, just like the __-autoupdate.jss__ recipes we created earlier. However, this policy also calls a custom trigger "license-AppName."
 - A manually created policy installs the license, and is only triggered by the "license-AppName" trigger.
 
-In the [Exercise6d](Exercise6d) folder of this repo, I have included an example of an __-selfservice.jss__ recipe override and policy template for TextExpander which illustrates this method.
+In the [Exercise6d](Exercise6d) folder of this repo, I have included an example of an __-selfservice.jss__ recipe override and policy template for 1Password which illustrates this method.
 
 <a name="e6e"></a>
 
