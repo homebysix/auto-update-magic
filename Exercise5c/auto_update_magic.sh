@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-06-14
-#         Version:  2.1.2
+#   Last Modified:  2016-10-27
+#         Version:  2.2
 #
 ###
 
@@ -33,6 +33,14 @@ TRIGGERS=(
 
     # "Office2011Update"
 
+    # "Microsoft Excel"
+
+    # "Microsoft Outlook"
+
+    # "Microsoft PowerPoint"
+
+    # "Microsoft Word"
+
 )
 
 # For each recipe above, add a corresponding line here for each "blocking
@@ -52,6 +60,14 @@ BLOCKING_APPS=(
     # "Safari$, Firefox" # blocking apps for Java 8
 
     # "MSN Messenger, Microsoft Lync, Microsoft Cert Manager, Microsoft Chart Converter, Microsoft Clip Gallery, Microsoft Entourage, Microsoft Outlook, Microsoft Error Reporting, Microsoft Excel, Microsoft Graph, Microsoft Help Viewer, Microsoft Language Register, Microsoft Communicator, Microsoft Messenger, Microsoft PowerPoint, Microsoft Query, Microsoft Word, My Day, Organization Chart, Expression Media, Remote Desktop Connection" # blocking apps for latest Office 2011 update
+
+    # "Microsoft Excel, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Excel
+
+    # "Microsoft Outlook, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Outlook
+
+    # "Microsoft PowerPoint, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft PowerPoint
+
+    # "Microsoft Word, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Word
 
 )
 
