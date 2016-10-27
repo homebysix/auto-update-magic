@@ -70,7 +70,7 @@ echo "Building the package..."
 pkgbuild --root "/tmp/auto_update_magic/pkgroot" \
          --scripts "./pkg_scripts" \
          --identifier "com.jamfsoftware.jamfnation.auto_update_magic" \
-         --version "2.0" \
+         --version "2.2" \
          --install-location "/" \
          "./auto_update_magic-$(date "+%Y%m%d").pkg"
 
