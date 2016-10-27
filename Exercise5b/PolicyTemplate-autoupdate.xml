@@ -19,6 +19,6 @@
         <!--Scripts added by JSSImporter-->
     </scripts>
     <maintenance>
-        <recon>true</recon>
+        <recon>false</recon>
     </maintenance>
 </policy>
