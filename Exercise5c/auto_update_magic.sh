@@ -49,7 +49,7 @@ TRIGGERS=(
 # line. Use `pgrep -ix _____` to test whether the blocking behaves as expected.
 BLOCKING_APPS=(
 
-    # "Safari$, Firefox" # blocking apps for Flash
+    # "no_blocking_apps" # blocking apps for Flash
 
     # "Firefox" # blocking apps for Firefox
 
