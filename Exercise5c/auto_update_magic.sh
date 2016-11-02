@@ -9,7 +9,7 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-10-27
+#   Last Modified:  2016-11-02
 #         Version:  2.2
 #
 ###
