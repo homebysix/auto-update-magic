@@ -168,9 +168,9 @@ for (( i = 0; i < RECIPE_COUNT; i++ )); do
                 echo "[ERROR] An error occurred while calling the policy:"
                 echo "$MAGIC_OUTPUT"
             elif echo "$MAGIC_OUTPUT" | grep -q "No policies were found"; then
-                echo "${TRIGGERS[$i]} does not need updating."
+                echo "    ${TRIGGERS[$i]} does not need updating."
             elif echo "$MAGIC_OUTPUT" | grep -q "Executing Policy Auto Update"; then
-                echo "${TRIGGERS[$i]} updated successfully."
+                echo "    ${TRIGGERS[$i]} updated successfully."
                 DO_RECON=true
             fi
 
@@ -184,6 +184,7 @@ done # End iterating through recipes.
 
 # If any app was successfully updated, perform a recon when finished.
 if [[ $DO_RECON == true ]]; then
+    echo " " # for some visual separation before recon runs
     if [[ $DEBUG_MODE == false ]]; then
         $jamf recon
     else
