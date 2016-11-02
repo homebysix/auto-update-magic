@@ -9,8 +9,8 @@
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-06-14
-#         Version:  2.1.2
+#   Last Modified:  2016-11-02
+#         Version:  2.2
 #
 ###
 
@@ -33,6 +33,14 @@ TRIGGERS=(
 
     # "Office2011Update"
 
+    # "Microsoft Excel"
+
+    # "Microsoft Outlook"
+
+    # "Microsoft PowerPoint"
+
+    # "Microsoft Word"
+
 )
 
 # For each recipe above, add a corresponding line here for each "blocking
@@ -41,7 +49,7 @@ TRIGGERS=(
 # line. Use `pgrep -ix _____` to test whether the blocking behaves as expected.
 BLOCKING_APPS=(
 
-    # "Safari$, Firefox" # blocking apps for Flash
+    # "no_blocking_apps" # blocking apps for Flash
 
     # "Firefox" # blocking apps for Firefox
 
@@ -52,6 +60,14 @@ BLOCKING_APPS=(
     # "Safari$, Firefox" # blocking apps for Java 8
 
     # "MSN Messenger, Microsoft Lync, Microsoft Cert Manager, Microsoft Chart Converter, Microsoft Clip Gallery, Microsoft Entourage, Microsoft Outlook, Microsoft Error Reporting, Microsoft Excel, Microsoft Graph, Microsoft Help Viewer, Microsoft Language Register, Microsoft Communicator, Microsoft Messenger, Microsoft PowerPoint, Microsoft Query, Microsoft Word, My Day, Organization Chart, Expression Media, Remote Desktop Connection" # blocking apps for latest Office 2011 update
+
+    # "Microsoft Excel, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Excel
+
+    # "Microsoft Outlook, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Outlook
+
+    # "Microsoft PowerPoint, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft PowerPoint
+
+    # "Microsoft Word, Microsoft Error Reporting, Microsoft AutoUpdate" # blocking apps for Microsoft Word
 
 )
 
@@ -110,6 +126,9 @@ RECIPE_COUNT=${#TRIGGERS[@]}
 # Save the default internal field separator.
 OLDIFS=$IFS
 
+# Skip recon unless and until an app is successfully updated.
+DO_RECON=false
+
 # Begin iterating through recipes.
 for (( i = 0; i < RECIPE_COUNT; i++ )); do
 
@@ -139,8 +158,22 @@ for (( i = 0; i < RECIPE_COUNT; i++ )); do
     # Only run the auto-update policy if no blocking apps are running.
     if [[ $UPDATE_BLOCKED == false ]]; then
         if [[ $DEBUG_MODE == false ]]; then
+
             echo "No apps are blocking the ${TRIGGERS[$i]} update. Calling policy trigger autoupdate-${TRIGGERS[$i]}."
-            $jamf policy -event "autoupdate-${TRIGGERS[$i]}"
+            MAGIC_OUTPUT=$($jamf policy -event "autoupdate-${TRIGGERS[$i]}")
+            MAGIC_EXITCODE=$?
+
+            # Output result of policy run to the log.
+            if [[ $MAGIC_EXITCODE -ne 0 ]]; then
+                echo "[ERROR] An error occurred while calling the policy:"
+                echo "$MAGIC_OUTPUT"
+            elif echo "$MAGIC_OUTPUT" | grep -q "No policies were found"; then
+                echo "    ${TRIGGERS[$i]} does not need updating."
+            elif echo "$MAGIC_OUTPUT" | grep -q "Executing Policy Auto Update"; then
+                echo "    ${TRIGGERS[$i]} updated successfully."
+                DO_RECON=true
+            fi
+
         else
             echo "[DEBUG] No apps are blocking the ${TRIGGERS[$i]} update. This is the point where we would run:"
             echo "    $jamf policy -event \"autoupdate-${TRIGGERS[$i]}\""
@@ -148,6 +181,17 @@ for (( i = 0; i < RECIPE_COUNT; i++ )); do
     fi
 
 done # End iterating through recipes.
+
+# If any app was successfully updated, perform a recon when finished.
+if [[ $DO_RECON == true ]]; then
+    echo " " # for some visual separation before recon runs
+    if [[ $DEBUG_MODE == false ]]; then
+        $jamf recon
+    else
+        echo "[DEBUG] This is the point where we would run:"
+        echo "    $jamf recon"
+    fi
+fi
 
 # Reset back to default internal field separator.
 IFS=$OLDIFS
