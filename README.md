@@ -9,7 +9,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink=true depth=4 bracket=round -->
+<!-- #MarkdownTOC autolink=true depth=4 bracket=round -->
 
 - [Overview](#overview)
 - [Requirements](#requirements)
@@ -27,11 +27,11 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
         - [Exercise 5b: Automatically create Auto Update policies](#exercise-5b-automatically-create-auto-update-policies)
         - [Exercise 5c: Configure Macs to check for updates periodically](#exercise-5c-configure-macs-to-check-for-updates-periodically)
 - [Further enhancement and advanced workflows](#further-enhancement-and-advanced-workflows)
-        - [Exercise 6a: Adding More Apps](#exercise-6a-adding-more-apps)
-        - [Exercise 6b: Organizing and customizing the testing recipes](#exercise-6b-organizing-and-customizing-the-testing-recipes)
-        - [Exercise 6c: Sending software directly to Self Service policies](#exercise-6c-sending-software-directly-to-self-service-policies)
-        - [Exercise 6d: Create installation policies for site-licensed software](#exercise-6d-create-installation-policies-for-site-licensed-software)
-        - [Exercise 6e: Store your -autoupdate.jss recipes outside the search path](#exercise-6e-store-your--autoupdatejss-recipes-outside-the-search-path)
+    - [Exercise 6a: Adding More Apps](#exercise-6a-adding-more-apps)
+    - [Exercise 6b: Organizing and customizing the testing recipes](#exercise-6b-organizing-and-customizing-the-testing-recipes)
+    - [Exercise 6c: Sending software directly to Self Service policies](#exercise-6c-sending-software-directly-to-self-service-policies)
+    - [Exercise 6d: Create installation policies for site-licensed software](#exercise-6d-create-installation-policies-for-site-licensed-software)
+    - [Exercise 6e: Store your -autoupdate.jss recipes outside the search path](#exercise-6e-store-your--autoupdatejss-recipes-outside-the-search-path)
 - [Operational workflow](#operational-workflow)
 - [Rollback plan](#rollback-plan)
 - [Troubleshooting](#troubleshooting)
@@ -46,7 +46,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
     - [Consulting services](#consulting-services)
     - [Found a problem?](#found-a-problem)
 
-<!-- /MarkdownTOC -->
+<!-- /#MarkdownTOC -->
 
 &nbsp;
 
