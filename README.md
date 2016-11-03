@@ -303,10 +303,10 @@ Here comes the really fun part! Once you've decided to proceed with deployment, 
 
 __Historical note:__ The [previous version](https://github.com/homebysix/auto-update-magic/tree/v1.0) of this workflow used a Casper "trigger" policy instead of a local LaunchDaemon. There are some pros and cons to the two different approaches:
 
-| &nbsp; | Script runs in Casper policy | Script runs via local LaunchDaemon |
-|:---:|:--- |:--- |
-| __Pros__<br />:thumbsup: | - Easy to update the script centrally. | - Much cleaner log output.<br />- More granular adjustment of checking schedule. |
-| __Cons__<br />:thumbsdown: | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
+|           &nbsp;           | Script runs in Casper policy                                                  | Script runs via local LaunchDaemon                                                                       |
+| :------------------------: | :---------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
+|  __Pros__<br />👍  | - Easy to update the script centrally.                                        | - Much cleaner log output.<br />- More granular adjustment of checking schedule.                         |
+| __Cons__<br />👎 | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
 
 I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) below. If you prefer the old Casper policy method, [version 1.0 of this document still contains those instructions](https://github.com/homebysix/auto-update-magic/tree/v1.0#level-3-auto-to-all).
 
