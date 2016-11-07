@@ -729,7 +729,7 @@ The solution to this specific problem could be one of two things:
 If you need help setting up "Auto Update Magic" in your organization, or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people in the following locations:
 
 - In the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/)
-- On the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html)
+- On the [JAMF Nation discussion boards](https://www.jamf.com/jamf-nation/)
 
 ### Consulting services
 
