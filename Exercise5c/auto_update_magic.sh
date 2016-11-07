@@ -4,13 +4,13 @@
 #
 #            Name:  auto_update_magic.sh
 #     Description:  A script and LaunchDaemon pair designed to leverage
-#                   autopkg, AutoPkgr, JSSImporter, and Casper to keep apps on
-#                   Mac endpoints up to date automatically. Details at:
+#                   autopkg, AutoPkgr, JSSImporter, and Jamf Pro to keep apps
+#                   on Mac endpoints up to date automatically. Details at:
 #                   https://github.com/homebysix/auto-update-magic
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2013-03-24
-#   Last Modified:  2016-11-02
-#         Version:  2.2
+#   Last Modified:  2016-11-04
+#         Version:  2.2.1
 #
 ###
 
