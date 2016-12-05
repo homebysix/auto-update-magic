@@ -8,8 +8,8 @@
 #                   pair to your managed clients.
 #          Author:  Elliot Jordan <elliot@lindegroup.com>
 #         Created:  2015-09-18
-#   Last Modified:  2016-11-02
-#         Version:  1.0.2
+#   Last Modified:  2016-12-05
+#         Version:  1.0.3
 #
 ###
 
@@ -28,7 +28,7 @@ if [[ ! -f "./auto_update_magic.sh" ||
 fi
 
 script_md5=$(md5 -q ./auto_update_magic.sh)
-if [[ "$script_md5" == "9cc45872b24b1126f5c6cc9eaa3f9a44" ]]; then
+if [[ "$script_md5" == "089853e0bbe5cae09634d11d78081072" ]]; then
     echo "[ERROR] It looks like you haven't customized the auto_update_magic.sh script yet. Please do that now, then run create_pkg.sh again."
     exit 2
 fi
@@ -72,7 +72,7 @@ echo "Building the package..."
 pkgbuild --root "/tmp/auto_update_magic/pkgroot" \
          --scripts "./pkg_scripts" \
          --identifier "com.jamf.jamfnation.auto_update_magic" \
-         --version "2.2" \
+         --version "2.2.1" \
          --install-location "/" \
          "./auto_update_magic-$(date "+%Y%m%d").pkg"
 
