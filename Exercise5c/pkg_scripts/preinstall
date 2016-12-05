@@ -1,0 +1,15 @@
+#!/bin/bash
+
+OLD_LD="$3/Library/LaunchDaemons/com.jamfsoftware.jamfnation.auto_update_magic.plist"
+NEW_LD="$3/Library/LaunchDaemons/com.jamf.jamfnation.auto_update_magic.plist"
+
+if [[ -f "$OLD_LD" ]]; then
+    launchctl unload -w "$OLD_LD"
+    rm -r "$OLD_LD"
+fi
+
+if [[ -f "$NEW_LD" ]]; then
+    launchctl unload -w "$NEW_LD"
+fi
+
+exit 0

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-launchctl load -w /Library/LaunchDaemons/com.jamfsoftware.jamfnation.auto_update_magic.plist
+launchctl load -w "$3/Library/LaunchDaemons/com.jamf.jamfnation.auto_update_magic.plist"
 
 exit 0

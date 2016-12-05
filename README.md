@@ -9,7 +9,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink=true depth=4 bracket=round -->
+<!-- #MarkdownTOC autolink=true depth=4 bracket=round -->
 
 - [Overview](#overview)
 - [Requirements](#requirements)
@@ -46,7 +46,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
     - [Consulting services](#consulting-services)
     - [Found a problem?](#found-a-problem)
 
-<!-- /MarkdownTOC -->
+<!-- /#MarkdownTOC -->
 
 &nbsp;
 
@@ -210,6 +210,12 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
 3. Open AutoPkgr and click on the __Folders & Integration__ tab, then click __Install JSSImporter__. Enter your admin password when prompted.
 
+    ⚠️ Note: On Macs with a fresh copy of Sierra, you may additionally need to run the following Terminal command to install the necessary components for JSSImporter:
+
+    ```
+    sudo easy_install pip && pip install -I --user pyopenssl
+    ```
+
 4. Click the button that now says __Configure JSSImporter__.
 
 5. Enter the JSS URL, API username, and API password (for the account you created in step 2 above). Then click __Connect__.
@@ -243,7 +249,7 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
     If so, congratulations! You just created a recipe override.
 
-    :warning: Note: Now we're ready to run our __Firefox-testing.jss__ recipe override. Although you could easily run this recipe in AutoPkgr, I want you to use the Terminal for two reasons:
+    ⚠️ Note: Now we're ready to run our __Firefox-testing.jss__ recipe override. Although you could easily run this recipe in AutoPkgr, I want you to use the Terminal for two reasons:
 
     - It's important to know what's happening behind the scenes.
     - Knowing basic `autopkg` commands in Terminal will make things much easier to troubleshoot later.
@@ -257,7 +263,7 @@ The output in Terminal will also reflect the changes made to your JSS:
 ```
 The following changes were made to the JSS:
 Package             Categories  Groups                Scripts  Extension Attributes  Policy                  Icon
--------             ----------  ------                -------  --------------------  ------                  -&nbsp;
+-------             ----------  ------                -------  --------------------  ------                  ----
 Firefox-40.0.3.pkg              Firefox-update-smart                                 Install Latest Firefox  Firefox.png
 ```
 
@@ -303,14 +309,14 @@ Here comes the really fun part! Once you've decided to proceed with deployment, 
 
 __Historical note:__ The [previous version](https://github.com/homebysix/auto-update-magic/tree/v1.0) of this workflow used a Casper "trigger" policy instead of a local LaunchDaemon. There are some pros and cons to the two different approaches:
 
-| &nbsp; | Script runs in Casper policy | Script runs via local LaunchDaemon |
-|:---:|:--- |:--- |
-| __Pros__<br />:thumbsup: | - Easy to update the script centrally. | - Much cleaner log output.<br />- More granular adjustment of checking schedule. |
-| __Cons__<br />:thumbsdown: | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
+|     &nbsp;      | Script runs in Casper policy                                                  | Script runs via local LaunchDaemon                                                                       |
+| :-------------: | :---------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
+| __Pros__<br />👍 | - Easy to update the script centrally.                                        | - Much cleaner log output.<br />- More granular adjustment of checking schedule.                         |
+| __Cons__<br />👎 | - The Casper policy logs fill with output, even if no updates were installed. | - Must repackage and reinstall LaunchDaemon/script pair when making changes to schedule or updated apps. |
 
 I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) below. If you prefer the old Casper policy method, [version 1.0 of this document still contains those instructions](https://github.com/homebysix/auto-update-magic/tree/v1.0#level-3-auto-to-all).
 
-:warning: Note: The following script, recipe, and template customizations require an administrator (that's you!) who is comfortable with editing plist files and shell scripts. Also, be sure to proceed with a sleeves-rolled-up attitude, since troubleshooting and tweaking will more than likely be necessary. Be sure you test these methods on a non-production JSS before making changes to your production environment.
+⚠️ Note: The following script, recipe, and template customizations require an administrator (that's you!) who is comfortable with editing plist files and shell scripts. Also, be sure to proceed with a sleeves-rolled-up attitude, since troubleshooting and tweaking will more than likely be necessary. Be sure you test these methods on a non-production JSS before making changes to your production environment.
 
 <a name="e5a"></a>
 
@@ -343,13 +349,14 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
     (Using Git to install jss_helper makes it trivial to keep the tool up to date as new versions are released, using `git pull -C ~/Developer/jss_helper`. You may want to make a note to run this command every so often.)
 
 3. Configure jss_helper with your Casper API information, substituting your JSS URL, JSS API username, and JSS API password for `<url>`, `<username>`, and `<password>`:
+
     ```
     defaults write com.github.sheagcraig.python-jss jss_url <url>
     defaults write com.github.sheagcraig.python-jss jss_user <username>
     defaults write com.github.sheagcraig.python-jss jss_pass <password>
     ```
 
-    :warning: Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.
+    ⚠️ Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.
 
 4. Now, use jss_helper to "promote" your Self Service policy to the latest version of Firefox:
 
@@ -358,7 +365,7 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
     ./jss_helper promote
     ```
 
-    :warning: Note: If your JSS uses a self-signed certificate, you'll get errors that say `InsecureRequestWarning: Unverified HTTPS request is being made.` This is normal, but you should really invest in a proper SSL cert if this is your production JSS.
+    ⚠️ Note: If your JSS uses a self-signed certificate, you'll get errors that say `InsecureRequestWarning: Unverified HTTPS request is being made.` This is normal, but you should really invest in a proper SSL cert if this is your production JSS.
 
 5. All the policies for which there is a newer package available will be listed. Type the number corresponding to your "Firefox" policy.
 
@@ -426,7 +433,7 @@ Here we go! Let's start with the recipe override and JSSImporter templates:
 
 5. Open the __auto_update_magic.sh__ script in a text editor again, and change `DEBUG_MODE` to `false` on line 65. The script is now ready to deploy.
 
-    :warning: Note: Keep in mind that you'll need to edit this script again if you add more "auto updated" apps in the future. You'll find instructions for doing that in the <a href="#adding-more-apps">Adding More Apps</a> section.
+    ⚠️ Note: Keep in mind that you'll need to edit this script again if you add more "auto updated" apps in the future. You'll find instructions for doing that in the <a href="#adding-more-apps">Adding More Apps</a> section.
 
 6. Edit the __com.jamfsoftware.jamfnation.auto_update_magic.plist__ file with a text editor. Set the `StartInterval` as desired. (Default is 3600, which is one hour.)
 
@@ -504,7 +511,7 @@ I have provided an example __PolicyTemplate-testing.xml__ file as well as modifi
 
 #### Exercise 6c: Sending software directly to Self Service policies
 
-:warning: This is the workflow that's most likely to bite you later, because it's deploying directly to production. Proceed with caution.
+⚠️ This is the workflow that's most likely to bite you later, because it's deploying directly to production. Proceed with caution.
 
 For certain software, you may want to have updates available immediately in Self Service. This workflow is good for software which meets the following criteria:
 
@@ -630,7 +637,7 @@ find ~/Library/AutoPkg/RecipeOverrides/ -type f -iname "*.recipe" -exec plutil -
 
 ### Check for missing parent recipes
 
-For recipes that have parent recipes (which all jss recipes do), you must also make sure that the repo that contains the parent recipe is present on disk. AutoPkgr attempts to warn you about recipes with missing parents by showing you a :warning: icon next to the recipe in the list.
+For recipes that have parent recipes (which all jss recipes do), you must also make sure that the repo that contains the parent recipe is present on disk. AutoPkgr attempts to warn you about recipes with missing parents by showing you a ⚠️ icon next to the recipe in the list.
 
 However, the parent recipes sometimes _also_ have parent recipes. You may need to trace the chain backwards to ensure that all necessary repos are added.
 
@@ -729,7 +736,7 @@ The solution to this specific problem could be one of two things:
 If you need help setting up "Auto Update Magic" in your organization, or if you're encountering a problem which the [Troubleshooting](#troubleshooting) steps above don't resolve, you'll find many knowledgeable people in the following locations:
 
 - In the #jamfnation and #autopkg rooms within the [MacAdmins Slack team](http://macadmins.org/)
-- On the [JAMF Nation discussion boards](https://jamfnation.jamfsoftware.com/index.html)
+- On the [JAMF Nation discussion boards](https://www.jamf.com/jamf-nation/)
 
 ### Consulting services
 
@@ -745,4 +752,4 @@ If you've found a reproducible problem with the scripts or templates I've provid
 
 &nbsp;
 
-P.S. Thanks for reading all the way to the end! You get a [:city_sunset:](https://www.youtube.com/watch?v=ZCbkUu2uykg).
+P.S. Thanks for reading all the way to the end! You get a [🌇](https://www.youtube.com/watch?v=ZCbkUu2uykg).
