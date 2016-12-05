@@ -348,12 +348,12 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
 
     (Using Git to install jss_helper makes it trivial to keep the tool up to date as new versions are released, using `git pull -C ~/Developer/jss_helper`. You may want to make a note to run this command every so often.)
 
-3. Configure jss_helper with your Casper API information, substituting your JSS URL, JSS API username, and JSS API password for `<url>`, `<username>`, and `<password>`:
+3. Run the following commands to copy your JSS credentials into the jss_helper configuration plist:
 
     ```
-    defaults write com.github.sheagcraig.python-jss jss_url <url>
-    defaults write com.github.sheagcraig.python-jss jss_user <username>
-    defaults write com.github.sheagcraig.python-jss jss_pass <password>
+    defaults write com.github.sheagcraig.python-jss jss_url "$(defaults read com.github.autopkg JSS_URL)"
+    defaults write com.github.sheagcraig.python-jss jss_user "$(defaults read com.github.autopkg API_USERNAME)"
+    defaults write com.github.sheagcraig.python-jss jss_pass "$(defaults read com.github.autopkg API_PASSWORD)"
     ```
 
     ⚠️ Note: If you have characters or symbols in your password, you may want to use a text editor to verify that the ~/Library/Preferences/com.github.sheagcraig.python-jss.plist file contains the correct password after you run the above commands. Certain characters don't parse as expected in Terminal and may require you to enter them directly into the plist.
