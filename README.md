@@ -210,6 +210,12 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
 3. Open AutoPkgr and click on the __Folders & Integration__ tab, then click __Install JSSImporter__. Enter your admin password when prompted.
 
+    ⚠️ Note: On Macs with a fresh copy of Sierra, you may additionally need to run the following Terminal command to install the necessary components for JSSImporter:
+
+    ```
+    sudo easy_install pip && pip install -I --user pyopenssl
+    ```
+
 4. Click the button that now says __Configure JSSImporter__.
 
 5. Enter the JSS URL, API username, and API password (for the account you created in step 2 above). Then click __Connect__.
@@ -343,6 +349,7 @@ I now prefer the LaunchDaemon method, which is detailed in [Exercise 5b](#e5b) b
     (Using Git to install jss_helper makes it trivial to keep the tool up to date as new versions are released, using `git pull -C ~/Developer/jss_helper`. You may want to make a note to run this command every so often.)
 
 3. Configure jss_helper with your Casper API information, substituting your JSS URL, JSS API username, and JSS API password for `<url>`, `<username>`, and `<password>`:
+
     ```
     defaults write com.github.sheagcraig.python-jss jss_url <url>
     defaults write com.github.sheagcraig.python-jss jss_user <username>
