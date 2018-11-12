@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Comment</key>
-	<string>A script and LaunchDaemon pair designed to leverage autopkg, AutoPkgr, JSSImporter, and Casper to keep apps on Mac endpoints up to date automatically. Details at: https://github.com/homebysix/auto-update-magic </string>
+	<string>A script and LaunchDaemon pair designed to leverage autopkg, AutoPkgr, JSSImporter, and Jamf Pro to keep apps on Mac endpoints up to date automatically. Details at: https://github.com/homebysix/auto-update-magic </string>
 	<key>Label</key>
 	<string>com.jamf.jamfnation.auto_update_magic</string>
 	<key>ProgramArguments</key>
