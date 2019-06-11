@@ -5,7 +5,7 @@ MAIN_LD="$3/Library/LaunchDaemons/com.elliotjordan.auto_update_magic.plist"
 
 # Clean up plist values.
 echo "Cleaning up stored plist values..."
-defaults write "$PLIST" LastAutoUpdate 2>/dev/null
+defaults delete "$PLIST" LastAutoUpdate 2>/dev/null
 
 # Unload LaunchDaemon.
 if [[ -f "$MAIN_LD" ]]; then
