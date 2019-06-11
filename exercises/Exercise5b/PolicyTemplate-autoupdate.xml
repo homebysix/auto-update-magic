@@ -6,7 +6,7 @@
         <category>
             <name>%POLICY_CATEGORY%</name>
         </category>
-		<trigger_startup>true</trigger_startup>
+    <trigger_startup>true</trigger_startup>
         <trigger_other>autoupdate-%PROD_NAME%</trigger_other>
     </general>
     <scope>
