@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PLIST="/Library/Application Support/JAMF/com.jamfsoftware.jamfnation"
+MAIN_LD="$3/Library/LaunchDaemons/com.elliotjordan.auto_update_magic.plist"
+
+# Clean up plist values.
+echo "Cleaning up stored plist values..."
+defaults write "$PLIST" LastAutoUpdate 2>/dev/null
+
+# Unload LaunchDaemon.
+if [[ -f "$MAIN_LD" ]]; then
+    echo "Unloading and removing $MAIN_LD..."
+    launchctl unload -w "$MAIN_LD"
+    rm -r "$MAIN_LD"
+fi
+
+exit 0
