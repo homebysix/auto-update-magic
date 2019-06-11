@@ -15,6 +15,7 @@
   - [Installer creation](#installer-creation)
   - [Jamf Pro server setup](#jamf-pro-server-setup)
   - [AutoPkgr setup](#autopkgr-setup)
+      - [Add AutoPkg templates](#add-autopkg-templates)
       - [Configure AutoPkgr](#configure-autopkgr)
       - [Create recipe overrides](#create-recipe-overrides)
       - [Run recipe overrides](#run-recipe-overrides)
@@ -125,6 +126,10 @@ The subsequent installer package can be uploaded to Jamf Pro and scoped as speci
             - When testing your deployment, limit scope to a handful of Macs you can test on (a static or smart computer group would ease this process). Once you're ready to enable automatic updates in production, expand scope to __All Computers__.
 
 ### AutoPkgr setup
+
+#### Add AutoPkg templates
+
+Copy the provided AutoPkg recipe and smart group templates from the [autopkg-templates](autopkg-templates/) folder of this repo into your `~/Library/AutoPkg/RecipeOverrides` folder.
 
 #### Configure AutoPkgr
 

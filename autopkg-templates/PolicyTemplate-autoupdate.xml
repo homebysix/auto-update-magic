@@ -1,0 +1,24 @@
+<policy>
+    <general>
+        <name>Auto Update %PROD_NAME%</name>
+        <enabled>true</enabled>
+        <frequency>Ongoing</frequency>
+        <category>
+            <name>%POLICY_CATEGORY%</name>
+        </category>
+		<trigger_startup>true</trigger_startup>
+        <trigger_other>autoupdate-%PROD_NAME%</trigger_other>
+    </general>
+    <scope>
+        <!--Scope added by JSSImporter-->
+    </scope>
+    <package_configuration>
+        <!--Package added by JSSImporter-->
+    </package_configuration>
+    <scripts>
+        <!--Scripts added by JSSImporter-->
+    </scripts>
+    <maintenance>
+        <recon>false</recon>
+    </maintenance>
+</policy>
