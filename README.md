@@ -1,7 +1,7 @@
 # Auto Update Magic
 
 &nbsp;
-![Auto Update Magic](README-images/update-graphic.png)
+![Auto Update Magic](images/update-graphic.png)
 
 _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and AutoPkgr](http://www.jamfsoftware.com/news/auto-update-magic-keep-mac-apps-current-with-the-casper-suite-and-autopkgr/)_<br />_Originally presented by Elliot Jordan, Senior Consultant, [Linde Group](http://www.lindegroup.com)_<br />_JAMF Nation User Conference - October 22, 2014 - Minneapolis, MN_
 
@@ -77,7 +77,7 @@ Also, you'll want each of the following:
 
 Starting with a very big-picture view, consider the following illustration of the standard software distribution cycle. __This is the cycle upon which Auto Update Magic is built.__
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle.png)
+![sw-dist-cycle.png](images/sw-dist-cycle.png)
 
 1. New software is released by the developer.
 2. The software is downloaded and basic dev testing is performed by the IT team. (i.e. "Does it install? Will it launch?")
@@ -89,7 +89,7 @@ This process may vary slightly depending on the software you're deploying and yo
 
 We will be automating some of these steps, but not all. To adapt a popular mantra:
 
-![mantra.png](README-images/mantra.png)
+![mantra.png](images/mantra.png)
 
 Let's walk through each step in the above process using Firefox as an example and focus on how we can automate and standardize things to make our lives easier, shall we?
 
@@ -97,7 +97,7 @@ Let's walk through each step in the above process using Firefox as an example an
 
 ### 1. New Release
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle-01.png)
+![sw-dist-cycle.png](images/sw-dist-cycle-01.png)
 
 Let's start from the beginning. It's no fun to manually check for new software. Instead, the combination of [AutoPkgr](https://github.com/lindegroup/autopkgr) and [AutoPkg](https://github.com/autopkg/autopkg) can do this for you. You can configure new software checks to happen on a scheduled basis, and you can even receive notifications when new software is found.
 
@@ -116,15 +116,15 @@ Let's start from the beginning. It's no fun to manually check for new software. 
 5. On the __Repos & Recipes__ tab, check the box to add the topmost repository, `https://github.com/autopkg/recipes.git`.
 
 6. In the list of recipes at the bottom of the window, check the box to add __Firefox.download__. (You can use the "Filter recipes" box to narrow down the list.)
-    ![firefox-download.png](README-images/firefox-download.png)
+    ![firefox-download.png](images/firefox-download.png)
 
 7. Switch to the __Schedule__ tab, and configure the schedule to run as desired. Check the __Enable scheduled AutoPkg runs__ box.
 
-    ![schedule.png](README-images/schedule.png)
+    ![schedule.png](images/schedule.png)
 
 8. Switch to the __Notifications__ tab, and configure the notifications as desired.
 
-    ![notifications.png](README-images/notifications.png)
+    ![notifications.png](images/notifications.png)
 
 9. Switch back to the __Repos & Recipes__ tab, and click __Run Recipes Now__. After a minute or so, assuming you haven't run this recipe before, you should receive notification that a new version of Firefox is available.
 
@@ -134,7 +134,7 @@ Congratulations! You've just configured AutoPkgr to check for updates regularly,
 
 ### 2. Development
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle-02.png)
+![sw-dist-cycle.png](images/sw-dist-cycle-02.png)
 
 Now that we know there's a new release, we've got to make sure it passes some basic "lemon tests." There's a type of recipe called an install recipe that will actually install the app on the Mac running AutoPkg. Let's schedule that recipe to run regularly, so that our IT lab test Mac is always up to date for local testing.
 
@@ -146,7 +146,7 @@ Now that we know there's a new release, we've got to make sure it passes some ba
 
 2. Uncheck the __Firefox.download__ recipe, and check the __Firefox.install__ recipe instead.
 
-    ![firefox-install.png](README-images/firefox-install.png)
+    ![firefox-install.png](images/firefox-install.png)
 
 3. Click __Run Recipes Now__.
 
@@ -172,7 +172,7 @@ Next, we need to prepare the software for mass distribution, which often include
 
 5. Verify that a Firefox package was created. You may also want to use a tool like [Pacifist](https://www.charlessoft.com/) or [Suspicious Package](http://www.mothersruin.com/software/SuspiciousPackage/) to inspect its contents. As you can see below, the app installs at the expected location, and with the expected version. Looks good.
 
-    ![firefox-pkg-inspection.png](README-images/firefox-pkg-inspection.png)
+    ![firefox-pkg-inspection.png](images/firefox-pkg-inspection.png)
 
 6. Copy the package to a test Mac or VM and try installing it. Verify that it produces a working copy of Firefox.
 
@@ -184,7 +184,7 @@ Great, now we have a deployable package that installs what we expect it to insta
 
 ### 3. Testing
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle-03.png)
+![sw-dist-cycle.png](images/sw-dist-cycle-03.png)
 
 Small batch testing (or "staging") allows us to catch _small_ problems in the wild before they become _large_ problems in the wild.
 
@@ -220,7 +220,7 @@ Once you've got a group of "trusted testers," we can use JSSImporter to automate
 
 5. Enter the JSS URL, API username, and API password (for the account you created in step 2 above). Then click __Connect__.
 
-    ![configure-jssimporter.png](README-images/configure-jssimporter.png)
+    ![configure-jssimporter.png](images/configure-jssimporter.png)
 
 6. If you use file share distribution points, you'll be prompted to enter their passwords. If you use a cloud distribution point or JDS as your master, check the __Use Master JDS__ checkbox. Click __Save and Close__.
 
@@ -277,7 +277,7 @@ Once your `autopkg` run is error-free, navigate to your JSS web app and log in. 
 - A smart group called "Firefox-update-smart" that contains Macs in the Testing group which don't have the latest version of Firefox.
 - A policy called "Install Latest Firefox" that allows your testers to install Firefox via Self Service.
 
-![firefox-jss-policy.png](README-images/firefox-jss-policy.png)
+![firefox-jss-policy.png](images/firefox-jss-policy.png)
 
 Once the Self Service policy is created in Casper, you should email your testers to let them know there's new software to install. Ask them to install the app, kick the tires thoroughly, and let you know within a specific time whether they have anything to report.
 
@@ -287,7 +287,7 @@ Finally, be sure to return to AutoPkgr and check the box to enable the __Firefox
 
 ### 4. Feedback
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle-04.png)
+![sw-dist-cycle.png](images/sw-dist-cycle-04.png)
 
 It's important not to skip this step! Collecting feedback from your testers ensures that you'll have the best chance possible of finding show-stopping bugs before you deploy the software to the rest of your company. It also makes people within your company more aware of an important IT process.
 
@@ -299,7 +299,7 @@ Once you've collected feedback, your IT department will need to make a decision 
 
 ### 5. Deployment
 
-![sw-dist-cycle.png](README-images/sw-dist-cycle-05.png)
+![sw-dist-cycle.png](images/sw-dist-cycle-05.png)
 
 Here comes the really fun part! Once you've decided to proceed with deployment, you'll probably want to consider two deployment methods, depending on the specific software and how important it is to your organization.
 
@@ -551,7 +551,7 @@ Once you have finished tweaking Auto Update Magic and are using it to deploy new
 
 1. When new updates are issued by the developer, you will receive an email notification similar to the one below. This serves as your indication that new software is now available for testing.
 
-    ![email-notification.png](README-images/email-notification.png)
+    ![email-notification.png](images/email-notification.png)
 
 2. As soon as possible after receiving the email, log into your designated software testing Mac (on which you configured AutoPkgr to run "install" recipes in Exercise 2a). Launch the app and verify that it basically works.
     - If it does not work, follow the [Rollback Plan](#rollback-plan) below.
@@ -686,14 +686,14 @@ Here's how to find loopers:
 
 3. Check to see whether the same computer is executing the policy multiple times in a row, as shown below:
 
-    ![policy-looping-01.png](README-images/policy-looping-01.png)
+    ![policy-looping-01.png](images/policy-looping-01.png)
 
 If you have a large fleet of Macs and it's difficult to see whether the same computer appears multiple times in the policy logs, try this instead:
 
 1. From one of the Auto Update policy logs, select a random sample of 10-20 Macs and open their individual policy histories. (Hold __Command__ while you click on each computer to open them in new background tabs.)
 2. Filter for Auto Update to see whether they've executed the same Auto Update policy repeatedly, as shown below:
 
-    ![policy-looping-02.png](README-images/policy-looping-02.png)
+    ![policy-looping-02.png](images/policy-looping-02.png)
 
 If you see looping happening, here's how to fix it:
 
@@ -716,14 +716,14 @@ In addition to checking for policy looping, the Casper policy logs are also usef
 
 One example: newly-uploaded software packages may not yet be synchronized with your Cloud Distribution Point. The policy logs from such an error would look like this:
 
-![cdp-not-synced.png](README-images/cdp-not-synced.png)
+![cdp-not-synced.png](images/cdp-not-synced.png)
 
 The solution to this specific problem could be one of two things:
 
 - Force the CDP to sync. Once the new package is present on the CDP, the error should stop.
 - Manually modify* the Auto Update policy's package settings to use a specific distribution point that you know will always be up to date (as shown below).
 
-![cdp-setting.png](README-images/cdp-setting.png)
+![cdp-setting.png](images/cdp-setting.png)
 
 \* This is one of the very rare cases where it's OK to modify a policy created by an AutoPkg recipe, because the __Distribution point to download the package(s) from__ setting will not be overwritten during subsequent recipe runs. I'd like to tell you a definitive list of other settings that are manually editable, but I can't. Inspecting the Casper API and using trial-and-error may be your best bet.
 
@@ -746,7 +746,7 @@ If you're in the San Francisco Bay Area and you'd rather just pay somebody to se
 
 If you've found a reproducible problem with the scripts or templates I've provided here, or if you have ideas for improving them, feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
 
-![Elliot](README-images/sig.jpg)
+![Elliot](images/sig.jpg)
 
 &nbsp;
 
