@@ -1,0 +1,7 @@
+#!/bin/bash
+
+MAIN_LD="$3/Library/LaunchDaemons/com.elliotjordan.auto_update_magic.plist"
+
+launchctl load -w "$MAIN_LD"
+
+exit 0
