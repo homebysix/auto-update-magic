@@ -1,4 +1,13 @@
-# Auto Update Magic
+# Auto Update Magic <!-- omit in toc -->
+
+> [!WARNING]
+> This workflow is deprecated. Please transition to a more modern app update workflow. Some to consider include:
+>
+> - [AutoPkg](https://github.com/autopkg/autopkg) with [JamfUploader](https://github.com/grahampugh/jamf-upload/wiki) style recipes
+> - [Jamf Patch](https://www.jamf.com/resources/videos/patch-for-beginners/)
+> - [Jamf App Installers](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/App_Installers.html)
+> - [Alectrona Patch](https://www.alectrona.com/patch-for-jamf)
+> - [Installomator](https://github.com/Installomator/Installomator/wiki/MDM:-Jamf-Pro)
 
 &nbsp;
 ![Auto Update Magic](README-images/update-graphic.png)
