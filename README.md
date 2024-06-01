@@ -1,4 +1,13 @@
-# Auto Update Magic
+# Auto Update Magic <!-- omit in toc -->
+
+> [!WARNING]
+> This workflow is deprecated. Please transition to a more modern app update workflow. Some to consider include:
+>
+> - [AutoPkg](https://github.com/autopkg/autopkg) with [JamfUploader](https://github.com/grahampugh/jamf-upload/wiki) style recipes
+> - [Jamf Patch](https://www.jamf.com/resources/videos/patch-for-beginners/)
+> - [Jamf App Installers](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/App_Installers.html)
+> - [Alectrona Patch](https://www.alectrona.com/patch-for-jamf)
+> - [Installomator](https://github.com/Installomator/Installomator/wiki/MDM:-Jamf-Pro)
 
 &nbsp;
 ![Auto Update Magic](README-images/update-graphic.png)
@@ -7,9 +16,7 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
 
 &nbsp;
 
-## Table of Contents
-
-<!-- #MarkdownTOC autolink=true depth=4 bracket=round -->
+## Table of Contents <!-- omit in toc -->
 
 - [Overview](#overview)
 - [Requirements](#requirements)
@@ -27,11 +34,11 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
         - [Exercise 5b: Automatically create Auto Update policies](#exercise-5b-automatically-create-auto-update-policies)
         - [Exercise 5c: Configure Macs to check for updates periodically](#exercise-5c-configure-macs-to-check-for-updates-periodically)
 - [Further enhancement and advanced workflows](#further-enhancement-and-advanced-workflows)
-    - [Exercise 6a: Adding More Apps](#exercise-6a-adding-more-apps)
-    - [Exercise 6b: Organizing and customizing the testing recipes](#exercise-6b-organizing-and-customizing-the-testing-recipes)
-    - [Exercise 6c: Sending software directly to Self Service policies](#exercise-6c-sending-software-directly-to-self-service-policies)
-    - [Exercise 6d: Create installation policies for site-licensed software](#exercise-6d-create-installation-policies-for-site-licensed-software)
-    - [Exercise 6e: Store your -autoupdate.jss recipes outside the search path](#exercise-6e-store-your--autoupdatejss-recipes-outside-the-search-path)
+        - [Exercise 6a: Adding More Apps](#exercise-6a-adding-more-apps)
+        - [Exercise 6b: Organizing and customizing the testing recipes](#exercise-6b-organizing-and-customizing-the-testing-recipes)
+        - [Exercise 6c: Sending software directly to Self Service policies](#exercise-6c-sending-software-directly-to-self-service-policies)
+        - [Exercise 6d: Create installation policies for site-licensed software](#exercise-6d-create-installation-policies-for-site-licensed-software)
+        - [Exercise 6e: Store your -autoupdate.jss recipes outside the search path](#exercise-6e-store-your--autoupdatejss-recipes-outside-the-search-path)
 - [Operational workflow](#operational-workflow)
 - [Rollback plan](#rollback-plan)
 - [Troubleshooting](#troubleshooting)
@@ -45,8 +52,6 @@ _[Auto Update Magic: Keeping Mac apps up to date automatically with Casper and A
     - [Community support](#community-support)
     - [Consulting services](#consulting-services)
     - [Found a problem?](#found-a-problem)
-
-<!-- /#MarkdownTOC -->
 
 &nbsp;
 
@@ -746,7 +751,7 @@ If you're in the San Francisco Bay Area and you'd rather just pay somebody to se
 
 If you've found a reproducible problem with the scripts or templates I've provided here, or if you have ideas for improving them, feel free to submit a [GitHub issue](https://github.com/homebysix/auto-update-magic/issues) on this repo, and I'll do my best to reply in a timely manner.
 
-![Elliot](README-images/sig.jpg)
+— Elliot
 
 &nbsp;
 
